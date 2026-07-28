@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayaan Bhimani | Software Engineering Student</title>
+<meta name="description" content="Portfolio of Ayaan Bhimani, incoming Software Engineering student at the University of Waterloo.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css?v=7">
+</head>
+<body>
+
+<!-- =======================================================================
+     Ambient boid-flock background — fixed behind the whole page, but only
+     visible where a section doesn't paint its own opaque background (Hero
+     and About). See css/style.css and js/boids.js.
+     ======================================================================= -->
+<canvas id="boid-canvas" aria-hidden="true"></canvas>
+<div class="site-bg-fallback" id="site-bg-fallback" aria-hidden="true"></div>
+
+<!-- =======================================================================
+     Nav
+     ======================================================================= -->
+<nav class="site-nav" id="site-nav">
+  <div class="container">
+    <div class="nav-links" id="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- =======================================================================
+     Hero
+     ======================================================================= -->
+<header class="hero" id="top">
+  <div class="container">
+    <h1 id="hero-name"></h1>
+    <p class="hero-subtitle" id="hero-subtitle"></p>
+    <p class="hero-location" id="hero-location"></p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact" class="btn">Get in Touch</a>
+    </div>
+  </div>
+</header>
+
+<!-- =======================================================================
+     About
+     ======================================================================= -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-content">
+      <span class="section-label">About Me</span>
+      <h2 class="section-heading">My Backstory</h2>
+      <div class="about-bio" id="about-bio"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     Projects — icon grid, opens shared window modal
+     ======================================================================= -->
+<section class="projects" id="projects">
+  <div class="container">
+    <span class="section-label">Projects</span>
+    <div class="project-grid" id="project-grid"></div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     Experience — tabs + vertical timeline, opens shared window modal
+     ======================================================================= -->
+<section class="experience" id="experience">
+  <div class="container">
+    <span class="section-label">Experience</span>
+    <h2 class="section-heading">Where I've spent my time</h2>
+    <div class="exp-tabs" id="exp-tabs" role="tablist"></div>
+    <div class="timeline" id="exp-timeline"></div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     Skills
+     ======================================================================= -->
+<section class="skills" id="skills">
+  <div class="container">
+    <span class="section-label">Skills</span>
+    <div class="skills-groups" id="skills-groups"></div>
+  </div>
+</section>
+
+<!-- =======================================================================
+     Contact
+     ======================================================================= -->
+<section class="contact" id="contact">
+  <div class="container contact-inner">
+    <span class="section-label">Contact</span>
+    <h2 class="section-heading">Let's talk</h2>
+    <p>Reach out about co-ops, collaborations, or just to say hi.</p>
+    <div class="contact-links" id="contact-links"></div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    &copy; <span id="footer-year"></span> Ayaan Bhimani. Built from scratch, no framework.
+  </div>
+</footer>
+
+<!-- =======================================================================
+     Shared "window" modal — reused by Projects and Experience
+     ======================================================================= -->
+<div class="window-overlay" id="window-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="window-title-text">
+  <div class="window-modal">
+    <div class="window-titlebar">
+      <span class="window-title"><span class="dot"></span><span id="window-title-text"></span></span>
+      <button class="window-close" id="window-close" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="window-body" id="window-body"></div>
+  </div>
+</div>
+
+<script src="js/data.js?v=7"></script>
+<script src="js/icons.js?v=7"></script>
+<script src="js/boids.js?v=7"></script>
+<script src="js/main.js?v=7"></script>
+</body>
+</html>
