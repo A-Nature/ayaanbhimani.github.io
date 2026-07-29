@@ -49,7 +49,7 @@ const SITE_DATA = {
       id: "erm",
       name: "ERM",
       description: "Multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. Players take on one of three roles (Rogues, Frontliners, Trackers), each with distinct mechanics layering deception, investigation, and teamwork. Inspired by Mafia, Among Us, and Dead by Daylight. Full gameplay programming, multiplayer replication, role assignment, and round progression built largely from scratch, along with all 3D models, animations, sound design, music, and UI.",
-      tags: ["Unreal Engine 5", "C++/Blueprints", "Multiplayer Replication", "Blender"],
+      tags: ["Unreal Engine 5", "C++/Blueprints", "Game System Design", "Asset Creation"],
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/ERM" }
       ],
@@ -68,12 +68,12 @@ const SITE_DATA = {
     {
       id: "minecraft-mods",
       name: "Minecraft Mods",
-      description: "Two Minecraft mods built in Java for Forge 1.7.10 as part of a summer coding camp. “Ayaan's Replicator Mod” is a WorldEdit-style copy/paste tool. The Dinosaur Mod adds custom dinosaur entities, modeled in Blockbench, with a two-version strategy: a 1.7.10 camp build and a planned 1.20.1+ CurseForge release using GeckoLib.",
+      description: "Two Minecraft mods built in Java for Forge 1.7.10 as part of a summer coding camp. Ayaan's Replicator Mod is a WorldEdit-style copy/paste tool. PrehistoriCraft, still a work in progress, adds custom dinosaur entities modeled in Blockbench, with a two-version plan: a 1.7.10 camp build and a future 1.20.1+ CurseForge release using GeckoLib.",
       tags: ["Java", "Minecraft Forge", "Blockbench", "GeckoLib"],
       links: [],
       downloads: [
-        // e.g. { label: "Replicator Mod (.jar)", path: "files/projects/replicator-mod.jar" }
-        // e.g. { label: "Dinosaur Mod (.jar)", path: "files/projects/dinosaur-mod.jar" }
+        { label: "Ayaan's Replicator Mod (.jar)", path: "files/projects/replicator-mod-1.0.0.jar" }
+        // e.g. { label: "PrehistoriCraft (.jar)", path: "files/projects/prehistoricraft.jar" }
       ],
       media: {
         type: "image",
@@ -89,7 +89,9 @@ const SITE_DATA = {
       name: "Boid Simulation",
       description: "2D boid/fish schooling simulation built in C++ with raylib, with runtime weight controls for live tuning of flocking behavior. Currently being extended with a neuroevolution/genetic algorithm layer.",
       tags: ["C++", "raylib", "Simulation", "Genetic Algorithms"],
-      links: [],
+      links: [
+        { label: "GitHub", url: "https://github.com/A-Nature/boidsim" }
+      ],
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/boid-sim-source.zip" }
       ],
@@ -105,9 +107,11 @@ const SITE_DATA = {
     {
       id: "tower-defense",
       name: "Out of Control (Tower Defense)",
-      description: "Tower defense game built in C++ with raylib, featuring enemy pathfinding along waypoints, sprite rotation, animated sprite sheets for walk/attack/death states, wave-based progression, upgrade mechanics, and a full in-game economy.",
+      description: "Simple, Helldivers 2 inspired tower defense game. Primitive and incomplete, was mostly just a school project, but learned more about asset design and game systems. A unique part to code was the targeting system for the turrets which was cool to learn.",
       tags: ["C++", "raylib", "Game Design"],
-      links: [],
+      links: [
+        { label: "GitHub", url: "https://github.com/A-Nature/outofcontrol" }
+      ],
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/out-of-control-source.zip" }
       ],
@@ -204,7 +208,8 @@ const SITE_DATA = {
         dates: "October 2025 – May 2026",
         description: "Collaborated with a group of peers to build a profitable student company, helping it win Outstanding Company of the Year in Southwestern Ontario. Created and ran the company's social media accounts, keeping a consistent posting schedule that grew the account past 800 followers and thousands of views, and won the regional Social Media Challenge. Led all marketing and branding, and planned events and promotions for customers, which led to winning VP of Marketing of the Year in Southwestern Ontario.",
         downloads: [
-          // e.g. { label: "Marketing Portfolio (.pdf)", path: "files/experience/reswipe-marketing-portfolio.pdf" }
+          { label: "Marketing Portfolio (.pdf)", path: "files/experience/reswipe-marketing-portfolio.pdf" },
+          { label: "ReSwipe Final Report (.pdf)", path: "files/experience/reswipe-final-report.pdf" }
         ],
         media: { type: "image", src: null, alt: "Junior Achievement: ReSwipe" },
         reflection: ""
@@ -262,8 +267,14 @@ const SITE_DATA = {
       items: ["Unreal Engine 5", "Minecraft Forge", "GeckoLib", "Blockbench", "Blender", "raylib"]
     },
     {
-      category: "Other",
-      items: ["Multiplayer Networking/Replication", "Genetic Algorithms/Neuroevolution", "Marketing & Branding", "Public Speaking"]
+      category: "Systems & Simulation",
+      items: ["Multiplayer Networking/Replication", "Genetic Algorithms/Neuroevolution"]
+    },
+    {
+      // Skills built through jobs, volunteering, and leadership roles, not
+      // just coding projects. See `experience` above for where these came from.
+      category: "Work & Leadership",
+      items: ["Marketing & Branding", "Public Speaking", "Team Leadership", "Youth Mentorship", "Customer Service", "Event Logistics"]
     }
   ],
 
