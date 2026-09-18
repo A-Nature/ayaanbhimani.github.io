@@ -239,7 +239,7 @@ const SITE_DATA = {
         role: "VP of Marketing",
         place: "Junior Achievement: ReSwipe",
         dates: "October 2025 – May 2026",
-        description: "Collaborated with a group of peers to build a profitable student company, helping it win Outstanding Company of the Year in Southwestern Ontario. Created and ran the company's social media accounts, keeping a consistent posting schedule that grew the account past 800 followers and thousands of views, and won the regional Social Media Challenge. Led all marketing and branding, and planned events and promotions for customers, which led to winning VP of Marketing of the Year in Southwestern Ontario.",
+        description: "Collaborated with a group of peers to build a profitable student company that went on to win the Canadian Company of the Year Championship, with a shot at representing Canada at the global championship this year. Created and ran the company's social media accounts, keeping a consistent posting schedule that grew the account past 800 followers and thousands of views, and won the regional Social Media Challenge. Led all marketing, branding, and events, which led to winning VP of Marketing of the Year in Southwestern Ontario.",
         downloads: [
           { label: "Marketing Portfolio (.pdf)", path: "files/experience/reswipe-marketing-portfolio.pdf" },
           { label: "ReSwipe Final Report (.pdf)", path: "files/experience/reswipe-final-report.pdf" }
@@ -272,7 +272,7 @@ const SITE_DATA = {
         role: "Team Member",
         place: "Oakbotics (Oakridge Robotics Team)",
         dates: "September 2022 – June 2026",
-        description: "Wrote code with teammates for a competition robot based on each year's challenge parameters. Took part in team events and competitions, building lasting connections with fellow team members.",
+        description: "Wrote the autonomous and driver-controlled sections of the competition robot in Java alongside teammates, contributing to the team's qualification for the 2025 FIRST Championship in Houston. Took part in team events and competitions throughout, building lasting connections with fellow team members.",
         downloads: [],
         media: { type: "image", src: null, alt: "Oakbotics" },
         reflection: ""
@@ -293,7 +293,7 @@ const SITE_DATA = {
   skills: [
     {
       category: "Languages",
-      items: ["C++", "Java", "Python", "JavaScript"]
+      items: ["C++", "C", "Java", "Python", "JavaScript"]
     },
     {
       category: "Engines & Tools",
@@ -307,7 +307,7 @@ const SITE_DATA = {
       // Skills built through jobs, volunteering, and leadership roles, not
       // just coding projects. See `experience` above for where these came from.
       category: "Work & Leadership",
-      items: ["Marketing & Branding", "Public Speaking", "Team Leadership", "Youth Mentorship", "Customer Service", "Event Logistics"]
+      items: ["Marketing & Branding", "Public Speaking", "Team Leadership", "Youth Mentorship", "Customer Service", "Event Logistics", "Problem Solving Under Pressure"]
     }
   ],
 
