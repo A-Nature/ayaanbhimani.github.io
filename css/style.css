@@ -593,6 +593,72 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 
 /* ==========================================================================
+   Education — deliberately compact, this section is here for completeness
+   ========================================================================== */
+.education {
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+.education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 640px;
+}
+.education-entry {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+.education-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+.education-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.education-institution {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 1rem;
+}
+.education-dates {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.education-program {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+.education-awards {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.education-awards li {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  padding-left: 16px;
+  position: relative;
+}
+.education-awards li::before {
+  content: "\2726";
+  color: var(--color-accent-2);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-size: 0.7rem;
+}
+
+/* ==========================================================================
    Contact
    ========================================================================== */
 .contact {

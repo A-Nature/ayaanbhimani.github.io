@@ -26,7 +26,7 @@ const SITE_DATA = {
   hero: {
     name: "Ayaan Bhimani",
     subtitle: "Software Engineering Student, University of Waterloo",
-    location: "London, Ontario, Canada"
+    location: "Waterloo, Ontario, Canada"
   },
 
   about: {
@@ -308,6 +308,30 @@ const SITE_DATA = {
       // just coding projects. See `experience` above for where these came from.
       category: "Work & Leadership",
       items: ["Marketing & Branding", "Public Speaking", "Team Leadership", "Youth Mentorship", "Customer Service", "Event Logistics", "Problem Solving Under Pressure"]
+    }
+  ],
+
+  // Kept intentionally short, this is mostly here for completeness.
+  education: [
+    {
+      id: "edu-uwaterloo",
+      institution: "University of Waterloo",
+      program: "Honours Software Engineering",
+      dates: "September 2026 – Expected June 2031",
+      awards: [
+        "W.J. Beynon Memorial Entrance Scholarship, awarded to one incoming Engineering student each year",
+        "President's Scholarship of Distinction, an automatic entrance award for a 95%+ admission average"
+      ]
+    },
+    {
+      id: "edu-oakridge",
+      institution: "Oakridge Secondary School",
+      program: "Ontario Secondary School Diploma",
+      dates: "September 2022 – June 2026",
+      awards: [
+        "Academic Excellence, Grades 9-12 (80%+ average)",
+        "Grade 11 English Subject Award"
+      ]
     }
   ],
 

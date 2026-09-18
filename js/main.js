@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProjects();
   renderExperience();
   renderSkills();
+  renderEducation();
   renderContact();
   initWindowModal();
   initNavScroll();
@@ -186,6 +187,32 @@ function renderSkills() {
       <div class="skills-tags">
         ${group.items.map((item) => `<span class="skill-tag">${escapeHTML(item)}</span>`).join("")}
       </div>
+    `;
+    wrap.appendChild(el);
+  });
+}
+
+/* ---------------------------------------------------------------------- */
+/* Education                                                               */
+/* ---------------------------------------------------------------------- */
+function renderEducation() {
+  const wrap = document.getElementById("education-list");
+  if (!wrap) return;
+  wrap.innerHTML = "";
+
+  SITE_DATA.education.forEach((entry) => {
+    const el = document.createElement("div");
+    el.className = "education-entry";
+    const awardsHTML = (entry.awards && entry.awards.length)
+      ? `<ul class="education-awards">${entry.awards.map((a) => `<li>${escapeHTML(a)}</li>`).join("")}</ul>`
+      : "";
+    el.innerHTML = `
+      <div class="education-head">
+        <span class="education-institution">${escapeHTML(entry.institution)}</span>
+        <span class="education-dates">${escapeHTML(entry.dates)}</span>
+      </div>
+      <div class="education-program">${escapeHTML(entry.program)}</div>
+      ${awardsHTML}
     `;
     wrap.appendChild(el);
   });
