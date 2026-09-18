@@ -25,14 +25,14 @@ const SITE_DATA = {
 
   hero: {
     name: "Ayaan Bhimani",
-    subtitle: "Incoming Software Engineering Student, University of Waterloo",
+    subtitle: "Software Engineering Student, University of Waterloo",
     location: "London, Ontario, Canada"
   },
 
   about: {
     // Rendered as one <p> per paragraph, see renderAbout() in main.js.
     bio: [
-      "I'm an incoming Software Engineering student at the University of Waterloo with a passion for game development, systems programming, and building things from scratch.",
+      "I'm a Software Engineering student at the University of Waterloo with a passion for game development, systems programming, and building things from scratch.",
       "Ever since I was young, I've loved coding. I used to make all sorts of unique games in Scratch, and that passion never stopped.",
       "Over the past few years I've taught myself C++, Unreal Engine, Python, and Java through hands-on projects. From a real multiplayer game to Minecraft mods, I'm drawn to cool projects that force me to learn but also let me express my creativity. I love understanding why something works but also building it from the ground up."
     ]
@@ -123,6 +123,39 @@ const SITE_DATA = {
         // death animation, or the upgrade/economy UI.
       },
       reflection: "" // TODO(Ayaan)
+    },
+    {
+      id: "stratagem-pad",
+      name: "Helldivers Stratagem Pad",
+      description: "A custom hardware controller inspired by the stratagem input system from Helldivers 2. A microcontroller reads swipe input from a touch surface and runs the sequence through a small state machine to match it against a set of stratagem codes, then lights up a display to show the result in real time. The case was designed in Tinkercad and printed on a Bambu Lab printer, with a battery built in so the whole thing runs untethered. Still in progress.",
+      tags: ["Embedded Systems", "C/C++", "Gesture Recognition", "3D Printing"],
+      links: [],
+      downloads: [
+        // e.g. { label: "Firmware Source (.zip)", path: "files/projects/stratagem-pad-source.zip" }
+      ],
+      media: {
+        type: "image",
+        src: null, // e.g. "images/projects/stratagem-pad-01.jpg". Leave null to hide the media slot entirely.
+        alt: "Stratagem pad prototype"
+        // Capture ideas: the assembled pad, the bare board/wiring before the case went on, a clip of a
+        // swipe being read and the matched stratagem lighting up.
+      },
+      reflection: "" // TODO(Ayaan)
+    },
+    {
+      id: "helldivers-helmet",
+      name: "Helldivers Helmet",
+      description: "A large Helldivers 2 helmet, printed in several sections on a Bambu Lab printer since it was too big for one piece. Most of the real work was dialing in print settings so the sections did not warp or fail partway through, then sanding, gluing everything together, and painting the final piece. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
+      tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting"],
+      links: [],
+      downloads: [],
+      media: {
+        type: "image",
+        src: null, // e.g. "images/projects/helldivers-helmet-01.jpg". Leave null to hide the media slot entirely.
+        alt: "Helldivers helmet build"
+        // Capture ideas: the printed sections before assembly, mid-paint, and the finished helmet.
+      },
+      reflection: "" // TODO(Ayaan)
     }
   ],
 
@@ -139,7 +172,7 @@ const SITE_DATA = {
         id: "work-brickworks",
         role: "Camp Counsellor & Health and Safety Coordinator",
         place: "Brick Works Academy",
-        dates: "July 2026 – Present",
+        dates: "July 2026 – August 2026",
         description: "Led daily STEAM-based activities for campers, teaching technical computer skills and foundational programming concepts. Guided campers through simple coding using programmable turtles in Minecraft, building logic and sequencing skills in a hands-on way, and wove in science and engineering concepts through Minecraft-based building and design challenges. Created Minecraft mods from scratch for the camp using Java and Blockbench. Acted as Health and Safety Coordinator alongside counsellor duties, keeping the camp environment safe and organized.",
         downloads: [],
         media: { type: "image", src: null, alt: "Brick Works Academy" },
