@@ -5,15 +5,23 @@
    references these — no improvised colors elsewhere.
 */
 :root {
-  --color-bg: #0D1117;
-  --color-surface: #161B22;
-  --color-surface-2: #1B222C;
-  --color-border: #2A313C;
-  --color-text: #E6EDF3;
-  --color-text-muted: #8B949E;
+  /* "Deep ground" bedrock tones — everything below the sky (nav, modal,
+     Experience/Skills/Education/Contact) sits on these, warm near-black
+     brown rather than the old cool near-black. */
+  --color-bg: #14100B;
+  --color-surface: #201810;
+  --color-surface-2: #2A2015;
+  --color-border: #3B2C1C;
+  --color-text: #EDE6D8;         /* bone white */
+  --color-text-muted: #A89883;
   --color-accent: #E0854F;       /* muted terracotta — primary accent */
   --color-accent-soft: #E0854F26;
   --color-accent-2: #D8A657;     /* muted ochre/gold — secondary accent, sparing use */
+
+  /* Dig-site palette, used by the Projects strata (see .projects below) */
+  --color-sand: #C9A876;
+  --color-clay: #8B5A42;
+  --color-rock-dark: #241A13;
 
   /* Dusk sky, used behind Hero + About only (see #sky-gradient below) */
   --sky-gradient: linear-gradient(180deg, #13142A 0%, #2B2436 32%, #463530 58%, #6E4A3A 80%, #A5703F 100%);
@@ -102,7 +110,7 @@ section {
   left: 0;
   right: 0;
   z-index: 40;
-  background: rgba(13, 17, 23, 0.82);
+  background: rgba(20, 16, 11, 0.82);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease;
@@ -198,7 +206,7 @@ section {
 .btn-primary {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  color: #0D1117;
+  color: var(--color-bg);
   font-weight: 600;
 }
 .btn-primary:hover {
@@ -282,41 +290,112 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 
 /* ==========================================================================
-   Projects — plain text tiles, no icons, no backdrop pattern
+   Projects — the dig site. Sediment strata (one band per layer, newest/
+   in-progress on top, oldest deepest), each holding its projects as
+   "fossil" cards. Layer colors and the noise texture are decorative only —
+   every card has its own solid, dark, readable background regardless of
+   which band it sits on, so names stay legible at a glance either way.
    ========================================================================== */
 .projects {
-  background: var(--color-bg);
+  padding-top: 0;
+  padding-bottom: 0;
+  position: relative;
 }
-.project-grid {
+.projects-heading {
+  padding: 96px 0 32px;
+  position: relative;
+  z-index: 1;
+}
+/* One subtle noise texture spans the whole section, on top of every band. */
+.projects::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.project-layer {
+  position: relative;
+  padding: 56px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+}
+.project-layer:last-child {
+  border-bottom: none;
+  padding-bottom: 72px;
+}
+.project-layer-label {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(20, 16, 11, 0.65);
+  background: rgba(237, 230, 216, 0.55);
+  border: 1px solid rgba(20, 16, 11, 0.25);
+  border-radius: 3px;
+  padding: 3px 8px;
+  margin-bottom: 20px;
+}
+.fossil-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
+  position: relative;
 }
-.project-icon-tile {
+.fossil-card {
+  position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
   padding: 22px 20px;
   display: flex;
   flex-direction: column;
   gap: 6px;
   text-align: left;
+  overflow: hidden;
   transition: border-color 0.15s ease, transform 0.15s ease;
 }
-.project-icon-tile:hover,
-.project-icon-tile:focus-visible {
+/* Simple fossil-specimen framing: tick-marked corners, like a museum
+   display card, rather than a per-project icon. */
+.fossil-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(201, 168, 118, 0.18);
+  border-radius: 3px;
+  pointer-events: none;
+}
+/* A layer of "dust" sits over the card until you brush it off (hover/focus). */
+.fossil-card .fossil-dust {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201, 168, 118, 0.16), transparent 60%);
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.fossil-card:hover,
+.fossil-card:focus-visible {
   border-color: var(--color-accent);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   outline: none;
 }
-.project-icon-tile .project-name {
+.fossil-card:hover .fossil-dust,
+.fossil-card:focus-visible .fossil-dust {
+  opacity: 0;
+}
+.fossil-card .project-name {
   font-family: var(--font-mono);
   font-size: 0.95rem;
   color: var(--color-text);
+  position: relative;
 }
-.project-icon-tile .project-tagline {
+.fossil-card .project-tagline {
   font-size: 0.8rem;
   color: var(--color-text-muted);
+  position: relative;
 }
 
 /* ==========================================================================
@@ -352,7 +431,7 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 .exp-tab.is-active {
   background: var(--color-accent);
-  color: #0D1117;
+  color: var(--color-bg);
   font-weight: 600;
 }
 
@@ -360,14 +439,26 @@ body.no-canvas .site-bg-fallback { display: block; }
   position: relative;
   padding-left: 28px;
 }
+/* Styled like a core-sample tube: a banded cylinder rather than a plain
+   line, in keeping with the dig-site motif. */
 .timeline::before {
   content: "";
   position: absolute;
-  left: 6px;
+  left: 4px;
   top: 6px;
   bottom: 6px;
-  width: 2px;
-  background: var(--color-border);
+  width: 6px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--color-clay) 0,
+    var(--color-clay) 10px,
+    var(--color-sand) 10px,
+    var(--color-sand) 18px,
+    var(--color-rock-dark) 18px,
+    var(--color-rock-dark) 26px
+  );
+  opacity: 0.55;
 }
 .timeline-entry {
   display: none;
@@ -427,7 +518,7 @@ body.no-canvas .site-bg-fallback { display: block; }
 .window-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(5, 7, 10, 0.7);
+  background: rgba(8, 6, 4, 0.7);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -703,7 +794,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   height: 40px;
   border-radius: 50%;
   border: 1px solid var(--color-border);
-  background: rgba(13, 17, 23, 0.7);
+  background: rgba(20, 16, 11, 0.7);
   color: var(--color-text);
   display: flex;
   align-items: center;
@@ -747,12 +838,15 @@ body.no-canvas .site-bg-fallback { display: block; }
   flex-wrap: wrap;
   gap: 10px;
 }
+/* Styled like small specimen labels — a squared-off tag with a catalog-
+   style accent edge, rather than a plain rounded pill. */
 .skill-tag {
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  padding: 9px 16px;
-  border-radius: var(--radius-sm);
+  padding: 9px 16px 9px 13px;
+  border-radius: 2px;
   border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-accent-2);
   color: var(--color-text);
   background: var(--color-surface);
 }
@@ -872,6 +966,14 @@ body.no-canvas .site-bg-fallback { display: block; }
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: 0.78rem;
+}
+.footer-mark {
+  display: block;
+  width: 36px;
+  height: auto;
+  margin: 0 auto 14px;
+  color: var(--color-text-muted);
+  opacity: 0.5;
 }
 
 /* ==========================================================================

@@ -43,7 +43,10 @@ const SITE_DATA = {
   },
 
   // -------------------------------------------------------------------
-  // Projects — rendered as plain text tiles in a grid.
+  // Projects — rendered as "fossil" cards grouped into strata layers by
+  // `year` (newest on top), in the Projects section. Projects with
+  // `status: "in-progress"` sit in their own "Still Excavating" layer on
+  // top, regardless of year. See renderProjects() in main.js.
   //   `downloads` — [{ label, path }], e.g. source zips, packaged .jar
   //                 builds. Drop the file in /files/projects and add an
   //                 entry, no other code changes needed.
@@ -53,6 +56,7 @@ const SITE_DATA = {
       id: "erm",
       name: "ERM",
       dates: "November 2024 – Present",
+      year: 2024, // used to sort into strata layers in the Projects section
       description: "Multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. Players take on one of three roles (Rogues, Frontliners, Trackers), each with distinct mechanics layering deception, investigation, and teamwork. Inspired by Mafia, Among Us, and Dead by Daylight. Full gameplay programming, multiplayer replication, role assignment, and round progression built largely from scratch, along with all 3D models, animations, sound design, music, and UI.",
       tags: ["Unreal Engine 5", "C++/Blueprints", "Game System Design", "Asset Creation"],
       links: [
@@ -74,6 +78,7 @@ const SITE_DATA = {
       id: "minecraft-mods",
       name: "Minecraft Mods",
       dates: "July 2026",
+      year: 2026,
       description: "Two Minecraft mods built in Java for Forge 1.7.10 as part of a summer coding camp. Ayaan's Replicator Mod is a packet-based multiplayer copy/paste system with per-player clipboard state and undo support. PrehistoriCraft, still a work in progress, adds custom dinosaur entities modeled in Blockbench, with a two-version plan: a 1.7.10 camp build and a future 1.20.1+ CurseForge release using GeckoLib.",
       tags: ["Java", "Minecraft Forge", "Blockbench", "GeckoLib"],
       links: [],
@@ -94,6 +99,7 @@ const SITE_DATA = {
       id: "boid-sim",
       name: "Boid Simulation",
       dates: "July 2026",
+      year: 2026,
       description: "2D boid/fish schooling simulation built in C++ with raylib, implementing the three classic boid rules (separation, alignment, and cohesion) from scratch, with runtime weight controls for live tuning of flocking behavior. Currently being extended with a neuroevolution/genetic algorithm layer.",
       tags: ["C++", "raylib", "Simulation", "Genetic Algorithms"],
       links: [
@@ -114,6 +120,8 @@ const SITE_DATA = {
     {
       id: "tower-defense",
       name: "Out of Control (Tower Defense)",
+      dates: "2024", // TODO(Ayaan): confirm/adjust, guessed since no exact date was given
+      year: 2024,
       description: "Simple, Helldivers 2 inspired tower defense game. Primitive and incomplete, was mostly just a school project, but learned more about asset design and game systems. A unique part to code was the targeting system for the turrets which was cool to learn.",
       tags: ["C++", "raylib", "Game Design"],
       links: [
@@ -135,6 +143,8 @@ const SITE_DATA = {
       id: "stratagem-pad",
       name: "Helldivers Stratagem Pad",
       dates: "August 2026 – Present",
+      year: 2026,
+      status: "in-progress", // sits in the "Still Excavating" layer regardless of year
       description: "A wrist-mounted hardware controller inspired by the stratagem input system from Helldivers 2. An ESP32-S3 development board runs custom firmware that reads swipe gestures and matches them against a set of stratagem codes, then lights up a display to show the result in real time. The case was self-designed in Tinkercad and printed on a Bambu Lab printer, with a battery built in so the whole thing runs untethered. Still in progress.",
       tags: ["Embedded Systems", "ESP32-S3", "C/C++", "3D Printing"],
       links: [],
@@ -153,6 +163,9 @@ const SITE_DATA = {
     {
       id: "helldivers-helmet",
       name: "Helldivers Helmet",
+      dates: "2026", // TODO(Ayaan): confirm/adjust, guessed since no exact date was given
+      year: 2026,
+      status: "in-progress",
       description: "A large Helldivers 2 helmet, printed in several sections on a Bambu Lab printer since it was too big for one piece. Most of the real work was dialing in print settings so the sections did not warp or fail partway through, then sanding, gluing everything together, and painting the final piece. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
       tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting"],
       links: [],

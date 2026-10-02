@@ -35,9 +35,9 @@
   const BOID_COLOR = "20, 16, 15";
 
   const CONFIG = {
-    countPerArea: 1 / 5500,  // boid count scales with section area
-    maxCount: 85,
-    minCount: 24,
+    countPerArea: 1 / 3600,  // boid count scales with section area
+    maxCount: 140,
+    minCount: 40,
     maxSpeed: 1.1,
     perceptionRadius: 70,
     separationRadius: 26,

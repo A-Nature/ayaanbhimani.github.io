@@ -6,11 +6,22 @@
 <title>Ayaan Bhimani | Software Engineering Student</title>
 <meta name="description" content="Portfolio of Ayaan Bhimani, Software Engineering student at the University of Waterloo.">
 
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ayaan Bhimani | Software Engineering Student">
+<meta property="og:description" content="Portfolio of Ayaan Bhimani, Software Engineering student at the University of Waterloo.">
+<meta property="og:url" content="https://a-nature.github.io/ayaanbhimani.github.io/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ayaan Bhimani | Software Engineering Student">
+<meta name="twitter:description" content="Portfolio of Ayaan Bhimani, Software Engineering student at the University of Waterloo.">
+
+<!-- Simple line-art bird in flight, matching the boid/dig-site motif -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E0854F' stroke-width='2.3' stroke-linecap='round'%3E%3Cpath d='M2 15c4-6 8-6 10-2 2-4 6-4 10 2'/%3E%3C/svg%3E">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=16">
+<link rel="stylesheet" href="css/style.css?v=17">
 </head>
 <body>
 
@@ -73,7 +84,7 @@
   <svg class="about-horizon" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0,90 L120,70 L260,95 L420,60 L600,85 L800,55 L980,80 L1180,50 L1320,75 L1440,60 L1440,160 L0,160 Z" fill="#8B5A42" opacity="0.55"/>
     <path d="M0,115 L160,95 L340,120 L520,90 L700,110 L900,85 L1100,105 L1300,80 L1440,100 L1440,160 L0,160 Z" fill="#4A332A" opacity="0.8"/>
-    <path d="M0,140 L200,125 L400,140 L650,120 L900,138 L1150,118 L1440,135 L1440,160 L0,160 Z" fill="#0D1117"/>
+    <path d="M0,140 L200,125 L400,140 L650,120 L900,138 L1150,118 L1440,135 L1440,160 L0,160 Z" fill="#241A13"/>
   </svg>
 </section>
 
@@ -81,10 +92,13 @@
      Projects — icon grid, opens shared window modal
      ======================================================================= -->
 <section class="projects" id="projects">
-  <div class="container">
+  <div class="container projects-heading">
     <span class="section-label">Projects</span>
-    <div class="project-grid" id="project-grid"></div>
   </div>
+  <!-- Filled with one full-width .project-layer band per stratum (see
+       renderProjects() in main.js), each with its own inner .container
+       so the cards line up with the rest of the page. -->
+  <div id="project-grid"></div>
 </section>
 
 <!-- =======================================================================
@@ -132,6 +146,12 @@
 
 <footer class="site-footer">
   <div class="container">
+    <!-- Bird skull, a small closing nod to "birds are living dinosaurs" -->
+    <svg class="footer-mark" viewBox="0 0 48 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 10c0-4.5 4-8 10-8s10 3 10 7c0 2.5-1.5 4-3 5l9 2.5-9 2c1 1.5 1.5 3 .5 4.5-1.5 2-5 2-7-0.5"/>
+      <path d="M14 10c-5 0-9 2.5-9 6 0 2.5 2 4 4.5 4.5"/>
+      <circle cx="21" cy="11" r="1.4" fill="currentColor" stroke="none"/>
+    </svg>
     &copy; <span id="footer-year"></span> Ayaan Bhimani
   </div>
 </footer>
@@ -173,10 +193,10 @@
   </div>
 </div>
 
-<script src="js/data.js?v=16"></script>
-<script src="js/icons.js?v=16"></script>
-<script src="js/boids.js?v=16"></script>
-<script src="js/lightbox.js?v=16"></script>
-<script src="js/main.js?v=16"></script>
+<script src="js/data.js?v=17"></script>
+<script src="js/icons.js?v=17"></script>
+<script src="js/boids.js?v=17"></script>
+<script src="js/lightbox.js?v=17"></script>
+<script src="js/main.js?v=17"></script>
 </body>
 </html>

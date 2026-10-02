@@ -87,23 +87,80 @@ function renderAbout() {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Projects                                                                */
+/* Projects — rendered as strata bands, newest/in-progress on top, each    */
+/* holding its projects as "fossil" cards. See groupProjectsIntoLayers().  */
 /* ---------------------------------------------------------------------- */
-function renderProjects() {
-  const grid = document.getElementById("project-grid");
-  grid.innerHTML = "";
+const PROJECT_LAYER_COLORS = ["var(--color-rock-dark)", "var(--color-clay)", "var(--color-sand)"];
 
-  SITE_DATA.projects.forEach((project) => {
-    const tile = document.createElement("button");
-    tile.type = "button";
-    tile.className = "project-icon-tile";
-    tile.setAttribute("aria-haspopup", "dialog");
-    tile.innerHTML = `
-      <span class="project-name">${escapeHTML(project.name)}</span>
-      <span class="project-tagline">${escapeHTML(project.tags[0] || "")}</span>
-    `;
-    tile.addEventListener("click", () => openWindowModal(buildProjectModalContent(project)));
-    grid.appendChild(tile);
+function groupProjectsIntoLayers(projects) {
+  const inProgress = projects.filter((p) => p.status === "in-progress");
+  const dated = projects
+    .filter((p) => p.status !== "in-progress")
+    .slice()
+    .sort((a, b) => (b.year || 0) - (a.year || 0));
+
+  const layers = [];
+  if (inProgress.length) {
+    layers.push({ label: "Still Excavating", projects: inProgress });
+  }
+  let currentYear = null;
+  let currentGroup = null;
+  dated.forEach((project) => {
+    if (project.year !== currentYear) {
+      currentYear = project.year;
+      currentGroup = { label: String(currentYear), projects: [] };
+      layers.push(currentGroup);
+    }
+    currentGroup.projects.push(project);
+  });
+  return layers;
+}
+
+function renderProjects() {
+  const wrap = document.getElementById("project-grid");
+  wrap.innerHTML = "";
+
+  const layers = groupProjectsIntoLayers(SITE_DATA.projects);
+
+  layers.forEach((layer, i) => {
+    const band = document.createElement("div");
+    band.className = "project-layer";
+    // Each band gradient-blends into the next layer's color (or into the
+    // bedrock background for the last one), so the strata read as
+    // continuous sediment rather than hard-edged stripes.
+    const thisColor = PROJECT_LAYER_COLORS[i % PROJECT_LAYER_COLORS.length];
+    const nextColor = i < layers.length - 1
+      ? PROJECT_LAYER_COLORS[(i + 1) % PROJECT_LAYER_COLORS.length]
+      : "var(--color-bg)";
+    band.style.background = `linear-gradient(to bottom, ${thisColor} 0%, ${nextColor} 100%)`;
+
+    const inner = document.createElement("div");
+    inner.className = "container";
+
+    const label = document.createElement("span");
+    label.className = "project-layer-label";
+    label.textContent = layer.label;
+    inner.appendChild(label);
+
+    const grid = document.createElement("div");
+    grid.className = "fossil-grid";
+    layer.projects.forEach((project) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "fossil-card";
+      card.setAttribute("aria-haspopup", "dialog");
+      card.innerHTML = `
+        <span class="fossil-dust" aria-hidden="true"></span>
+        <span class="project-name">${escapeHTML(project.name)}</span>
+        <span class="project-tagline">${escapeHTML(project.tags[0] || "")}</span>
+      `;
+      card.addEventListener("click", () => openWindowModal(buildProjectModalContent(project)));
+      grid.appendChild(card);
+    });
+    inner.appendChild(grid);
+
+    band.appendChild(inner);
+    wrap.appendChild(band);
   });
 }
 
