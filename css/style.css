@@ -1563,15 +1563,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   font-family: var(--font-mono);
   font-size: 0.78rem;
 }
-.footer-mark {
-  display: block;
-  width: 36px;
-  height: auto;
-  margin: 0 auto 14px;
-  color: var(--color-text-muted);
-  opacity: 0.5;
-}
-
 /* ==========================================================================
    Responsive
    ========================================================================== */
