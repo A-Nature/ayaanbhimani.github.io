@@ -260,8 +260,9 @@ body.no-canvas .site-bg-fallback { display: block; }
 .about {
   position: relative;
   overflow: hidden;
-  /* Its own dusk sky, picking up where the Hero's amber horizon ends. */
-  background: linear-gradient(180deg, #A5703F 0%, #B27846 55%, #BE8350 100%);
+  /* Its own sky, deliberately a different scene from the Hero's dusk: a
+     humid green-grey morning warming to pale sand at the horizon. */
+  background: linear-gradient(180deg, #2F4A47 0%, #5F7F73 40%, #A9B08A 75%, #D8C690 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-bottom: 150px; /* room for the horizon silhouette below the text */
 }
@@ -1336,5 +1337,5 @@ body.no-canvas .site-bg-fallback { display: block; }
   * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
 
-/* The Backstory sits on the amber sky, so its small label needs a darker tone. */
-.about .section-label { color: #3a2314; }
+/* The Backstory has its own sky, so its small label gets a tone that reads on it. */
+.about .section-label { color: #E9D9A8; }
