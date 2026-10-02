@@ -624,34 +624,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   pointer-events: none;
   background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1400'%20height='560'%3E%3Cpolygon%20points='75,88%2065,79%2072,68%2082,71%2090,77%2087,87'%20fill='rgba(0,0,0,0.15)'/%3E%3Cpolygon%20points='63,207%2036,206%2036,190%2059,191'%20fill='rgba(0,0,0,0.15)'/%3E%3Cpolygon%20points='75,366%2066,368%2062,364%2064,360%2068,358%2074,363'%20fill='rgba(78,92,108,0.20)'/%3E%3Cpolygon%20points='129,478%20114,479%20114,467%20128,470'%20fill='rgba(0,0,0,0.15)'/%3E%3Cpolygon%20points='264,216%20253,216%20252,205%20263,199%20270,205%20272,209'%20fill='rgba(255,238,205,0.12)'/%3E%3Cpolygon%20points='231,323%20223,315%20226,310%20238,307%20242,313%20242,319'%20fill='rgba(0,0,0,0.15)'/%3E%3Cpolygon%20points='181,515%20198,499%20221,506%20204,527'%20fill='rgba(0,0,0,0.24)'/%3E%3Cpolygon%20points='464,34%20459,44%20442,39%20436,33%20449,23%20459,25'%20fill='rgba(190,104,58,0.20)'/%3E%3Cpolygon%20points='424,172%20427,158%20442,155%20450,161%20453,173%20435,178'%20fill='rgba(190,104,58,0.20)'/%3E%3Cpolygon%20points='440,381%20425,373%20432,363%20450,368'%20fill='rgba(190,104,58,0.20)'/%3E%3Cpolygon%20points='399,521%20379,528%20360,517%20373,502%20394,503'%20fill='rgba(255,238,205,0.12)'/%3E%3Cpolygon%20points='593,44%20577,40%20574,26%20583,21%20602,28%20610,35'%20fill='rgba(112,132,98,0.17)'/%3E%3Cpolygon%20points='613,242%20619,221%20638,225%20645,238%20637,248'%20fill='rgba(255,238,205,0.12)'/%3E%3Cpolygon%20points='677,385%20662,382%20663,369%20684,373'%20fill='rgba(0,0,0,0.24)'/%3E%3Cpolygon%20points='677,522%20654,536%20632,520%20657,507'%20fill='rgba(222,172,92,0.18)'/%3E%3Cpolygon%20points='736,121%20726,113%20727,104%20743,103%20749,112'%20fill='rgba(0,0,0,0.24)'/%3E%3Cpolygon%20points='785,229%20783,214%20798,204%20822,221%20806,234'%20fill='rgba(150,96,110,0.14)'/%3E%3Cpolygon%20points='777,396%20760,402%20746,393%20760,378%20776,387'%20fill='rgba(0,0,0,0.15)'/%3E%3Cpolygon%20points='810,507%20800,506%20797,501%20805,497%20811,500'%20fill='rgba(112,132,98,0.17)'/%3E%3Cpolygon%20points='922,91%20910,85%20909,79%20926,73%20932,82'%20fill='rgba(222,172,92,0.18)'/%3E%3Cpolygon%20points='916,206%20902,199%20895,186%20927,178%20935,184%20942,202'%20fill='rgba(0,0,0,0.15)'/%3E%3Cpolygon%20points='917,371%20911,359%20926,353%20939,364%20933,376'%20fill='rgba(150,96,110,0.14)'/%3E%3Cpolygon%20points='990,521%20967,518%20969,503%20988,496%201003,511'%20fill='rgba(78,92,108,0.20)'/%3E%3Cpolygon%20points='1193,178%201177,185%201162,176%201171,168%201192,169'%20fill='rgba(190,104,58,0.20)'/%3E%3Cpolygon%20points='1134,342%201136,333%201144,332%201152,338%201143,343'%20fill='rgba(0,0,0,0.24)'/%3E%3Cpolygon%20points='1293,65%201289,61%201290,56%201297,54%201302,57%201301,65'%20fill='rgba(112,132,98,0.17)'/%3E%3Cpolygon%20points='1355,243%201334,242%201330,225%201353,214%201366,222'%20fill='rgba(222,172,92,0.18)'/%3E%3Cpolygon%20points='1307,410%201275,406%201286,387%201311,391'%20fill='rgba(255,238,205,0.12)'/%3E%3C/svg%3E") 0 0 / 1400px 560px repeat;
 }
-/* Faint fossil impressions in the side margins. */
-.layer-decor {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  color: rgba(40, 24, 14, 0.17);
-}
-.layer-decor.is-dark { color: rgba(240, 214, 170, 0.11); }
-.decor-fossil {
-  position: absolute;
-  top: var(--top);
-  width: var(--size);
-  transform: rotate(var(--rot));
-}
-.decor-fossil .fossil-svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  color: inherit;
-  filter: none;
-  transition: none;
-}
-.decor-left { left: calc((100% - var(--max-width)) / 4 - var(--size) / 2); }
-.decor-right { right: calc((100% - var(--max-width)) / 4 - var(--size) / 2); }
-@media (max-width: 1220px) {
-  .layer-decor { display: none; }
-}
 .layer-grain { display: none; }
 .project-layer > .container { position: relative; z-index: 1; }
 
@@ -1848,3 +1820,8 @@ body.no-canvas .site-bg-fallback { display: block; }
   .record-v0 .paper p { font-size: 1.3rem; --rule: 28px; }
   .record-v1 .paper p { font-size: 0.86rem; }
 }
+
+/* Pixel art stays crisp when it is scaled up. */
+.slide img.pixel,
+.fossil-cover.pixel { image-rendering: pixelated; }
+.window-credits { color: var(--color-text-muted); font-size: 0.9rem; }

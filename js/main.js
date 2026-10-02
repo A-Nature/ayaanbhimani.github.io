@@ -283,14 +283,6 @@ function drawArchiveLinks() {
 /* Projects — rendered as strata bands, newest/in-progress on top, each    */
 /* holding its projects as "fossil" cards. See groupProjectsIntoLayers().  */
 /* ---------------------------------------------------------------------- */
-const DECOR_FOSSILS = ["ammonite", "trilobite", "fish", "footprint", "bone", "shell", "fern", "egg"];
-// Where the side fossils sit in each layer: which margin, how far down, how
-// big and at what angle. Alternates sides so the margins don't mirror.
-const DECOR_SPOTS = [
-  [{ side: "left", top: "16%", size: 104, rot: -18 }, { side: "right", top: "54%", size: 92, rot: 22 }],
-  [{ side: "right", top: "14%", size: 98, rot: 14 }, { side: "left", top: "56%", size: 108, rot: -24 }],
-  [{ side: "left", top: "32%", size: 96, rot: 20 }, { side: "right", top: "62%", size: 104, rot: -12 }]
-];
 const PROJECT_LAYER_COLORS = ["var(--color-rock-dark)", "var(--color-clay)", "var(--color-sand)"];
 
 function groupProjectsIntoLayers(projects) {
@@ -343,18 +335,6 @@ function renderProjects() {
     grain.setAttribute("aria-hidden", "true");
     band.appendChild(grain);
 
-    // Faint fossil impressions in the side margins of each layer, purely
-    // decorative (hidden on narrower screens where there is no margin).
-    const decor = document.createElement("div");
-    decor.className = "layer-decor" + (i % PROJECT_LAYER_COLORS.length === 0 ? " is-dark" : "");
-    decor.setAttribute("aria-hidden", "true");
-    const spots = DECOR_SPOTS[i % DECOR_SPOTS.length];
-    decor.innerHTML = spots.map((spot, k) => {
-      const name = DECOR_FOSSILS[(i * 3 + k * 4 + 1) % DECOR_FOSSILS.length];
-      return `<span class="decor-fossil decor-${spot.side}" style="--top:${spot.top};--size:${spot.size}px;--rot:${spot.rot}deg">${fossilSVG(name)}</span>`;
-    }).join("");
-    band.appendChild(decor);
-
     const inner = document.createElement("div");
     inner.className = "container";
 
@@ -377,7 +357,7 @@ function renderProjects() {
       // set in the project's media array.
       const cover = (project.media || []).find((m) => m && m.src && m.type === "image");
       const art = cover
-        ? `<img class="fossil-cover" src="${cover.src}" alt="${escapeHTML(cover.alt || "")}">`
+        ? `<img class="fossil-cover${cover.pixel ? " pixel" : ""}" src="${cover.src}" alt="${escapeHTML(cover.alt || "")}">`
         : `<span class="fossil-dust" aria-hidden="true"></span>${fossilSVG(project.fossil)}`;
 
       const tags = (project.tags || []).slice(0, 3).join(" · ");
@@ -407,6 +387,7 @@ function buildProjectModalContent(project) {
     skin: "dig",
     specimen: project._specimen,
     subtitle: project.dates,
+    credits: project.credits,
     fossil: project.fossil,
     media: project.media,
     tags: project.tags,
@@ -641,6 +622,9 @@ function openWindowModal(content) {
   const descriptionHTML = content.description
     ? `<div class="window-section-title">Description</div><p class="window-description">${escapeHTML(content.description)}</p>`
     : "";
+  const creditsHTML = content.credits
+    ? `<div class="window-section-title">Credits</div><p class="window-description window-credits">${escapeHTML(content.credits)}</p>`
+    : "";
   // No reflection yet: skip the section entirely rather than showing a
   // visible gap or placeholder text.
   const reflectionHTML = content.reflection
@@ -654,7 +638,7 @@ function openWindowModal(content) {
     ? `<div class="window-links">${content.links.map((l) => `<a class="btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(l.label)}</a>`).join("")}</div>`
     : "";
 
-  modalBody.innerHTML = watermarkHTML + mediaHTML + placardHTML + descriptionHTML + reflectionHTML + downloadsHTML + linksHTML;
+  modalBody.innerHTML = watermarkHTML + mediaHTML + placardHTML + descriptionHTML + creditsHTML + reflectionHTML + downloadsHTML + linksHTML;
   wireSlideshow(modalBody, mediaItems);
   wirePdfDownloadLinks(modalBody, downloads);
 
@@ -691,7 +675,7 @@ function buildMediaHTML(items) {
   const slides = items.map((item, i) => {
     const el = item.type === "video"
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
-      : `<img class="media-trigger" data-media-index="${i}" src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
+      : `<img class="media-trigger${item.pixel ? " pixel" : ""}" data-media-index="${i}" src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
     return `<div class="slide${i === 0 ? " is-active" : ""}">${el}</div>`;
   }).join("");
   const arrows = multi

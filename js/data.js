@@ -131,13 +131,19 @@ const SITE_DATA = {
       name: "Split-Screen Platformer Demo",
       dates: "2023",
       year: 2023,
-      description: "A two-player platformer demo I made for grade 10 computer science, in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate: one player in a jungle, the other in a cave, who would eventually be able to reach into each other's worlds. Since it was a demo, it has a single level with difficulty options, movement, death, and moving enemies (frogs in the jungle). Only one player is playable, and the cave side is visual only, built to be used later.",
+      description: "A two-player platformer demo, made as my grade 10 computer science culminating project in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate: one player in a jungle, the other in a cave, who would eventually be able to reach into each other's worlds. Since it's a demo, there is a single level, with difficulty options, movement, death and moving enemies. Only the jungle side is playable (a frog, with crocodile enemies); the cave side is visual only, built to be used later.",
+      credits: "Made by me: the character art (the frog, the crocodile and the other creatures) and the menu art. Not made by me: the background art and the static objects (platforms, ladders, trees, signs), the font (Grand9K Pixel) and the music.",
       tags: ["Python", "Pygame", "Game Design"],
       links: [],
-      downloads: [],
+      downloads: [
+        { label: "Playable demo (.zip, needs Python and Pygame)", path: "files/projects/platformer-demo.zip" }
+      ],
       media: [
-        // Demo clips and screenshots are coming, e.g.
-        // { type: "video", src: "images/projects/platformer-demo.mp4", alt: "Platformer demo gameplay", caption: "..." }
+        { type: "image", src: "images/projects/platformer-level.webp", alt: "The jungle level of the platformer demo: mossy platforms, ladders and signposts, with the frog player at the far left and crocodile enemies on the platforms", caption: "The demo's one jungle level: the frog starts on the left and crocodile enemies patrol the platforms", pixel: true },
+        { type: "image", src: "images/projects/platformer-player-vs-enemy.png", alt: "The pixel-art frog player facing a dark crocodile enemy on a mossy platform", caption: "The frog player face to face with an enemy crocodile", pixel: true },
+        { type: "image", src: "images/projects/platformer-frog.png", alt: "Close-up of the pixel-art frog player character", caption: "The frog, the player character I drew", pixel: true },
+        { type: "video", src: "images/projects/platformer-player-animations.mp4", alt: "Showcase of the frog player's animations", caption: "The frog's animations: idle, walk and jump" },
+        { type: "video", src: "images/projects/platformer-enemy-animations.mp4", alt: "Showcase of the crocodile enemy's animations", caption: "The crocodile enemy's animations: idle and walk" }
       ],
       reflection: "" // TODO(Ayaan)
     },
