@@ -376,8 +376,10 @@ body.no-canvas .site-bg-fallback { display: block; }
   row-gap: 64px;
   align-items: start;
 }
-.record.side-left { grid-column: 1 / span 8; }
-.record.side-right { grid-column: 5 / span 8; }
+.record.side-left { grid-column: 1 / span 7; }
+.record.side-right { grid-column: 6 / span 7; }
+/* a record with no photo beside it sits centered so the desk stays balanced */
+.record.solo { grid-column: 3 / span 8; }
 .record:nth-of-type(n + 2) { margin-top: -34px; }
 .archive-photo { margin: 0; align-self: center; }
 .archive-photo.side-right { grid-column: 9 / span 4; }

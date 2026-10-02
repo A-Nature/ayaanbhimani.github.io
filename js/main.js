@@ -106,7 +106,7 @@ function renderAbout() {
   records.forEach((record, i) => {
     const side = i % 2 === 0 ? "left" : "right";
     const rec = document.createElement("article");
-    rec.className = `board-item record record-v${i % 3} side-${side}`;
+    rec.className = `board-item record record-v${i % 3} side-${side}${photos[i] ? "" : " solo"}`;
     rec.style.gridRow = String(i + 1);
     rec.innerHTML = `
       <div class="paper">
@@ -183,7 +183,10 @@ function drawArchiveLinks() {
   recs.forEach((el, i) => {
     if (!recs[i + 1]) return;
     const a = rel(el), c = rel(recs[i + 1]);
-    vertical((a.l + a.r) / 2, a.b - 8, (c.l + c.r) / 2, c.t + 8);
+    // Land on the near side of the next record so the string doesn't
+    // cut across a photo sitting beside the one above.
+    const frac = (c.l + c.r) / 2 > (a.l + a.r) / 2 ? 0.3 : 0.7;
+    vertical((a.l + a.r) / 2, a.b - 8, c.l + (c.r - c.l) * frac, c.t + 8);
   });
   photos.forEach((el) => {
     const rec = recs[Number(el.dataset.record)];
