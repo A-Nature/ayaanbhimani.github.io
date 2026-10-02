@@ -190,6 +190,8 @@ function renderProjects() {
 function buildProjectModalContent(project) {
   return {
     title: project.name,
+    subtitle: project.dates,
+    fossil: project.fossil,
     media: project.media,
     tags: project.tags,
     description: project.description,
@@ -397,11 +399,19 @@ function openWindowModal(content) {
   const downloads = content.downloads || [];
 
   const mediaHTML = buildMediaHTML(mediaItems);
-  const tagsHTML = (content.tags && content.tags.length)
-    ? `<div class="window-tags">${content.tags.map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join("")}</div>`
+  // Placard: dates and "Medium" (the tech stack) set like a gallery wall
+  // label. Skipped entirely when an entry has neither.
+  const datesHTML = content.subtitle
+    ? `<p class="window-dates">${escapeHTML(content.subtitle)}</p>`
     : "";
-  const subtitleHTML = content.subtitle
-    ? `<div class="window-section-title">${escapeHTML(content.subtitle)}</div>`
+  const mediumHTML = (content.tags && content.tags.length)
+    ? `<p class="window-medium"><span>Medium</span>${content.tags.map((t) => escapeHTML(t)).join(" · ")}</p>`
+    : "";
+  const placardHTML = (datesHTML || mediumHTML)
+    ? `<div class="window-placard">${datesHTML}${mediumHTML}</div>`
+    : "";
+  const watermarkHTML = (content.fossil && typeof fossilSVG === "function")
+    ? `<span class="window-watermark" aria-hidden="true">${fossilSVG(content.fossil)}</span>`
     : "";
   const descriptionHTML = content.description
     ? `<div class="window-section-title">Description</div><p class="window-description">${escapeHTML(content.description)}</p>`
@@ -419,7 +429,7 @@ function openWindowModal(content) {
     ? `<div class="window-links">${content.links.map((l) => `<a class="btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(l.label)}</a>`).join("")}</div>`
     : "";
 
-  modalBody.innerHTML = mediaHTML + subtitleHTML + tagsHTML + descriptionHTML + reflectionHTML + downloadsHTML + linksHTML;
+  modalBody.innerHTML = watermarkHTML + mediaHTML + placardHTML + descriptionHTML + reflectionHTML + downloadsHTML + linksHTML;
   wireMediaTriggers(modalBody, mediaItems);
   wirePdfDownloadLinks(modalBody, downloads);
 

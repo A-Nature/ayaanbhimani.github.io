@@ -279,6 +279,16 @@ body.no-canvas .site-bg-fallback { display: block; }
   flex-direction: column;
   gap: 16px;
 }
+.about-volcanoes {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 360px;
+  display: block;
+  pointer-events: none;
+}
 .about-horizon {
   position: absolute;
   left: 0;
@@ -798,13 +808,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.window-titlebar .window-title .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  flex-shrink: 0;
-}
 .window-close {
   background: none;
   border: 1px solid var(--color-border);
@@ -825,6 +828,96 @@ body.no-canvas .site-bg-fallback { display: block; }
 .window-body {
   padding: 24px;
   overflow-y: auto;
+  position: relative;
+}
+
+/* Project and experience windows are dressed as a gallery piece: gilt frame
+   on a lit wall, a brass nameplate for the title bar and a wall-label
+   placard under the picture. The lightbox shares the base classes above
+   but not this skin. */
+#window-overlay .window-modal {
+  --brass-dark: #2a1d0c;
+  border: none;
+  border-radius: 3px;
+  background:
+    radial-gradient(ellipse 80% 38% at 50% 0%, rgba(255, 226, 160, 0.13), transparent 75%),
+    linear-gradient(180deg, #1f2a21 0%, #17201a 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 180, 0.18),
+    0 0 0 5px #a8803a,
+    0 0 0 6px #4f3816,
+    0 30px 70px -10px rgba(0, 0, 0, 0.75);
+}
+#window-overlay .window-titlebar {
+  padding: 11px 12px 11px 20px;
+  background: linear-gradient(180deg, #e0c070 0%, #b89040 52%, #8c6c2e 100%);
+  border-bottom: 1px solid #4f3816;
+  box-shadow: inset 0 1px 0 rgba(255, 245, 205, 0.55);
+}
+#window-overlay .window-titlebar .window-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--brass-dark);
+  text-shadow: 0 1px 0 rgba(255, 240, 190, 0.45);
+  white-space: normal;
+  line-height: 1.25;
+}
+#window-overlay .window-close {
+  border-color: rgba(42, 29, 12, 0.55);
+  color: var(--brass-dark);
+}
+#window-overlay .window-close:hover {
+  background: rgba(42, 29, 12, 0.14);
+  border-color: var(--brass-dark);
+  color: var(--brass-dark);
+}
+#window-overlay .window-body {
+  padding: 26px 28px 30px;
+}
+.window-placard {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(216, 166, 87, 0.28);
+}
+.window-dates {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--color-sand);
+}
+.window-medium {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+.window-medium span {
+  margin-right: 10px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
+}
+/* The project's own fossil, faint on the wall behind the label. */
+.window-watermark {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  width: 132px;
+  color: var(--color-accent-2);
+  opacity: 0.09;
+  pointer-events: none;
+}
+.window-watermark svg { display: block; width: 100%; height: auto; }
+#window-overlay .window-body > :not(.window-watermark) { position: relative; }
+#window-overlay .window-section-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--color-accent-2);
 }
 .window-media {
   width: 100%;
