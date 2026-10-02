@@ -355,7 +355,9 @@ function renderProjects() {
 
       // A real screenshot/photo wins over the drawn fossil once one is
       // set in the project's media array.
-      const cover = (project.media || []).find((m) => m && m.src && m.type === "image");
+      const cover = (project.thumbnail && project.thumbnail.src)
+        ? project.thumbnail
+        : (project.media || []).find((m) => m && m.src && m.type === "image");
       const art = cover
         ? `<img class="fossil-cover${cover.pixel ? " pixel" : ""}" src="${cover.src}" alt="${escapeHTML(cover.alt || "")}">`
         : `<span class="fossil-dust" aria-hidden="true"></span>${fossilSVG(project.fossil)}`;
@@ -651,6 +653,7 @@ function openWindowModal(content) {
 function closeWindowModal() {
   stepActiveSlideshow = null;
   modalBody.querySelectorAll("video").forEach((v) => v.pause());
+  modalBody.querySelectorAll("iframe").forEach((f) => f.removeAttribute("src"));
   modalOverlay.classList.remove("is-open");
   modalOverlay.setAttribute("aria-hidden", "true");
   unlockPageScroll();
@@ -673,7 +676,11 @@ function buildMediaHTML(items) {
 
   const multi = items.length > 1;
   const slides = items.map((item, i) => {
-    const el = item.type === "video"
+    // Embedded videos (e.g. a Google Drive preview) only load while their
+    // slide is showing, so they don't all start loading with the window.
+    const el = item.type === "embed"
+      ? `<iframe class="slide-embed" data-src="${item.src}" title="${escapeHTML(item.alt || "Video")}" allow="autoplay; fullscreen" allowfullscreen></iframe>`
+      : item.type === "video"
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
       : `<img class="media-trigger${item.pixel ? " pixel" : ""}" data-media-index="${i}" src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
     return `<div class="slide${i === 0 ? " is-active" : ""}">${el}</div>`;
@@ -709,12 +716,20 @@ function wireSlideshow(scope, items) {
       slide.classList.toggle("is-active", i === index);
       const video = slide.querySelector("video");
       if (video && i !== index) video.pause();
+      const frame = slide.querySelector("iframe");
+      if (frame) {
+        if (i === index) { if (!frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src); }
+        else frame.removeAttribute("src");
+      }
     });
     dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
     if (count) count.textContent = `${index + 1} / ${slides.length}`;
     if (caption) {
       const text = items[index].caption;
-      caption.innerHTML = text ? `<span class="slide-fig">Fig. ${index + 1}</span>${escapeHTML(text)}` : "";
+      const link = items[index].href
+        ? ` <a class="slide-open" href="${items[index].href}" target="_blank" rel="noopener noreferrer">Open in Google Drive</a>`
+        : "";
+      caption.innerHTML = text ? `<span class="slide-fig">Fig. ${index + 1}</span>${escapeHTML(text)}${link}` : "";
     }
   }
   show(0);
@@ -737,7 +752,9 @@ function wireSlideshow(scope, items) {
 
   root.querySelectorAll(".media-trigger").forEach((el) => {
     el.addEventListener("click", () => {
-      openImageGallery(items, parseInt(el.dataset.mediaIndex, 10) || 0, el);
+      const gallery = items.filter((m) => m.type !== "embed");
+      const picked = items[parseInt(el.dataset.mediaIndex, 10) || 0];
+      openImageGallery(gallery, Math.max(0, gallery.indexOf(picked)), el);
     });
   });
 

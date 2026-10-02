@@ -138,9 +138,12 @@ const SITE_DATA = {
       downloads: [
         { label: "Playable demo (.zip, needs Python and Pygame)", path: "files/projects/platformer-demo.zip" }
       ],
+      // Only used for the card on the Projects grid (cropped to the frog and the crocodile).
+      thumbnail: { src: "images/projects/platformer-thumb.png", alt: "The pixel-art frog player facing a dark crocodile enemy" },
       media: [
         { type: "image", src: "images/projects/platformer-level.webp", alt: "The jungle level of the platformer demo: mossy platforms, ladders and signposts, with the frog player at the far left and crocodile enemies on the platforms", caption: "The demo's one jungle level: the frog starts on the left and crocodile enemies patrol the platforms", pixel: true },
-        { type: "image", src: "images/projects/platformer-player-vs-enemy.png", alt: "The pixel-art frog player facing a dark crocodile enemy on a mossy platform", caption: "The frog player face to face with an enemy crocodile", pixel: true },
+        { type: "embed", src: "https://drive.google.com/file/d/1fVsFqQGDO6ypr_P7UIxl_DUreto26_Se/preview", href: "https://drive.google.com/file/d/1fVsFqQGDO6ypr_P7UIxl_DUreto26_Se/view?usp=sharing", alt: "Full demo video of the platformer", caption: "Full demo video of the platformer" },
+        { type: "embed", src: "https://drive.google.com/file/d/1WMfRG9iAD32Lxm2aSGEVZhES2gLFGulR/preview", href: "https://drive.google.com/file/d/1WMfRG9iAD32Lxm2aSGEVZhES2gLFGulR/view?usp=sharing", alt: "Demo of deaths and other mechanics in the platformer", caption: "A demo of the deaths and other mechanics" },
         { type: "image", src: "images/projects/platformer-frog.png", alt: "Close-up of the pixel-art frog player character", caption: "The frog, the player character I drew", pixel: true },
         { type: "video", src: "images/projects/platformer-player-animations.mp4", alt: "Showcase of the frog player's animations", caption: "The frog's animations: idle, walk and jump" },
         { type: "video", src: "images/projects/platformer-enemy-animations.mp4", alt: "Showcase of the crocodile enemy's animations", caption: "The crocodile enemy's animations: idle and walk" }
@@ -153,7 +156,7 @@ const SITE_DATA = {
       name: "Jurassic World Evolution Mods",
       dates: "2021",
       year: 2021,
-      description: "Custom mods for Jurassic World Evolution, and my first real step into code. The two that took the most work were the new species I added to the game, Lapparentosaurus and Spinops, whose models I designed myself based on similar dinosaurs. Lapparentosaurus is my best mod: a giant sauropod with its own genome, profile and comfort requirements in the game's Genome Library, plus a range of skin variants (environment skins for jungle, steppe, tundra, alpine and arid habitats, and hatchery skins). Before those I started smaller, with reskins and remodels of existing dinosaurs: Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. Along the way I learned Lua in Notepad++, my first asset design in Blender and Substance Painter, and how to code around a dependency, ACSE (the Awesome Cobra Script Extender).",
+      description: "Custom mods for Jurassic World Evolution and a big step into code. The two that took the most work were the new species I added to the game, Lapparentosaurus and Spinops, whose models I made myself (started with an existing in-game model and editing it). Lapparentosaurus is my most detailed mod, with (in my opinion) stunning skin colours and a great model. The new species had their own genome and profile in the game's functionality, plus a range of skin variants, as if it was an official addition. Before those I started smaller, with reskins and remodels of existing dinosaurs. Anaturaptor was a first test and then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. Along the way I learned Lua in Notepad++, my first asset design in Blender and Substance Painter, and how to code around a dependency, ACSE (the Awesome Cobra Script Extender).",
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
       links: [
         { label: "Lapparentosaurus", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1194" },
@@ -164,7 +167,7 @@ const SITE_DATA = {
       downloads: [],
       // Lapparentosaurus leads (best mod), then Spinops, then the earlier reskins.
       media: [
-        { type: "image", src: "images/projects/jwe-lapparentosaurus-blue.webp", alt: "A blue-grey spotted Lapparentosaurus stretching its long neck above the trees", caption: "Lapparentosaurus, a new species I built for the game, in its blue-grey spotted skin" },
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-blue.webp", alt: "A blue-grey spotted Lapparentosaurus stretching its long neck above the trees", caption: "Lapparentosaurus, a new species I built for the game, in a blue-grey spotted skin" },
         { type: "image", src: "images/projects/jwe-lapparentosaurus-profile.webp", alt: "Lapparentosaurus herd by a lake with the in-game profile panel open", caption: "A blue and yellow skin variant in a herd, with its profile and comfort requirements in the game panel" },
         { type: "image", src: "images/projects/jwe-lapparentosaurus-tan.webp", alt: "A tan, leopard-spotted Lapparentosaurus with a dark red head", caption: "A tan, spotted variant with a darker, red-crowned head" },
         { type: "image", src: "images/projects/jwe-lapparentosaurus-genome.webp", alt: "The Genome Library with Lapparentosaurus selected among the base game dinosaurs", caption: "Lapparentosaurus in the Genome Library, sitting alongside the base game's dinosaurs with its own genome traits" },
