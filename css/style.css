@@ -267,13 +267,14 @@ body.no-canvas .site-bg-fallback { display: block; }
   --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
   --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32  0 0 0 0 .22  0 0 0 0 .1  0 0 0 .34 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   position: relative;
-  padding: 110px 0 130px;
-  /* The desk: dark wood with faint grain and a pool of light. */
+  padding: 104px 0 112px;
+  /* The desk: mid-tone oak, clearly lighter than the dark strata of Projects
+     below it, with faint grain and a pool of light. */
   background:
-    radial-gradient(ellipse 70% 55% at 50% 30%, rgba(255, 214, 150, 0.10), transparent 75%),
-    repeating-linear-gradient(92deg, rgba(0, 0, 0, 0.10) 0 1px, transparent 1px 9px),
-    repeating-linear-gradient(88deg, rgba(255, 220, 170, 0.03) 0 2px, transparent 2px 23px),
-    linear-gradient(180deg, #2b1f16 0%, #231912 100%);
+    radial-gradient(ellipse 70% 55% at 50% 30%, rgba(255, 232, 190, 0.20), transparent 75%),
+    repeating-linear-gradient(92deg, rgba(50, 28, 10, 0.16) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(88deg, rgba(255, 228, 180, 0.07) 0 2px, transparent 2px 23px),
+    linear-gradient(180deg, #8e6c47 0%, #7a5a3a 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .archive-board {
@@ -302,7 +303,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   align-items: flex-start;
   justify-content: space-between;
   gap: 28px;
-  margin-bottom: 70px;
+  margin-bottom: 56px;
 }
 .archive-title { transform: rotate(-1.6deg); }
 .archive-title .paper {
@@ -373,17 +374,18 @@ body.no-canvas .site-bg-fallback { display: block; }
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 12px;
-  row-gap: 64px;
-  align-items: start;
+  row-gap: 56px;
+  align-items: center;
 }
-.record.side-left { grid-column: 1 / span 7; }
-.record.side-right { grid-column: 6 / span 7; }
+/* Records take eight columns; photos are a fixed width tucked against the
+   outer edge, which leaves an even gutter between paper and print. */
+.record.side-left { grid-column: 1 / span 8; }
+.record.side-right { grid-column: 5 / span 8; }
 /* a record with no photo beside it sits centered so the desk stays balanced */
 .record.solo { grid-column: 3 / span 8; }
-.record:nth-of-type(n + 2) { margin-top: -34px; }
-.archive-photo { margin: 0; align-self: center; }
-.archive-photo.side-right { grid-column: 9 / span 4; }
-.archive-photo.side-left { grid-column: 1 / span 4; }
+.archive-photo { margin: 0; width: 280px; max-width: 100%; }
+.archive-photo.side-right { grid-column: 9 / span 4; justify-self: end; }
+.archive-photo.side-left { grid-column: 1 / span 4; justify-self: start; }
 
 /* The dotted string sits above the papers and ignores the pointer. */
 .archive-links {
