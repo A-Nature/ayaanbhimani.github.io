@@ -197,8 +197,8 @@ function drawArchiveLinks() {
   const jitter = (k) => { const x = Math.sin((k + 1) * 12.9898) * 43758.5453; return (x - Math.floor(x)) - 0.5; };
   const f = (v) => v.toFixed(1);
 
-  const HEAD = 20;   // arrowhead length
-  const GAP = 9;     // clear space between the end of the shaft and the head
+  const HEAD = 21;   // length of each stroke of the arrowhead
+  const GAP = 12;    // clear space between the end of the shaft and the tip
   const arrow = (x1, y1, x2, y2, axis) => {
     const k = n++ * 11;
     let c1x, c1y, c2x, c2y;
@@ -215,24 +215,24 @@ function drawArchiveLinks() {
     const ang = Math.atan2(y2 - c2y, x2 - c2x);
     const ux = Math.cos(ang), uy = Math.sin(ang);
 
-    // The shaft stops short of the head, so the head is a separate mark
-    // that never merges with the line, whichever way the arrow comes in.
+    // The shaft stops a little short of the tip so the head's two strokes
+    // sit clear of it, whichever way the arrow comes in.
     const total = Math.hypot(x2 - x1, y2 - y1);
-    const gap = Math.min(GAP, Math.max(3, (total - HEAD - 10) / 2));
-    const ex = x2 - ux * (HEAD + gap), ey = y2 - uy * (HEAD + gap);
+    const gap = Math.min(GAP, Math.max(4, total * 0.3));
+    const ex = x2 - ux * gap, ey = y2 - uy * gap;
     const pull = Math.max(Math.hypot(ex - x1, ey - y1) * 0.45, 14);
     const sx = ex - ux * pull, sy = ey - uy * pull;
 
-    // Solid triangular head: tip at the target, base a head-length back.
-    const bx = x2 - ux * HEAD, by = y2 - uy * HEAD;
-    const px = -uy, py = ux, half = HEAD * 0.5;
-    const j = jitter(k + 3) * 2;
-    const h1x = bx + px * (half + j), h1y = by + py * (half + j);
-    const h2x = bx - px * (half - j), h2y = by - py * (half - j);
+    // Open "V" head drawn as two quick strokes, a little uneven like a
+    // real marker arrow: from the tip, one back along each side.
+    const l1 = HEAD + jitter(k + 3) * 4, l2 = HEAD + jitter(k + 4) * 4;
+    const a1 = ang + 0.62 + jitter(k + 5) * 0.18, a2 = ang - 0.62 + jitter(k + 6) * 0.18;
+    const h1x = x2 - l1 * Math.cos(a1), h1y = y2 - l1 * Math.sin(a1);
+    const h2x = x2 - l2 * Math.cos(a2), h2y = y2 - l2 * Math.sin(a2);
 
     const delay = (n - 1) * 0.55;
     out += `<path class="arrow-line" pathLength="1" style="--d:${delay.toFixed(2)}s" d="M${f(x1)} ${f(y1)}C${f(c1x)} ${f(c1y)} ${f(sx)} ${f(sy)} ${f(ex)} ${f(ey)}"/>`;
-    out += `<path class="arrow-head" style="--d:${(delay + 0.85).toFixed(2)}s" d="M${f(x2)} ${f(y2)}L${f(h1x)} ${f(h1y)}L${f(h2x)} ${f(h2y)}Z"/>`;
+    out += `<path class="arrow-head" pathLength="1" style="--d:${(delay + 0.9).toFixed(2)}s" d="M${f(h1x)} ${f(h1y)}L${f(x2)} ${f(y2)}L${f(h2x)} ${f(h2y)}"/>`;
   };
 
   const first = recs.length ? rel(recs[0]) : null;
@@ -333,6 +333,7 @@ function renderProjects() {
     grid.className = "fossil-grid";
     layer.projects.forEach((project) => {
       specimenNo++;
+      project._specimen = specimenNo;
       const card = document.createElement("button");
       card.type = "button";
       card.className = "fossil-card";
@@ -369,6 +370,8 @@ function renderProjects() {
 function buildProjectModalContent(project) {
   return {
     title: project.name,
+    skin: "dig",
+    specimen: project._specimen,
     subtitle: project.dates,
     fossil: project.fossil,
     media: project.media,
@@ -577,6 +580,8 @@ function initWindowModal() {
 function openWindowModal(content) {
   lastFocusedEl = document.activeElement;
   modalTitleText.textContent = content.title;
+  // Projects are dressed as a dig-site specimen label; experiences keep the gallery look.
+  modalOverlay.classList.toggle("skin-dig", content.skin === "dig");
 
   const mediaItems = (content.media || []).filter((m) => m && m.src);
   const downloads = content.downloads || [];
@@ -590,8 +595,11 @@ function openWindowModal(content) {
   const mediumHTML = (content.tags && content.tags.length)
     ? `<p class="window-medium"><span>Built with</span>${content.tags.map((t) => escapeHTML(t)).join(" · ")}</p>`
     : "";
-  const placardHTML = (datesHTML || mediumHTML)
-    ? `<div class="window-placard">${datesHTML}${mediumHTML}</div>`
+  const specimenHTML = content.specimen
+    ? `<p class="window-specimen">Specimen N\u00ba ${String(content.specimen).padStart(3, "0")}</p>`
+    : "";
+  const placardHTML = (datesHTML || mediumHTML || specimenHTML)
+    ? `<div class="window-placard">${specimenHTML}${datesHTML}${mediumHTML}</div>`
     : "";
   const watermarkHTML = (content.fossil && typeof fossilSVG === "function")
     ? `<span class="window-watermark" aria-hidden="true">${fossilSVG(content.fossil)}</span>`

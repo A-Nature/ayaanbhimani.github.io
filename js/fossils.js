@@ -82,6 +82,17 @@ const FOSSILS = {
     </g>`;
   },
 
+  // Fern frond: a curved stem with paired leaflets that shrink toward the tip.
+  fern() {
+    let leaflets = "";
+    for (let i = 0; i < 11; i++) {
+      const y = 104 - i * 8.4, w = 27 - i * 2.1, bend = 58 + Math.sin(i * 0.5) * 1.5;
+      leaflets += `<path d="M${bend},${y}Q${bend - w * 0.55},${y - 9} ${bend - w},${y - 10}Q${bend - w * 0.5},${y - 1} ${bend},${y + 1}Z" fill="currentColor" fill-opacity=".1"/>`;
+      leaflets += `<path d="M${bend},${y}Q${bend + w * 0.55},${y - 9} ${bend + w},${y - 10}Q${bend + w * 0.5},${y - 1} ${bend},${y + 1}Z" fill="currentColor" fill-opacity=".1"/>`;
+    }
+    return `<path d="M58,112Q56,64 62,14" stroke-width="1.6"/>${leaflets}`;
+  },
+
   // A dinosaur egg, cracked across the middle with a few speckles.
   egg() {
     return `<path d="M60,12C82,12 97,44 97,72C97,95 81,109 60,109C39,109 23,95 23,72C23,44 38,12 60,12Z" fill="currentColor" fill-opacity=".1"/>

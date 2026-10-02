@@ -126,6 +126,22 @@ const SITE_DATA = {
       reflection: "" // TODO(Ayaan)
     },
     {
+      id: "platformer-demo",
+      fossil: "fern", // drawn on the card, see js/fossils.js
+      name: "Split-Screen Platformer Demo",
+      dates: "2023",
+      year: 2023,
+      description: "A two-player platformer demo I made for grade 10 computer science, in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate: one player in a jungle, the other in a cave, who would eventually be able to reach into each other's worlds. Since it was a demo, it has a single level with difficulty options, movement, death, and moving enemies (frogs in the jungle). Only one player is playable, and the cave side is visual only, built to be used later.",
+      tags: ["Python", "Pygame", "Game Design"],
+      links: [],
+      downloads: [],
+      media: [
+        // Demo clips and screenshots are coming, e.g.
+        // { type: "video", src: "images/projects/platformer-demo.mp4", alt: "Platformer demo gameplay", caption: "..." }
+      ],
+      reflection: "" // TODO(Ayaan)
+    },
+    {
       id: "jwe-mods",
       fossil: "egg", // drawn on the card, see js/fossils.js
       name: "Jurassic World Evolution Mods",
