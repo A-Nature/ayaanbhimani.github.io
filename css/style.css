@@ -309,11 +309,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   background: var(--color-rock-dark);
 }
 .projects-heading .section-heading { margin-bottom: 10px; }
-.projects-sub {
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  max-width: 520px;
-}
 
 .project-layer {
   position: relative;
@@ -502,14 +497,55 @@ body.no-canvas .site-bg-fallback { display: block; }
 /* ==========================================================================
    Experience — tabs + timeline
    ========================================================================== */
+/* The gallery: a crown molding at the ceiling line, green gallery walls
+   under a wash of overhead light, and a baseboard and wood floor below. */
 .experience {
-  background: var(--color-bg);
+  position: relative;
+  padding: 126px 0 0;
+  background:
+    radial-gradient(ellipse 75% 40% at 50% 0%, rgba(255, 226, 160, 0.12), transparent 70%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0 2px, transparent 2px 18px),
+    linear-gradient(180deg, #243228 0%, #1a251e 100%);
+}
+.experience::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 26px;
+  background: linear-gradient(180deg, #5b4630 0, #7a5f3d 28%, #3b2c1e 29%, #2a2018 100%);
+  border-bottom: 1px solid rgba(214, 186, 140, 0.4);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+}
+.experience::after {
+  content: "";
+  display: block;
+  height: 96px;
+  margin-top: 64px;
+  background:
+    linear-gradient(180deg, #6a5238 0, #6a5238 2px, #2a1f16 2px, #2a1f16 15px, transparent 15px),
+    radial-gradient(ellipse 60% 100% at 50% 0%, rgba(255, 226, 160, 0.16), transparent 70%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0 2px, rgba(255, 220, 160, 0.06) 2px 3px, transparent 3px 96px),
+    linear-gradient(180deg, #3d2d20 0, #241912 100%);
+}
+.experience .section-heading {
+  color: #f3ead4;
+}
+.experience .section-heading::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 2px;
+  margin-top: 14px;
+  background: linear-gradient(90deg, #d8b25e, #8a6a2f);
 }
 .exp-tabs {
   display: flex;
   gap: 8px;
   margin-bottom: 40px;
-  border: 1px solid var(--color-border);
+  border: 1px solid rgba(184, 146, 74, 0.5);
+  background: rgba(0, 0, 0, 0.22);
   border-radius: var(--radius-sm);
   padding: 4px;
   width: fit-content;
@@ -536,8 +572,8 @@ body.no-canvas .site-bg-fallback { display: block; }
   font-weight: 600;
 }
 
-/* Timeline: [date tag] -- [node on the core-sample spine] -- [card]. The
-   date hangs off the spine like a museum specimen tag on a string. */
+/* Timeline: [date tag] -- [brass post on the velvet rope] -- [framed card].
+   The date hangs off the rope like a museum specimen tag on a string. */
 .timeline {
   --tl-tag: 188px;
   --tl-node: 46px;
@@ -550,32 +586,35 @@ body.no-canvas .site-bg-fallback { display: block; }
   display: block;
   position: relative;
 }
-/* Core-sample tube running down the middle column. */
+/* Velvet rope strung between the posts. */
 .timeline-entry::before {
   content: "";
   position: absolute;
-  left: calc(var(--tl-tag) + var(--tl-node) / 2 - 3px);
+  left: calc(var(--tl-tag) + var(--tl-node) / 2 - 3.5px);
   top: 12px;
   bottom: 12px;
-  width: 6px;
-  border-radius: 3px;
-  background: repeating-linear-gradient(
-    to bottom,
-    var(--color-clay) 0,
-    var(--color-clay) 10px,
-    var(--color-sand) 10px,
-    var(--color-sand) 18px,
-    var(--color-rock-dark) 18px,
-    var(--color-rock-dark) 26px
-  );
-  opacity: 0.6;
+  width: 7px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #4a0f1a, #b02b41 42%, #6e1626 58%, #3a0a14);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4), 2px 0 7px rgba(0, 0, 0, 0.45);
 }
 .tl-item {
   position: relative;
   display: grid;
   grid-template-columns: var(--tl-tag) var(--tl-node) 1fr;
   grid-template-areas: "tag node card";
-  margin-bottom: 22px;
+  margin-bottom: 34px;
+}
+/* Wall-washer light falling on each exhibit. */
+.tl-item::before {
+  content: "";
+  position: absolute;
+  left: calc(var(--tl-tag) + var(--tl-node));
+  right: -24px;
+  top: -22px;
+  bottom: -18px;
+  pointer-events: none;
+  background: radial-gradient(ellipse 52% 62% at 45% 0%, rgba(255, 228, 170, 0.15), transparent 100%);
 }
 .tl-tag-wrap {
   grid-area: tag;
@@ -588,17 +627,18 @@ body.no-canvas .site-bg-fallback { display: block; }
   grid-area: node;
   position: relative;
 }
-/* survey-stake diamond on the spine */
+/* brass stanchion top the rope hangs from */
 .tl-node::after {
   content: "";
   position: absolute;
   left: 50%;
   top: 28px;
-  width: 13px;
-  height: 13px;
-  transform: translate(-50%, -50%) rotate(45deg);
-  background: var(--color-bg);
-  border: 2px solid var(--color-accent);
+  width: 18px;
+  height: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f8e6a6, #c9a24a 48%, #6f5018 100%);
+  box-shadow: 0 0 0 2px #2e2210, 0 3px 6px rgba(0, 0, 0, 0.6);
 }
 /* the string the tag hangs from */
 .tl-node::before {
@@ -607,7 +647,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   left: 0;
   width: 50%;
   top: 28px;
-  border-top: 1px dashed rgba(201, 168, 118, 0.7);
+  border-top: 1px dashed rgba(230, 200, 140, 0.75);
 }
 
 /* The museum tag: a paper luggage tag with a punched hole. */
@@ -646,23 +686,34 @@ body.no-canvas .site-bg-fallback { display: block; }
   transform: rotate(0deg);
 }
 
+/* Each card is a framed exhibit: gilt frame, matte inside. */
 .timeline-card {
   grid-area: card;
   position: relative;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-clay);
-  border-radius: var(--radius);
-  padding: 18px 20px;
+  border: none;
+  border-radius: 3px;
+  padding: 20px 24px;
   text-align: left;
   width: 100%;
   color: var(--color-text);
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  background: linear-gradient(160deg, #1d1713, #14100b);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 180, 0.2),
+    inset 0 0 22px rgba(0, 0, 0, 0.6),
+    0 0 0 4px #a8803a,
+    0 0 0 5px #4f3816,
+    0 12px 24px -4px rgba(0, 0, 0, 0.65);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 .timeline-card:hover,
 .timeline-card:focus-visible {
-  border-color: var(--color-accent);
-  transform: translateX(3px);
+  transform: translateY(-3px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 180, 0.3),
+    inset 0 0 22px rgba(0, 0, 0, 0.6),
+    0 0 0 4px #d6ac55,
+    0 0 0 5px #4f3816,
+    0 16px 28px -4px rgba(0, 0, 0, 0.7);
   outline: none;
 }
 .timeline-card .role {
@@ -685,7 +736,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   }
   .tl-tag-wrap { justify-self: start; height: auto; }
   .tl-node::before { display: none; }
-  .tl-node::after { top: 15px; }
+  .tl-node::after { top: 15px; width: 16px; height: 16px; }
   .tl-tag { max-width: 100%; }
 }
 
