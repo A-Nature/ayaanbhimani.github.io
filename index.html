@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=29">
+<link rel="stylesheet" href="css/style.css?v=32">
 </head>
 <body>
 
@@ -73,26 +73,53 @@
      ======================================================================= -->
 <section class="about" id="about">
   <div class="container">
-    <!-- An archive sheet on the curator's desk: the name written on a taped
-         scrap, then catalogue records in order of when they happened.
-         Photos (about.photos in data.js) pin to the side when there are any. -->
-    <div class="archive-wrap">
-      <div class="archive-sheet">
-        <header class="archive-head">
-          <div class="archive-title">
+    <!-- Papers spread across a curator's desk: a label, the name in
+         handwriting, catalogue records and aged photos, joined by dotted
+         string. Records and photos come from about.* in data.js and are
+         built in renderAbout(); the string is drawn in drawArchiveLinks(). -->
+    <div class="archive-board" id="archive-board">
+      <svg class="archive-links" id="archive-links" aria-hidden="true"></svg>
+      <header class="archive-head">
+        <div class="board-item archive-title">
+          <div class="paper">
             <span class="section-label">The Archive</span>
             <h2 class="section-heading">My History</h2>
           </div>
-          <div class="archive-name" aria-label="Ayaan Bhimani"><span aria-hidden="true">Ayaan Bhimani</span></div>
-        </header>
-        <div class="archive-body" id="archive-body">
-          <ol class="records" id="about-records"></ol>
-          <div class="archive-photos" id="about-photos"></div>
         </div>
-      </div>
+        <div class="board-item archive-name" aria-label="Ayaan Bhimani">
+          <div class="paper"><span aria-hidden="true">Ayaan Bhimani</span></div>
+        </div>
+      </header>
+      <div class="archive-items" id="archive-items"></div>
     </div>
   </div>
 </section>
+
+<!-- SVG filters that crumple the archive papers: a noise height map is lit
+     from one side and multiplied over the paper, so folds catch the light.
+     "crumple" also warps the sheet a little (used on the photos); "soft"
+     only shades it, so the text on the records stays crisp. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="paper-crumple" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.016 0.024" numOctaves="4" seed="7" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G" result="warp"/>
+      <feDiffuseLighting in="n" surfaceScale="5" diffuseConstant="1.3" lighting-color="#ffffff" result="lit">
+        <feDistantLight azimuth="235" elevation="55"/>
+      </feDiffuseLighting>
+      <feBlend in="warp" in2="lit" mode="multiply" result="shaded"/>
+      <feComposite in="shaded" in2="warp" operator="in"/>
+    </filter>
+    <filter id="paper-soft" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011 0.017" numOctaves="3" seed="3" result="n"/>
+      <feDiffuseLighting in="n" surfaceScale="2.4" diffuseConstant="1.22" lighting-color="#ffffff" result="lit">
+        <feDistantLight azimuth="235" elevation="58"/>
+      </feDiffuseLighting>
+      <feBlend in="SourceGraphic" in2="lit" mode="multiply" result="shaded"/>
+      <feComposite in="shaded" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+</svg>
 
 <!-- =======================================================================
      Projects — icon grid, opens shared window modal
@@ -201,11 +228,11 @@
   </div>
 </div>
 
-<script src="js/data.js?v=29"></script>
-<script src="js/icons.js?v=29"></script>
-<script src="js/boids.js?v=29"></script>
-<script src="js/lightbox.js?v=29"></script>
-<script src="js/fossils.js?v=29"></script>
-<script src="js/main.js?v=29"></script>
+<script src="js/data.js?v=32"></script>
+<script src="js/icons.js?v=32"></script>
+<script src="js/boids.js?v=32"></script>
+<script src="js/lightbox.js?v=32"></script>
+<script src="js/fossils.js?v=32"></script>
+<script src="js/main.js?v=32"></script>
 </body>
 </html>

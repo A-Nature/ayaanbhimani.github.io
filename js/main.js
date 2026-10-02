@@ -77,36 +77,116 @@ function renderHero() {
 /* About                                                                   */
 /* ---------------------------------------------------------------------- */
 function renderAbout() {
-  const list = document.getElementById("about-records");
-  const photoWrap = document.getElementById("about-photos");
-  const body = document.getElementById("archive-body");
-  list.innerHTML = "";
-  photoWrap.innerHTML = "";
+  const wrap = document.getElementById("archive-items");
+  const board = document.getElementById("archive-board");
+  if (!wrap || !board) return;
+  wrap.innerHTML = "";
 
-  SITE_DATA.about.records.forEach((record, i) => {
-    const li = document.createElement("li");
-    li.className = "record";
-    li.innerHTML = `
-      <div class="record-card">
+  const records = SITE_DATA.about.records || [];
+  const photos = (SITE_DATA.about.photos || []).filter((ph) => ph && ph.src);
+
+  const photoHTML = (ph, n) => `
+    <div class="paper">
+      <img src="${ph.src}" alt="${escapeHTML(ph.alt || "")}">
+      <span class="photo-fig">Fig. ${n}</span>
+      ${ph.caption ? `<span class="photo-caption">${escapeHTML(ph.caption)}</span>` : ""}
+    </div>`;
+
+  // Each record gets its own row, alternating left and right; its photo (if
+  // any) sits in the same row on the opposite side, like papers spread out
+  // on a desk. Photos beyond the number of records get rows of their own.
+  records.forEach((record, i) => {
+    const side = i % 2 === 0 ? "left" : "right";
+    const rec = document.createElement("article");
+    rec.className = `board-item record record-v${i % 3} side-${side}`;
+    rec.style.gridRow = String(i + 1);
+    rec.innerHTML = `
+      <div class="paper">
         <div class="record-head"><span>Record ${String(i + 1).padStart(2, "0")}</span><span>${escapeHTML(record.era)}</span></div>
         <p>${escapeHTML(record.text)}</p>
-      </div>
-    `;
-    list.appendChild(li);
+      </div>`;
+    wrap.appendChild(rec);
+
+    if (photos[i]) {
+      const fig = document.createElement("figure");
+      fig.className = `board-item archive-photo side-${side === "left" ? "right" : "left"}`;
+      fig.style.gridRow = String(i + 1);
+      fig.dataset.record = String(i);
+      fig.innerHTML = photoHTML(photos[i], i + 1);
+      wrap.appendChild(fig);
+    }
+  });
+  photos.slice(records.length).forEach((ph, j) => {
+    const idx = records.length + j;
+    const fig = document.createElement("figure");
+    fig.className = `board-item archive-photo side-${idx % 2 === 0 ? "left" : "right"}`;
+    fig.style.gridRow = String(idx + 1);
+    fig.dataset.record = String(Math.max(records.length - 1, 0));
+    fig.innerHTML = photoHTML(ph, idx + 1);
+    wrap.appendChild(fig);
   });
 
-  // Photos only when there are some; otherwise the records take the full width.
-  const photos = (SITE_DATA.about.photos || []).filter((ph) => ph && ph.src);
-  body.classList.toggle("has-photos", photos.length > 0);
-  photos.forEach((ph, i) => {
-    const fig = document.createElement("figure");
-    fig.className = "archive-photo";
-    fig.innerHTML = `
-      <img src="${ph.src}" alt="${escapeHTML(ph.alt || "")}">
-      ${ph.caption ? `<figcaption>${escapeHTML(ph.caption)}</figcaption>` : ""}
-    `;
-    photoWrap.appendChild(fig);
+  wrap.querySelectorAll("img").forEach((img) => img.addEventListener("load", drawArchiveLinks));
+  drawArchiveLinks();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawArchiveLinks);
+  window.addEventListener("load", drawArchiveLinks);
+  if (window.ResizeObserver) new ResizeObserver(drawArchiveLinks).observe(board);
+}
+
+// Dotted red string tying the papers together: the title to the first record,
+// each record to the next, and each photo to its record. Drawn from the
+// papers' real positions, so it also works when the layout stacks on a phone.
+function drawArchiveLinks() {
+  const board = document.getElementById("archive-board");
+  const svg = document.getElementById("archive-links");
+  if (!board || !svg) return;
+
+  const b = board.getBoundingClientRect();
+  if (!b.width) return;
+  svg.setAttribute("viewBox", `0 0 ${b.width} ${b.height}`);
+
+  const rel = (el) => {
+    const r = el.getBoundingClientRect();
+    return { l: r.left - b.left, r: r.right - b.left, t: r.top - b.top, b: r.bottom - b.top };
+  };
+  const title = board.querySelector(".archive-title");
+  const recs = Array.from(board.querySelectorAll(".record"));
+  const photos = Array.from(board.querySelectorAll(".archive-photo"));
+
+  let paths = "";
+  let pins = "";
+  const pin = (x, y) => { pins += `<circle class="link-pin" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5"/>`; };
+  const vertical = (x1, y1, x2, y2) => {
+    const dy = Math.max((y2 - y1) * 0.5, 30);
+    paths += `<path d="M${x1} ${y1}C${x1} ${y1 + dy} ${x2} ${y2 - dy} ${x2} ${y2}"/>`;
+    pin(x1, y1); pin(x2, y2);
+  };
+  const horizontal = (x1, y1, x2, y2) => {
+    const dx = (x2 - x1) * 0.5;
+    paths += `<path d="M${x1} ${y1}C${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}"/>`;
+    pin(x1, y1); pin(x2, y2);
+  };
+
+  const first = recs.length ? rel(recs[0]) : null;
+  if (title && first) {
+    const t = rel(title);
+    vertical((t.l + t.r) / 2, t.b - 8, (first.l + first.r) / 2, first.t + 8);
+  }
+  recs.forEach((el, i) => {
+    if (!recs[i + 1]) return;
+    const a = rel(el), c = rel(recs[i + 1]);
+    vertical((a.l + a.r) / 2, a.b - 8, (c.l + c.r) / 2, c.t + 8);
   });
+  photos.forEach((el) => {
+    const rec = recs[Number(el.dataset.record)];
+    if (!rec) return;
+    const a = rel(rec), p = rel(el);
+    if (p.l >= a.r - 50) horizontal(a.r - 12, (a.t + a.b) / 2, p.l + 12, (p.t + p.b) / 2);
+    else if (p.r <= a.l + 50) horizontal(a.l + 12, (a.t + a.b) / 2, p.r - 12, (p.t + p.b) / 2);
+    else vertical((a.l + a.r) / 2, a.b - 8, (p.l + p.r) / 2, p.t + 8);
+  });
+
+  svg.innerHTML = `<g class="link-lines">${paths}</g>${pins}`;
 }
 
 /* ---------------------------------------------------------------------- */
