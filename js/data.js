@@ -56,7 +56,7 @@ const SITE_DATA = {
     // object-position) optionally re-crop a photo.
     photos: [
       { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019" },
-      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "", ratio: "1 / 1", pos: "44% 50%" }
+      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "2026", ratio: "1 / 1", pos: "44% 50%" }
     ]
   },
 
