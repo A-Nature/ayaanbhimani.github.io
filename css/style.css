@@ -405,20 +405,29 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 .link-lines path {
   fill: none;
-  stroke: #1d2a54;
+  stroke: #b3241c;
   stroke-width: 4.4;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.88;
+  opacity: 0.9;
   stroke-dasharray: 1 2;
   stroke-dashoffset: 1;
+}
+/* The head is a separate solid mark; it fades in just after its shaft. */
+.link-lines .arrow-head {
+  fill: #b3241c;
+  stroke-width: 2.2;
+  stroke-dasharray: none;
+  stroke-dashoffset: 0;
+  opacity: 0;
 }
 .archive-links.is-drawn .link-lines path {
   stroke-dashoffset: 0;
   transition: stroke-dashoffset 0.9s ease-out var(--d, 0s);
 }
 .archive-links.is-drawn .link-lines .arrow-head {
-  transition-duration: 0.28s;
+  opacity: 0.92;
+  transition: opacity 0.28s ease var(--d, 0s);
 }
 @media (prefers-reduced-motion: reduce) {
   .archive-links.is-drawn .link-lines path { transition: none; }
@@ -714,11 +723,25 @@ body.no-canvas .site-bg-fallback { display: block; }
   color: rgba(246, 222, 178, 1);
 }
 .fossil-relief.has-cover { padding: 0; }
+/* Thumbnails look like old fossil plates: drained to a brown stone tone,
+   gritty and vignetted. The full-colour version is in the project window. */
 .fossil-cover {
+  display: block;
   width: 100%;
   height: 100%;
   min-height: 150px;
   object-fit: cover;
+  filter: grayscale(1) sepia(0.8) contrast(1.12) brightness(0.8);
+}
+.fossil-relief.has-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background:
+    radial-gradient(ellipse at 40% 35%, rgba(214, 184, 130, 0.35), rgba(40, 28, 18, 0.7) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .fossil-info {

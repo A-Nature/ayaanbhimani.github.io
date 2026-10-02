@@ -197,6 +197,8 @@ function drawArchiveLinks() {
   const jitter = (k) => { const x = Math.sin((k + 1) * 12.9898) * 43758.5453; return (x - Math.floor(x)) - 0.5; };
   const f = (v) => v.toFixed(1);
 
+  const HEAD = 20;   // arrowhead length
+  const GAP = 9;     // clear space between the end of the shaft and the head
   const arrow = (x1, y1, x2, y2, axis) => {
     const k = n++ * 11;
     let c1x, c1y, c2x, c2y;
@@ -209,22 +211,35 @@ function drawArchiveLinks() {
       c1x = x1 + dx * 0.9; c1y = y1 + jitter(k + 1) * 22;
       c2x = x2 - dx * 0.9; c2y = y2 + jitter(k + 2) * 22;
     }
+    // Direction the arrow is travelling as it arrives at the tip.
     const ang = Math.atan2(y2 - c2y, x2 - c2x);
-    const len = 19;
-    const w1 = ang + 0.52 + jitter(k + 3) * 0.2;
-    const w2 = ang - 0.52 + jitter(k + 4) * 0.2;
-    const hx1 = x2 - len * Math.cos(w1), hy1 = y2 - len * Math.sin(w1);
-    const hx2 = x2 - len * Math.cos(w2), hy2 = y2 - len * Math.sin(w2);
+    const ux = Math.cos(ang), uy = Math.sin(ang);
+
+    // The shaft stops short of the head, so the head is a separate mark
+    // that never merges with the line, whichever way the arrow comes in.
+    const total = Math.hypot(x2 - x1, y2 - y1);
+    const gap = Math.min(GAP, Math.max(3, (total - HEAD - 10) / 2));
+    const ex = x2 - ux * (HEAD + gap), ey = y2 - uy * (HEAD + gap);
+    const pull = Math.max(Math.hypot(ex - x1, ey - y1) * 0.45, 14);
+    const sx = ex - ux * pull, sy = ey - uy * pull;
+
+    // Solid triangular head: tip at the target, base a head-length back.
+    const bx = x2 - ux * HEAD, by = y2 - uy * HEAD;
+    const px = -uy, py = ux, half = HEAD * 0.5;
+    const j = jitter(k + 3) * 2;
+    const h1x = bx + px * (half + j), h1y = by + py * (half + j);
+    const h2x = bx - px * (half - j), h2y = by - py * (half - j);
+
     const delay = (n - 1) * 0.55;
-    out += `<path class="arrow-line" pathLength="1" style="--d:${delay.toFixed(2)}s" d="M${f(x1)} ${f(y1)}C${f(c1x)} ${f(c1y)} ${f(c2x)} ${f(c2y)} ${f(x2)} ${f(y2)}"/>`;
-    out += `<path class="arrow-head" pathLength="1" style="--d:${(delay + 0.85).toFixed(2)}s" d="M${f(hx1)} ${f(hy1)}L${f(x2)} ${f(y2)}L${f(hx2)} ${f(hy2)}"/>`;
+    out += `<path class="arrow-line" pathLength="1" style="--d:${delay.toFixed(2)}s" d="M${f(x1)} ${f(y1)}C${f(c1x)} ${f(c1y)} ${f(sx)} ${f(sy)} ${f(ex)} ${f(ey)}"/>`;
+    out += `<path class="arrow-head" style="--d:${(delay + 0.85).toFixed(2)}s" d="M${f(x2)} ${f(y2)}L${f(h1x)} ${f(h1y)}L${f(h2x)} ${f(h2y)}Z"/>`;
   };
 
   const first = recs.length ? rel(recs[0]) : null;
   if (title && first) {
     const t = rel(title);
     // leave the tape in the middle of each paper clear
-    arrow(t.l + (t.r - t.l) * 0.3, t.b - 12, first.l + (first.r - first.l) * 0.22, first.t + 8, "v");
+    arrow(t.l + (t.r - t.l) * 0.3, t.b - 14, first.l + (first.r - first.l) * 0.22, first.t + 10, "v");
   }
   recs.forEach((el, i) => {
     if (!recs[i + 1]) return;
@@ -235,16 +250,16 @@ function drawArchiveLinks() {
     const fromX = a.l + (a.r - a.l) * (goesRight ? 0.62 : 0.38);
     const toX = c.l + (c.r - c.l) * (goesRight ? 0.28 : 0.72);
     // start inside the lower margin of one paper, end just inside the next
-    arrow(fromX, a.b - 16, toX, c.t + 8, "v");
+    arrow(fromX, a.b - 22, toX, c.t + 10, "v");
   });
   photos.forEach((el) => {
     const rec = recs[Number(el.dataset.record)];
     if (!rec) return;
     const a = rel(rec), p = rel(el);
     const ay = (a.t + a.b) / 2, py = (p.t + p.b) / 2;
-    if (p.l >= a.r - 50) arrow(a.r + 6, ay, p.l - 8, py, "h");
-    else if (p.r <= a.l + 50) arrow(a.l - 6, ay, p.r + 8, py, "h");
-    else arrow((a.l + a.r) / 2, a.b + 4, (p.l + p.r) / 2, p.t - 10, "v");
+    if (p.l >= a.r - 50) arrow(a.r - 14, ay, p.l + 6, py, "h");
+    else if (p.r <= a.l + 50) arrow(a.l + 14, ay, p.r - 6, py, "h");
+    else arrow((a.l + a.r) / 2, a.b - 22, (p.l + p.r) / 2, p.t + 10, "v");
   });
 
   svg.innerHTML = `<g class="link-lines">${out}</g>`;
