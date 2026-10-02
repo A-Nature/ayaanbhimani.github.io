@@ -29,13 +29,15 @@
   }
 
   // Dark bird silhouettes against the sky gradient, not the site accent color.
+  // One consistent shade for every boid — an earlier "dim" variant used a
+  // second, much lighter shade for depth, but against the gradient's range
+  // of brightness it just read as some birds being black and others white.
   const BOID_COLOR = "20, 16, 15";
-  const BOID_COLOR_DIM = "70, 56, 52"; // lighter/hazier, for depth variety
 
   const CONFIG = {
-    countPerArea: 1 / 9000,  // boid count scales with section area
-    maxCount: 45,
-    minCount: 14,
+    countPerArea: 1 / 5500,  // boid count scales with section area
+    maxCount: 85,
+    minCount: 24,
     maxSpeed: 1.1,
     perceptionRadius: 70,
     separationRadius: 26,
@@ -81,8 +83,7 @@
       x: Math.random() * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * CONFIG.maxSpeed,
-      vy: (Math.random() - 0.5) * CONFIG.maxSpeed,
-      dim: Math.random() < 0.35
+      vy: (Math.random() - 0.5) * CONFIG.maxSpeed
     }));
   }
 
@@ -181,7 +182,6 @@
     for (const b of boids) {
       const angle = Math.atan2(b.vy, b.vx);
       const len = 6.5;
-      const color = b.dim ? BOID_COLOR_DIM : BOID_COLOR;
 
       ctx.save();
       ctx.translate(b.x, b.y);
@@ -191,7 +191,7 @@
       ctx.lineTo(-len * 0.7, len * 0.5);
       ctx.lineTo(-len * 0.7, -len * 0.5);
       ctx.closePath();
-      ctx.fillStyle = `rgba(${color}, 0.8)`;
+      ctx.fillStyle = `rgba(${BOID_COLOR}, 0.8)`;
       ctx.fill();
       ctx.restore();
     }
