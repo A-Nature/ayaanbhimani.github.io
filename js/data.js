@@ -259,7 +259,7 @@ const SITE_DATA = {
         id: "ex-reswipe",
         role: "VP of Marketing",
         place: "Junior Achievement: ReSwipe",
-        dates: "October 2025 – May 2026",
+        dates: "October 2025 – Present",
         description: "Collaborated with a group of peers to build a profitable student company that went on to win the Canadian Company of the Year Championship, with a shot at representing Canada at the global championship this year. Created and ran the company's social media accounts, keeping a consistent posting schedule that grew the account past 800 followers and thousands of views, and won the regional Social Media Challenge. Led all marketing, branding, and events, which led to winning VP of Marketing of the Year in Southwestern Ontario.",
         downloads: [
           { label: "Marketing Portfolio (.pdf)", path: "files/experience/reswipe-marketing-portfolio.pdf" },
