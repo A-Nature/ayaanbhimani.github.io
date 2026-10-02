@@ -35,24 +35,25 @@
   const BOID_COLOR = "20, 16, 15";
 
   const CONFIG = {
-    countPerArea: 1 / 2600,  // boid count scales with section area
-    maxCount: 320,
-    minCount: 70,
+    countPerArea: 1 / 7500,  // boid count scales with section area
+    maxCount: 150,
+    minCount: 40,
     maxSpeed: 1.1,
-    perceptionRadius: 70,
-    separationRadius: 26,
+    minSpeed: 0.55,         // keeps birds gliding instead of stalling and spinning
+    perceptionRadius: 90,
+    separationRadius: 48,
     edgeMargin: 40,
     alignWeight: 0.045,
     cohesionWeight: 0.03,
-    separationWeight: 0.09,
+    separationWeight: 0.12,
     scatterRadius: 150,     // px, click/tap flee radius
     scatterDurationMs: 1000,
     scatterForce: 3.2,
     scatterSpeedMultiplier: 3.5,
     hoverRadius: 80,        // px, continuous hover repel radius
     hoverForce: 0.22,
-    flapRate: 0.05,         // wingbeat phase per frame; set both flap values
-    flapSpeedGain: 0.04     // to 0 for fixed wings
+    flapRate: 0.035,         // wingbeat phase per frame; set both flap values
+    flapSpeedGain: 0.03     // to 0 for fixed wings
   };
   const PERCEPTION_SQ = CONFIG.perceptionRadius * CONFIG.perceptionRadius;
   const SEPARATION_SQ = CONFIG.separationRadius * CONFIG.separationRadius;
@@ -88,8 +89,10 @@
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * CONFIG.maxSpeed,
       vy: (Math.random() - 0.5) * CONFIG.maxSpeed,
-      phase: Math.random() * Math.PI * 2
+      phase: Math.random() * Math.PI * 2,
+      angle: 0
     }));
+    boids.forEach((b) => { b.angle = Math.atan2(b.vy, b.vx); });
   }
 
   function step() {
@@ -175,8 +178,20 @@
         b.vy = (b.vy / speed) * speedCap;
       }
 
+      // Never stall: a near-zero velocity makes the heading flip around
+      if (speed < CONFIG.minSpeed) {
+        const heading = speed > 0.0001 ? Math.atan2(b.vy, b.vx) : b.angle;
+        b.vx = Math.cos(heading) * CONFIG.minSpeed;
+        b.vy = Math.sin(heading) * CONFIG.minSpeed;
+      }
+
       b.x += b.vx;
       b.y += b.vy;
+      // Ease the drawn heading toward the velocity so sharp steering
+      // doesn't snap the wings around from one frame to the next.
+      let diff = Math.atan2(b.vy, b.vx) - b.angle;
+      diff = Math.atan2(Math.sin(diff), Math.cos(diff));
+      b.angle += diff * 0.12;
       b.phase += CONFIG.flapRate + speed * CONFIG.flapSpeedGain;
 
       if (b.x < -20) b.x = width + 20;
@@ -198,7 +213,7 @@
     ctx.clearRect(0, 0, width, height);
     ctx.beginPath();
     for (const b of boids) {
-      const angle = Math.atan2(b.vy, b.vx);
+      const angle = b.angle;
       const c = Math.cos(angle) * SIZE;
       const s = Math.sin(angle) * SIZE;
       const flap = Math.sin(b.phase);

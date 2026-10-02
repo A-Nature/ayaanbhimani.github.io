@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=24">
+<link rel="stylesheet" href="css/style.css?v=25">
 </head>
 <body>
 
@@ -80,13 +80,9 @@
       <div class="about-bio" id="about-bio"></div>
     </div>
   </div>
-  <!-- Far-off volcanoes behind the hills, with an ash plume and a faint glow at the main crater -->
+  <!-- Far-off volcanoes behind the hills, with an ash plume at the main crater -->
   <svg class="about-volcanoes" viewBox="0 -60 1440 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
     <defs>
-      <radialGradient id="crater-glow" cx="900" cy="162" r="90" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#E0854F" stop-opacity="0.55"/>
-        <stop offset="1" stop-color="#E0854F" stop-opacity="0"/>
-      </radialGradient>
       <linearGradient id="cone-fill" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="#4A3533"/>
         <stop offset="1" stop-color="#2A1D1C"/>
@@ -95,7 +91,6 @@
         <feGaussianBlur stdDeviation="7"/>
       </filter>
     </defs>
-    <circle cx="900" cy="162" r="90" fill="url(#crater-glow)"/>
     <g fill="#5A4548" opacity="0.42" filter="url(#ash-blur)">
       <circle cx="902" cy="146" r="12"/>
       <circle cx="912" cy="122" r="17"/>
@@ -226,11 +221,11 @@
   </div>
 </div>
 
-<script src="js/data.js?v=24"></script>
-<script src="js/icons.js?v=24"></script>
-<script src="js/boids.js?v=24"></script>
-<script src="js/lightbox.js?v=24"></script>
-<script src="js/fossils.js?v=24"></script>
-<script src="js/main.js?v=24"></script>
+<script src="js/data.js?v=25"></script>
+<script src="js/icons.js?v=25"></script>
+<script src="js/boids.js?v=25"></script>
+<script src="js/lightbox.js?v=25"></script>
+<script src="js/fossils.js?v=25"></script>
+<script src="js/main.js?v=25"></script>
 </body>
 </html>
