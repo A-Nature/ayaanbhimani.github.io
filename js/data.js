@@ -135,9 +135,9 @@ const SITE_DATA = {
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
       links: [
         { label: "Lapparentosaurus", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1194" },
+        { label: "Spinops", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1305" },
         { label: "Fiercer Sinoceratops", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1064" },
-        { label: "Nexus Mods page (1305)", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1305" },
-        { label: "Nexus Mods page (968)", url: "https://www.nexusmods.com/jurassicworldevolution/mods/968" }
+        { label: "Anaturaptor", url: "https://www.nexusmods.com/jurassicworldevolution/mods/968" }
       ],
       downloads: [],
       // Lapparentosaurus leads (best mod), then Spinops, then the earlier reskins.

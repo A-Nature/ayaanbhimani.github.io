@@ -567,13 +567,13 @@ function openWindowModal(content) {
   const downloads = content.downloads || [];
 
   const mediaHTML = buildMediaHTML(mediaItems);
-  // Placard: dates and "Medium" (the tech stack) set like a gallery wall
+  // Placard: dates and "Built with" (the tech stack) set like a gallery wall
   // label. Skipped entirely when an entry has neither.
   const datesHTML = content.subtitle
     ? `<p class="window-dates">${escapeHTML(content.subtitle)}</p>`
     : "";
   const mediumHTML = (content.tags && content.tags.length)
-    ? `<p class="window-medium"><span>Medium</span>${content.tags.map((t) => escapeHTML(t)).join(" · ")}</p>`
+    ? `<p class="window-medium"><span>Built with</span>${content.tags.map((t) => escapeHTML(t)).join(" · ")}</p>`
     : "";
   const placardHTML = (datesHTML || mediumHTML)
     ? `<div class="window-placard">${datesHTML}${mediumHTML}</div>`
