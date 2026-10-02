@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=14">
+<link rel="stylesheet" href="css/style.css?v=16">
 </head>
 <body>
 
@@ -53,7 +53,7 @@
     <div class="hero-actions">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="#contact" class="btn">Get in Touch</a>
-      <a href="#" class="btn" id="hero-resume-link" download>Resume</a>
+      <a href="#" class="btn" id="hero-resume-link" target="_blank" rel="noopener noreferrer">Resume</a>
     </div>
   </div>
 </header>
@@ -151,9 +151,32 @@
   </div>
 </div>
 
-<script src="js/data.js?v=14"></script>
-<script src="js/icons.js?v=14"></script>
-<script src="js/boids.js?v=14"></script>
-<script src="js/main.js?v=14"></script>
+<!-- =======================================================================
+     Media lightbox — reuses the window-modal titlebar/chrome. Stacks above
+     the window-overlay above when opened from inside a project/experience
+     modal. See js/lightbox.js.
+     ======================================================================= -->
+<div class="window-overlay" id="lightbox-overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="lightbox-title-text">
+  <div class="window-modal lightbox-modal">
+    <div class="window-titlebar">
+      <span class="window-title"><span class="dot"></span><span id="lightbox-title-text"></span></span>
+      <div class="lightbox-titlebar-right">
+        <span id="lightbox-titlebar-actions" class="lightbox-titlebar-actions"></span>
+        <button class="window-close" id="lightbox-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="lightbox-body" id="lightbox-body"></div>
+    <button class="lightbox-arrow lightbox-arrow-prev" id="lightbox-prev" aria-label="Previous" hidden></button>
+    <button class="lightbox-arrow lightbox-arrow-next" id="lightbox-next" aria-label="Next" hidden></button>
+  </div>
+</div>
+
+<script src="js/data.js?v=16"></script>
+<script src="js/icons.js?v=16"></script>
+<script src="js/boids.js?v=16"></script>
+<script src="js/lightbox.js?v=16"></script>
+<script src="js/main.js?v=16"></script>
 </body>
 </html>

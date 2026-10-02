@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSkills();
   renderEducation();
   renderContact();
+  initLightbox();
   initWindowModal();
   initNavScroll();
 });
@@ -59,6 +60,14 @@ function renderHero() {
   const resumeLink = document.getElementById("hero-resume-link");
   if (resumeLink && contact.resume) {
     resumeLink.href = contact.resume;
+    // Desktop: open in the lightbox PDF viewer. Mobile/touch: fall through
+    // to the plain target="_blank" link already set in the HTML, since
+    // mobile browsers handle embedded PDFs badly.
+    resumeLink.addEventListener("click", (e) => {
+      if (isMobileOrTouch()) return;
+      e.preventDefault();
+      openPDFViewer(contact.resume, "Resume", resumeLink);
+    });
   } else if (resumeLink) {
     resumeLink.remove();
   }
@@ -256,6 +265,20 @@ function renderContact() {
 }
 
 /* ---------------------------------------------------------------------- */
+/* Page-scroll lock, shared by the window modal and the lightbox so that  */
+/* closing one while the other is still open doesn't re-enable scrolling. */
+/* ---------------------------------------------------------------------- */
+let openOverlayCount = 0;
+function lockPageScroll() {
+  openOverlayCount++;
+  document.body.style.overflow = "hidden";
+}
+function unlockPageScroll() {
+  openOverlayCount = Math.max(0, openOverlayCount - 1);
+  if (openOverlayCount === 0) document.body.style.overflow = "";
+}
+
+/* ---------------------------------------------------------------------- */
 /* Shared window modal (Projects + Experience)                            */
 /* ---------------------------------------------------------------------- */
 let modalOverlay, modalTitleText, modalBody, lastFocusedEl;
@@ -270,7 +293,10 @@ function initWindowModal() {
     if (e.target === modalOverlay) closeWindowModal();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalOverlay.classList.contains("is-open")) {
+    // Step aside if the lightbox is open on top of this modal — it owns
+    // Escape while it's the topmost thing on screen.
+    const lightboxIsOpen = lightboxOverlay && lightboxOverlay.classList.contains("is-open");
+    if (e.key === "Escape" && modalOverlay.classList.contains("is-open") && !lightboxIsOpen) {
       closeWindowModal();
     }
   });
@@ -280,7 +306,10 @@ function openWindowModal(content) {
   lastFocusedEl = document.activeElement;
   modalTitleText.textContent = content.title;
 
-  const mediaHTML = buildMediaHTML(content.media);
+  const mediaItems = (content.media || []).filter((m) => m && m.src);
+  const downloads = content.downloads || [];
+
+  const mediaHTML = buildMediaHTML(mediaItems);
   const tagsHTML = (content.tags && content.tags.length)
     ? `<div class="window-tags">${content.tags.map((t) => `<span class="tag">${escapeHTML(t)}</span>`).join("")}</div>`
     : "";
@@ -296,37 +325,82 @@ function openWindowModal(content) {
     ? `<div class="window-section-title">Reflection</div><p class="window-reflection">${escapeHTML(content.reflection)}</p>`
     : "";
   // No downloads yet: skip the section, same rule as media and reflection.
-  const downloadsHTML = (content.downloads && content.downloads.length)
-    ? `<div class="window-section-title">Downloads</div><div class="window-downloads">${content.downloads.map((d) => `<a class="btn window-download-link" href="${d.path}" download>${ICONS.download || ""}<span>${escapeHTML(d.label)}</span></a>`).join("")}</div>`
+  const downloadsHTML = downloads.length
+    ? `<div class="window-section-title">Downloads</div><div class="window-downloads">${downloads.map((d, i) => buildDownloadLinkHTML(d, i)).join("")}</div>`
     : "";
   const linksHTML = (content.links && content.links.length)
     ? `<div class="window-links">${content.links.map((l) => `<a class="btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(l.label)}</a>`).join("")}</div>`
     : "";
 
   modalBody.innerHTML = mediaHTML + subtitleHTML + tagsHTML + descriptionHTML + reflectionHTML + downloadsHTML + linksHTML;
+  wireMediaTriggers(modalBody, mediaItems);
+  wirePdfDownloadLinks(modalBody, downloads);
 
   modalOverlay.classList.add("is-open");
   modalOverlay.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
+  lockPageScroll();
   document.getElementById("window-close").focus();
 }
 
 function closeWindowModal() {
   modalOverlay.classList.remove("is-open");
   modalOverlay.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
+  unlockPageScroll();
   if (lastFocusedEl) lastFocusedEl.focus();
 }
 
-function buildMediaHTML(media) {
-  // No src yet: render nothing at all, rather than a visible empty box.
-  // Set `src` in data.js and this slot appears automatically, no other
-  // code changes needed.
-  if (!media || !media.src) return "";
-  if (media.type === "video") {
-    return `<div class="window-media"><video src="${media.src}" controls playsinline></video></div>`;
-  }
-  return `<div class="window-media"><img src="${media.src}" alt="${escapeHTML(media.alt || "")}"></div>`;
+/* ---------------------------------------------------------------------- */
+/* Media thumbnails (images/video) — click opens the shared lightbox,     */
+/* with left/right navigation when an entry has more than one.           */
+/* ---------------------------------------------------------------------- */
+function buildMediaHTML(items) {
+  // No src yet on anything: render nothing at all, rather than a visible
+  // empty box. Set `src` in data.js and the slot appears automatically.
+  if (!items.length) return "";
+
+  const multi = items.length > 1;
+  const thumbClass = multi ? "window-media-thumb" : "window-media";
+  const thumbsHTML = items.map((item, i) => {
+    const playIcon = item.type === "video" ? `<span class="media-play-icon">${ICONS.play || ""}</span>` : "";
+    const el = item.type === "video"
+      ? `<video src="${item.src}" muted playsinline></video>`
+      : `<img src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
+    return `<div class="${thumbClass} media-trigger" data-media-index="${i}">${el}${playIcon}</div>`;
+  }).join("");
+
+  return multi ? `<div class="window-media-strip">${thumbsHTML}</div>` : thumbsHTML;
+}
+
+function wireMediaTriggers(scope, items) {
+  scope.querySelectorAll(".media-trigger").forEach((el) => {
+    el.addEventListener("click", () => {
+      openImageGallery(items, parseInt(el.dataset.mediaIndex, 10) || 0, el);
+    });
+  });
+}
+
+/* ---------------------------------------------------------------------- */
+/* Downloads — PDFs open in the lightbox on desktop (new tab on mobile/   */
+/* touch); everything else (zips, jars) stays a plain forced download.   */
+/* ---------------------------------------------------------------------- */
+function buildDownloadLinkHTML(download, index) {
+  const isPDF = /\.pdf$/i.test(download.path);
+  const attrs = isPDF
+    ? `target="_blank" rel="noopener noreferrer" data-pdf="true" data-download-index="${index}"`
+    : `download`;
+  return `<a class="btn window-download-link" href="${download.path}" ${attrs}>${ICONS.download || ""}<span>${escapeHTML(download.label)}</span></a>`;
+}
+
+function wirePdfDownloadLinks(scope, downloads) {
+  scope.querySelectorAll('.window-download-link[data-pdf="true"]').forEach((el) => {
+    el.addEventListener("click", (e) => {
+      // Mobile/touch: let the target="_blank" link open normally instead.
+      if (isMobileOrTouch()) return;
+      e.preventDefault();
+      const d = downloads[parseInt(el.dataset.downloadIndex, 10)];
+      openPDFViewer(d.path, d.label, el);
+    });
+  });
 }
 
 /* ---------------------------------------------------------------------- */

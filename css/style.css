@@ -511,7 +511,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   width: 100%;
   aspect-ratio: 16 / 9;
   background: var(--color-bg);
-  border: 1px dashed var(--color-border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
@@ -522,13 +522,63 @@ body.no-canvas .site-bg-fallback { display: block; }
   margin-bottom: 20px;
   overflow: hidden;
   text-align: center;
-  padding: 12px;
+  padding: 0;
+  position: relative;
 }
 .window-media img,
 .window-media video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.media-trigger {
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.media-trigger:hover {
+  opacity: 0.88;
+}
+/* Several images/videos on one entry: a small scrollable thumbnail row
+   instead of one big preview. Any one of them opens the lightbox, which
+   can then step through the whole set with arrows/arrow keys. */
+.window-media-strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+.window-media-thumb {
+  position: relative;
+  flex: 0 0 auto;
+  width: 110px;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.window-media-thumb img,
+.window-media-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.media-play-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--color-text);
+}
+.media-play-icon svg {
+  width: 34px;
+  height: 34px;
+}
+.window-media-thumb .media-play-icon svg {
+  width: 24px;
+  height: 24px;
 }
 .window-tags {
   display: flex;
@@ -588,6 +638,89 @@ body.no-canvas .site-bg-fallback { display: block; }
   height: 15px;
   color: var(--color-accent);
   flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Media lightbox — reuses .window-overlay/.window-modal/.window-titlebar/
+   .window-close for the chrome, stacked above the project/experience
+   window-modal (higher z-index) so one can open on top of the other.
+   ========================================================================== */
+#lightbox-overlay {
+  z-index: 200;
+}
+.lightbox-modal {
+  max-width: min(92vw, 900px);
+  width: auto;
+  position: relative;
+}
+.lightbox-titlebar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+.lightbox-titlebar-actions {
+  display: flex;
+  gap: 14px;
+}
+.lightbox-action-link {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.lightbox-action-link:hover {
+  color: var(--color-accent);
+}
+.lightbox-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: #000;
+  overflow: auto;
+}
+.lightbox-image,
+.lightbox-video {
+  display: block;
+  max-width: min(88vw, 860px);
+  max-height: 80vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+.lightbox-pdf {
+  width: min(88vw, 820px);
+  height: 80vh;
+  border: none;
+  display: block;
+}
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: rgba(13, 17, 23, 0.7);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-arrow svg { width: 18px; height: 18px; }
+.lightbox-arrow:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.lightbox-arrow-prev { left: 14px; }
+.lightbox-arrow-next { right: 14px; }
+.lightbox-arrow[hidden] { display: none; }
+
+@media (max-width: 720px) {
+  .lightbox-arrow { width: 34px; height: 34px; }
+  .lightbox-pdf { width: 90vw; height: 72vh; }
 }
 
 /* ==========================================================================

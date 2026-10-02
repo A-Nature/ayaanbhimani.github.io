@@ -7,10 +7,14 @@
   ONLY this file, no HTML or layout changes required.
 
   Media slots:
-    Each project and experience entry has a `media` object describing where
-    an image/video goes. Drop files into /images/projects or
-    /images/experience and set the `src` field. Until then, `src` is null
-    and the slot renders nothing at all (no placeholder box).
+    Each project and experience entry has a `media` array of
+    { type, src, alt } objects (type is "image" or "video") describing where
+    images/videos go. Drop files into /images/projects or /images/experience
+    and set `src`. An entry with no src set (or an empty array) renders
+    nothing at all (no placeholder box). More than one item with a src set
+    renders as a small thumbnail strip; clicking any image/video opens the
+    shared lightbox viewer (js/lightbox.js), with arrow-key/button
+    navigation across that entry's media.
 
   Downloads:
     Each project and experience entry also has a `downloads` array for
@@ -57,13 +61,13 @@ const SITE_DATA = {
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/erm-source.zip" }
       ],
-      media: {
+      media: [{
         type: "image", // "image" | "video"
         src: null, // e.g. "images/projects/erm-01.jpg". Leave null to hide the media slot entirely.
         alt: "ERM gameplay screenshot"
         // Capture ideas: in-editor screenshot of the abandoned-Earth environment, the role-reveal/voting UI,
         // a short clip of a round with 2+ players, or a diagram of how the three roles interact.
-      },
+      }],
       reflection: "" // TODO(Ayaan): the friend leaving, having to take over Blender work, quitting and coming back, what that taught you
     },
     {
@@ -77,13 +81,13 @@ const SITE_DATA = {
         { label: "Ayaan's Replicator Mod (.jar)", path: "files/projects/replicator-mod-1.0.0.jar" }
         // e.g. { label: "PrehistoriCraft (.jar)", path: "files/projects/prehistoricraft.jar" }
       ],
-      media: {
+      media: [{
         type: "image",
         src: null, // e.g. "images/projects/minecraft-mods-01.jpg". Leave null to hide the media slot entirely.
         alt: "Minecraft mod screenshot"
         // Capture ideas: before/after of the Replicator Mod copy-pasting a structure, a clip of it in action,
         // a Blockbench screenshot of the dinosaur model mid-creation, or the entity spawned in-game.
-      },
+      }],
       reflection: "" // TODO(Ayaan)
     },
     {
@@ -98,13 +102,13 @@ const SITE_DATA = {
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/boid-sim-source.zip" }
       ],
-      media: {
+      media: [{
         type: "video",
         src: null, // e.g. "images/projects/boid-sim.mp4". Leave null to hide the media slot entirely.
         alt: "Boid simulation demo"
         // Capture ideas: a screen recording of the flock in motion (a still image undersells it),
         // the runtime weight-control UI in use, or a fitness-over-generations chart once neuroevolution lands.
-      },
+      }],
       reflection: "" // TODO(Ayaan)
     },
     {
@@ -118,13 +122,13 @@ const SITE_DATA = {
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/out-of-control-source.zip" }
       ],
-      media: {
+      media: [{
         type: "image",
         src: null, // e.g. "images/projects/tower-defense-01.jpg". Leave null to hide the media slot entirely.
         alt: "Out of Control gameplay screenshot"
         // Capture ideas: mid-wave screenshot with towers, enemies, and UI visible, a clip of an enemy's
         // death animation, or the upgrade/economy UI.
-      },
+      }],
       reflection: "" // TODO(Ayaan)
     },
     {
@@ -137,13 +141,13 @@ const SITE_DATA = {
       downloads: [
         // e.g. { label: "Firmware Source (.zip)", path: "files/projects/stratagem-pad-source.zip" }
       ],
-      media: {
+      media: [{
         type: "image",
         src: null, // e.g. "images/projects/stratagem-pad-01.jpg". Leave null to hide the media slot entirely.
         alt: "Stratagem pad prototype"
         // Capture ideas: the assembled pad, the bare board/wiring before the case went on, a clip of a
         // swipe being read and the matched stratagem lighting up.
-      },
+      }],
       reflection: "" // TODO(Ayaan)
     },
     {
@@ -153,12 +157,12 @@ const SITE_DATA = {
       tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting"],
       links: [],
       downloads: [],
-      media: {
+      media: [{
         type: "image",
         src: null, // e.g. "images/projects/helldivers-helmet-01.jpg". Leave null to hide the media slot entirely.
         alt: "Helldivers helmet build"
         // Capture ideas: the printed sections before assembly, mid-paint, and the finished helmet.
-      },
+      }],
       reflection: "" // TODO(Ayaan)
     }
   ],
@@ -179,7 +183,7 @@ const SITE_DATA = {
         dates: "July 2026 – August 2026",
         description: "Led daily STEAM-based activities for campers, teaching technical computer skills and foundational programming concepts. Guided campers through simple coding using programmable turtles in Minecraft, building logic and sequencing skills in a hands-on way, and wove in science and engineering concepts through Minecraft-based building and design challenges. Created Minecraft mods from scratch for the camp using Java and Blockbench. Acted as Health and Safety Coordinator alongside counsellor duties, keeping the camp environment safe and organized.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Brick Works Academy" },
+        media: [{ type: "image", src: null, alt: "Brick Works Academy" }],
         reflection: "" // TODO(Ayaan)
       },
       {
@@ -189,7 +193,7 @@ const SITE_DATA = {
         dates: "August 2025",
         description: "Led structured entrepreneurship workshops for youth covering core business fundamentals including budgeting, marketing, and financial planning. Supervised and mentored camper teams as they developed their own businesses from the ground up, offering consistent guidance and encouragement throughout. Fostered a positive learning environment where campers felt confident to think creatively and collaborate with one another.",
         downloads: [],
-        media: { type: "image", src: null, alt: "JA South Western Ontario" },
+        media: [{ type: "image", src: null, alt: "JA South Western Ontario" }],
         reflection: ""
       },
       {
@@ -199,7 +203,7 @@ const SITE_DATA = {
         dates: "June 2025 – August 2025",
         description: "Served customers at high-volume ice cream events across London, delivering a positive and memorable experience to every guest. Stayed composed and professional throughout fast-paced, demanding shifts while maintaining a strong standard of service quality. Built confidence in customer service and communication, and a reliable ability to stay focused when it counts.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Haven's Creamery" },
+        media: [{ type: "image", src: null, alt: "Haven's Creamery" }],
         reflection: ""
       }
     ],
@@ -212,7 +216,7 @@ const SITE_DATA = {
         dates: "July 2025",
         description: "Assisted camp counsellors with various tasks while engaging with campers. Observed counsellors to better understand camp dynamics, and acted as a role model to children by providing guidance and helping resolve conflicts.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Brick Works Academy Summer Camp" },
+        media: [{ type: "image", src: null, alt: "Brick Works Academy Summer Camp" }],
         reflection: ""
       },
       {
@@ -222,7 +226,7 @@ const SITE_DATA = {
         dates: "August 2024",
         description: "Oversaw the well-being of campers, ensuring a safe and friendly environment, while planning, organizing, and leading engaging activities.",
         downloads: [],
-        media: { type: "image", src: null, alt: "London Interfaith Peace Camp" },
+        media: [{ type: "image", src: null, alt: "London Interfaith Peace Camp" }],
         reflection: ""
       },
       {
@@ -232,7 +236,7 @@ const SITE_DATA = {
         dates: "March 2023 – September 2023",
         description: "Talked to, assisted, and guided families visiting the museum. Worked with museum staff to keep exhibits organized and help prepare for special occasions.",
         downloads: [],
-        media: { type: "image", src: null, alt: "London Children's Museum" },
+        media: [{ type: "image", src: null, alt: "London Children's Museum" }],
         reflection: ""
       }
     ],
@@ -248,7 +252,7 @@ const SITE_DATA = {
           { label: "Marketing Portfolio (.pdf)", path: "files/experience/reswipe-marketing-portfolio.pdf" },
           { label: "ReSwipe Final Report (.pdf)", path: "files/experience/reswipe-final-report.pdf" }
         ],
-        media: { type: "image", src: null, alt: "Junior Achievement: ReSwipe" },
+        media: [{ type: "image", src: null, alt: "Junior Achievement: ReSwipe" }],
         reflection: ""
       },
       {
@@ -258,7 +262,7 @@ const SITE_DATA = {
         dates: "October 2023 – April 2025",
         description: "Collaborated with a group of peers across two years to build a profitable student company, first as Bagnetic and then as Spoonique. Carried out various roles within the company, including marketing and production.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Junior Achievement: Bagnetic / Spoonique" },
+        media: [{ type: "image", src: null, alt: "Junior Achievement: Bagnetic / Spoonique" }],
         reflection: ""
       },
       {
@@ -268,7 +272,7 @@ const SITE_DATA = {
         dates: "September 2025 – June 2026",
         description: "Created forms and spreadsheets to organize member information for the chapter. Helped plan events for the team and kept members updated on deadlines and upcoming activities.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Oakridge STEAM IC Chapter" },
+        media: [{ type: "image", src: null, alt: "Oakridge STEAM IC Chapter" }],
         reflection: ""
       },
       {
@@ -278,7 +282,7 @@ const SITE_DATA = {
         dates: "September 2022 – June 2026",
         description: "Wrote the autonomous and driver-controlled sections of the competition robot in Java alongside teammates, contributing to the team's qualification for the 2025 FIRST Championship in Houston. Took part in team events and competitions throughout, building lasting connections with fellow team members.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Oakbotics" },
+        media: [{ type: "image", src: null, alt: "Oakbotics" }],
         reflection: ""
       },
       {
@@ -288,7 +292,7 @@ const SITE_DATA = {
         dates: "September 2021 – June 2026",
         description: "Learned practical survival and life skills, including personal finance management and how to build a fire. Worked with fellow Scouts to build a well-integrated, productive team environment.",
         downloads: [],
-        media: { type: "image", src: null, alt: "Al-Mahdi Scouting Association" },
+        media: [{ type: "image", src: null, alt: "Al-Mahdi Scouting Association" }],
         reflection: ""
       }
     ]

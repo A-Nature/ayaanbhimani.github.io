@@ -35,5 +35,21 @@ const ICONS = {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 4v11m0 0 4-4m-4 4-4-4"/>
       <path d="M5 18.5h14"/>
+    </svg>`,
+
+  chevronLeft: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 5 8 12l7 7"/>
+    </svg>`,
+
+  chevronRight: `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 5l7 7-7 7"/>
+    </svg>`,
+
+  play: `
+    <svg viewBox="0 0 24 24" fill="none">
+      <circle cx="12" cy="12" r="11" fill="rgba(13,17,23,0.55)"/>
+      <path d="M9.5 7.5v9l7-4.5-7-4.5Z" fill="currentColor"/>
     </svg>`
 };
