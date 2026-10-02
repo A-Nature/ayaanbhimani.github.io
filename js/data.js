@@ -54,7 +54,7 @@ const SITE_DATA = {
     // One photo per record, in order (extras get rows of their own). Leave the
     // list empty and nothing renders. `caption` is optional handwriting.
     photos: [
-      { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "" }
+      { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019" }
     ]
   },
 
