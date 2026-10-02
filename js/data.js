@@ -58,6 +58,7 @@ const SITE_DATA = {
       name: "ERM",
       dates: "November 2024 – Present",
       year: 2024, // used to sort into strata layers in the Projects section
+      status: "in-progress", // ongoing, so it sits in the "Still Excavating" layer
       description: "Multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. Players take on one of three roles (Rogues, Frontliners, Trackers), each with distinct mechanics layering deception, investigation, and teamwork. Inspired by Mafia, Among Us, and Dead by Daylight. Full gameplay programming, multiplayer replication, role assignment, and round progression built largely from scratch, along with all 3D models, animations, sound design, music, and UI.",
       tags: ["Unreal Engine 5", "C++/Blueprints", "Game System Design", "Asset Creation"],
       links: [
@@ -76,24 +77,23 @@ const SITE_DATA = {
       reflection: "" // TODO(Ayaan): the friend leaving, having to take over Blender work, quitting and coming back, what that taught you
     },
     {
-      id: "minecraft-mods",
+      id: "replicator-mod",
       fossil: "bone", // drawn on the card, see js/fossils.js
-      name: "Minecraft Mods",
+      name: "Ayaan's Replicator Mod",
       dates: "July 2026",
       year: 2026,
-      description: "Two Minecraft mods built in Java for Forge 1.7.10 as part of a summer coding camp. Ayaan's Replicator Mod is a packet-based multiplayer copy/paste system with per-player clipboard state and undo support. PrehistoriCraft, still a work in progress, adds custom dinosaur entities modeled in Blockbench, with a two-version plan: a 1.7.10 camp build and a future 1.20.1+ CurseForge release using GeckoLib.",
-      tags: ["Java", "Minecraft Forge", "Blockbench", "GeckoLib"],
+      description: "A Minecraft mod built in Java for Forge 1.7.10 as part of a summer coding camp. It's a copy/paste tool for building, designed for multiplayer: a packet-based system with per-player clipboard state and undo support.",
+      tags: ["Java", "Minecraft Forge", "Packet Networking"],
       links: [],
       downloads: [
         { label: "Ayaan's Replicator Mod (.jar)", path: "files/projects/replicator-mod-1.0.0.jar" }
-        // e.g. { label: "PrehistoriCraft (.jar)", path: "files/projects/prehistoricraft.jar" }
       ],
       media: [{
         type: "image",
-        src: null, // e.g. "images/projects/minecraft-mods-01.jpg". Leave null to hide the media slot entirely.
-        alt: "Minecraft mod screenshot"
-        // Capture ideas: before/after of the Replicator Mod copy-pasting a structure, a clip of it in action,
-        // a Blockbench screenshot of the dinosaur model mid-creation, or the entity spawned in-game.
+        src: null, // e.g. "images/projects/replicator-mod-01.jpg". Leave null to hide the media slot entirely.
+        alt: "Replicator Mod screenshot"
+        // Capture ideas: before/after of a structure being copy-pasted, a short clip of it in action,
+        // or two players using it at once to show the per-player clipboards.
       }],
       reflection: "" // TODO(Ayaan)
     },
@@ -124,8 +124,8 @@ const SITE_DATA = {
       id: "tower-defense",
       fossil: "ammonite", // drawn on the card, see js/fossils.js
       name: "Out of Control (Tower Defense)",
-      dates: "2024", // TODO(Ayaan): confirm/adjust, guessed since no exact date was given
-      year: 2024,
+      dates: "2026",
+      year: 2026,
       description: "Simple, Helldivers 2 inspired tower defense game. Primitive and incomplete, was mostly just a school project, but learned more about asset design and game systems. A unique part to code was the targeting system for the turrets which was cool to learn.",
       tags: ["C++", "raylib", "Game Design"],
       links: [
@@ -169,9 +169,8 @@ const SITE_DATA = {
       id: "helldivers-helmet",
       fossil: "shell", // drawn on the card, see js/fossils.js
       name: "Helldivers Helmet",
-      dates: "2026", // TODO(Ayaan): confirm/adjust, guessed since no exact date was given
+      dates: "2026",
       year: 2026,
-      status: "in-progress",
       description: "A large Helldivers 2 helmet, printed in several sections on a Bambu Lab printer since it was too big for one piece. Most of the real work was dialing in print settings so the sections did not warp or fail partway through, then sanding, gluing everything together, and painting the final piece. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
       tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting"],
       links: [],
@@ -342,7 +341,7 @@ const SITE_DATA = {
     },
     {
       category: "Game Development",
-      items: ["Unreal Engine 5", "raylib", "Minecraft Forge", "GeckoLib"]
+      items: ["Unreal Engine 5", "raylib", "Minecraft Forge"]
     },
     {
       category: "Fabrication & Embedded",
