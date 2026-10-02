@@ -82,6 +82,14 @@ const FOSSILS = {
     </g>`;
   },
 
+  // A dinosaur egg, cracked across the middle with a few speckles.
+  egg() {
+    return `<path d="M60,12C82,12 97,44 97,72C97,95 81,109 60,109C39,109 23,95 23,72C23,44 38,12 60,12Z" fill="currentColor" fill-opacity=".1"/>
+      <path d="M26,64L40,54L50,68L62,52L73,66L84,54L94,62" stroke-width="1.5"/>
+      <circle cx="46" cy="36" r="1.6"/><circle cx="72" cy="30" r="1.3"/><circle cx="62" cy="88" r="1.6"/>
+      <circle cx="40" cy="86" r="1.2"/><circle cx="80" cy="90" r="1.4"/>`;
+  },
+
   // Fan shell with growth rings and radial ribs.
   shell() {
     const base = [60, 104], R = 66, span = 74 * Math.PI / 180;

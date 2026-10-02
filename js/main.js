@@ -100,13 +100,24 @@ function renderAbout() {
       ${ph.caption ? `<span class="photo-caption">${escapeHTML(ph.caption)}</span>` : ""}
     </div>`;
 
-  // Each record gets its own row, alternating left and right; its photo (if
+  // Each record gets its own row, alternating left and right. Its photo (if
   // any) sits in the same row on the opposite side, like papers spread out
-  // on a desk. Photos beyond the number of records get rows of their own.
+  // on a desk. A photo's `side` in data.js picks its side (the record takes
+  // the other one); `record` picks which record it sits beside.
+  const photoFor = {};
+  photos.forEach((ph, k) => {
+    const idx = Number.isInteger(ph.record) ? ph.record : k;
+    (photoFor[idx] = photoFor[idx] || []).push(ph);
+  });
+
+  let figNo = 0;
   records.forEach((record, i) => {
-    const side = i % 2 === 0 ? "left" : "right";
+    const ph = (photoFor[i] || [])[0];
+    let side = i % 2 === 0 ? "left" : "right";
+    if (ph && (ph.side === "left" || ph.side === "right")) side = ph.side === "left" ? "right" : "left";
+
     const rec = document.createElement("article");
-    rec.className = `board-item record record-v${i % 3} side-${side}${photos[i] ? "" : " solo"}`;
+    rec.className = `board-item record record-v${i % 3} side-${side}${ph ? "" : " solo"}`;
     rec.style.gridRow = String(i + 1);
     rec.innerHTML = `
       <div class="paper">
@@ -115,23 +126,25 @@ function renderAbout() {
       </div>`;
     wrap.appendChild(rec);
 
-    if (photos[i]) {
+    if (ph) {
       const fig = document.createElement("figure");
       fig.className = `board-item archive-photo side-${side === "left" ? "right" : "left"}`;
       fig.style.gridRow = String(i + 1);
       fig.dataset.record = String(i);
-      fig.innerHTML = photoHTML(photos[i], i + 1);
+      fig.innerHTML = photoHTML(ph, ++figNo);
       wrap.appendChild(fig);
     }
   });
-  photos.slice(records.length).forEach((ph, j) => {
-    const idx = records.length + j;
-    const fig = document.createElement("figure");
-    fig.className = `board-item archive-photo side-${idx % 2 === 0 ? "left" : "right"}`;
-    fig.style.gridRow = String(idx + 1);
-    fig.dataset.record = String(Math.max(records.length - 1, 0));
-    fig.innerHTML = photoHTML(ph, idx + 1);
-    wrap.appendChild(fig);
+  // Photos pointing past the last record get rows of their own.
+  Object.keys(photoFor).map(Number).filter((idx) => idx >= records.length).forEach((idx) => {
+    photoFor[idx].forEach((ph) => {
+      const fig = document.createElement("figure");
+      fig.className = `board-item archive-photo side-${figNo % 2 === 0 ? "left" : "right"}`;
+      fig.style.gridRow = String(idx + 1);
+      fig.dataset.record = String(Math.max(records.length - 1, 0));
+      fig.innerHTML = photoHTML(ph, ++figNo);
+      wrap.appendChild(fig);
+    });
   });
 
   wrap.querySelectorAll("img").forEach((img) => img.addEventListener("load", drawArchiveLinks));
@@ -139,11 +152,28 @@ function renderAbout() {
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawArchiveLinks);
   window.addEventListener("load", drawArchiveLinks);
   if (window.ResizeObserver) new ResizeObserver(drawArchiveLinks).observe(board);
+
+  // The marker arrows draw themselves the first time the desk scrolls into view.
+  const linksSvg = document.getElementById("archive-links");
+  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    linksSvg.classList.add("is-drawn");
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        linksSvg.classList.add("is-drawn");
+        io.disconnect();
+      }
+    }, { threshold: 0.15 });
+    io.observe(board);
+  }
 }
 
-// Dotted red string tying the papers together: the title to the first record,
-// each record to the next, and each photo to its record. Drawn from the
-// papers' real positions, so it also works when the layout stacks on a phone.
+// Marker arrows linking the papers in reading order: the title to the first
+// record, each record to the next, and each record to its photo. They are
+// drawn from the papers' real positions, so they also work when the layout
+// stacks on a phone. Each stroke wobbles a little (seeded, so it is the same
+// every time) and ends in a hand-drawn "V" arrowhead.
 function drawArchiveLinks() {
   const board = document.getElementById("archive-board");
   const svg = document.getElementById("archive-links");
@@ -161,43 +191,63 @@ function drawArchiveLinks() {
   const recs = Array.from(board.querySelectorAll(".record"));
   const photos = Array.from(board.querySelectorAll(".archive-photo"));
 
-  let paths = "";
-  let pins = "";
-  const pin = (x, y) => { pins += `<circle class="link-pin" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5.5"/>`; };
-  const vertical = (x1, y1, x2, y2) => {
-    const dy = Math.max((y2 - y1) * 0.5, 30);
-    paths += `<path d="M${x1} ${y1}C${x1} ${y1 + dy} ${x2} ${y2 - dy} ${x2} ${y2}"/>`;
-    pin(x1, y1); pin(x2, y2);
-  };
-  const horizontal = (x1, y1, x2, y2) => {
-    const dx = (x2 - x1) * 0.5;
-    paths += `<path d="M${x1} ${y1}C${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}"/>`;
-    pin(x1, y1); pin(x2, y2);
+  let n = 0;
+  let out = "";
+  // Deterministic "random" in [-0.5, 0.5] so the doodles don't change on resize.
+  const jitter = (k) => { const x = Math.sin((k + 1) * 12.9898) * 43758.5453; return (x - Math.floor(x)) - 0.5; };
+  const f = (v) => v.toFixed(1);
+
+  const arrow = (x1, y1, x2, y2, axis) => {
+    const k = n++ * 11;
+    let c1x, c1y, c2x, c2y;
+    if (axis === "v") {
+      const dy = Math.max(Math.abs(y2 - y1) * 0.5, 40) * (y2 >= y1 ? 1 : -1);
+      c1x = x1 + jitter(k + 1) * 26; c1y = y1 + dy * 0.9;
+      c2x = x2 + jitter(k + 2) * 26; c2y = y2 - dy * 0.9;
+    } else {
+      const dx = Math.max(Math.abs(x2 - x1) * 0.5, 24) * (x2 >= x1 ? 1 : -1);
+      c1x = x1 + dx * 0.9; c1y = y1 + jitter(k + 1) * 22;
+      c2x = x2 - dx * 0.9; c2y = y2 + jitter(k + 2) * 22;
+    }
+    const ang = Math.atan2(y2 - c2y, x2 - c2x);
+    const len = 19;
+    const w1 = ang + 0.52 + jitter(k + 3) * 0.2;
+    const w2 = ang - 0.52 + jitter(k + 4) * 0.2;
+    const hx1 = x2 - len * Math.cos(w1), hy1 = y2 - len * Math.sin(w1);
+    const hx2 = x2 - len * Math.cos(w2), hy2 = y2 - len * Math.sin(w2);
+    const delay = (n - 1) * 0.55;
+    out += `<path class="arrow-line" pathLength="1" style="--d:${delay.toFixed(2)}s" d="M${f(x1)} ${f(y1)}C${f(c1x)} ${f(c1y)} ${f(c2x)} ${f(c2y)} ${f(x2)} ${f(y2)}"/>`;
+    out += `<path class="arrow-head" pathLength="1" style="--d:${(delay + 0.85).toFixed(2)}s" d="M${f(hx1)} ${f(hy1)}L${f(x2)} ${f(y2)}L${f(hx2)} ${f(hy2)}"/>`;
   };
 
   const first = recs.length ? rel(recs[0]) : null;
   if (title && first) {
     const t = rel(title);
-    vertical((t.l + t.r) / 2, t.b - 8, (first.l + first.r) / 2, first.t + 8);
+    // leave the tape in the middle of each paper clear
+    arrow(t.l + (t.r - t.l) * 0.3, t.b - 12, first.l + (first.r - first.l) * 0.22, first.t + 8, "v");
   }
   recs.forEach((el, i) => {
     if (!recs[i + 1]) return;
     const a = rel(el), c = rel(recs[i + 1]);
-    // Land on the near side of the next record so the string doesn't
-    // cut across a photo sitting beside the one above.
-    const frac = (c.l + c.r) / 2 > (a.l + a.r) / 2 ? 0.3 : 0.7;
-    vertical((a.l + a.r) / 2, a.b - 8, c.l + (c.r - c.l) * frac, c.t + 8);
+    // Land on the near side of the next record so the arrow doesn't cut
+    // across a photo sitting beside the one above.
+    const goesRight = (c.l + c.r) / 2 > (a.l + a.r) / 2;
+    const fromX = a.l + (a.r - a.l) * (goesRight ? 0.62 : 0.38);
+    const toX = c.l + (c.r - c.l) * (goesRight ? 0.28 : 0.72);
+    // start inside the lower margin of one paper, end just inside the next
+    arrow(fromX, a.b - 16, toX, c.t + 8, "v");
   });
   photos.forEach((el) => {
     const rec = recs[Number(el.dataset.record)];
     if (!rec) return;
     const a = rel(rec), p = rel(el);
-    if (p.l >= a.r - 50) horizontal(a.r - 12, (a.t + a.b) / 2, p.l + 12, (p.t + p.b) / 2);
-    else if (p.r <= a.l + 50) horizontal(a.l + 12, (a.t + a.b) / 2, p.r - 12, (p.t + p.b) / 2);
-    else vertical((a.l + a.r) / 2, a.b - 8, (p.l + p.r) / 2, p.t + 8);
+    const ay = (a.t + a.b) / 2, py = (p.t + p.b) / 2;
+    if (p.l >= a.r - 50) arrow(a.r + 6, ay, p.l - 8, py, "h");
+    else if (p.r <= a.l + 50) arrow(a.l - 6, ay, p.r + 8, py, "h");
+    else arrow((a.l + a.r) / 2, a.b + 4, (p.l + p.r) / 2, p.t - 10, "v");
   });
 
-  svg.innerHTML = `<g class="link-lines">${paths}</g>${pins}`;
+  svg.innerHTML = `<g class="link-lines">${out}</g>`;
 }
 
 /* ---------------------------------------------------------------------- */
@@ -502,6 +552,10 @@ function initWindowModal() {
     if (e.key === "Escape" && modalOverlay.classList.contains("is-open") && !lightboxIsOpen) {
       closeWindowModal();
     }
+    if ((e.key === "ArrowLeft" || e.key === "ArrowRight") && stepActiveSlideshow
+        && modalOverlay.classList.contains("is-open") && !lightboxIsOpen) {
+      stepActiveSlideshow(e.key === "ArrowRight" ? 1 : -1);
+    }
   });
 }
 
@@ -537,14 +591,14 @@ function openWindowModal(content) {
     : "";
   // No downloads yet: skip the section, same rule as media and reflection.
   const downloadsHTML = downloads.length
-    ? `<div class="window-section-title">Downloads</div><div class="window-downloads">${downloads.map((d, i) => buildDownloadLinkHTML(d, i)).join("")}</div>`
+    ? `<div class="window-section-title">Related</div><div class="window-downloads">${downloads.map((d, i) => buildDownloadLinkHTML(d, i)).join("")}</div>`
     : "";
   const linksHTML = (content.links && content.links.length)
     ? `<div class="window-links">${content.links.map((l) => `<a class="btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(l.label)}</a>`).join("")}</div>`
     : "";
 
   modalBody.innerHTML = watermarkHTML + mediaHTML + placardHTML + descriptionHTML + reflectionHTML + downloadsHTML + linksHTML;
-  wireMediaTriggers(modalBody, mediaItems);
+  wireSlideshow(modalBody, mediaItems);
   wirePdfDownloadLinks(modalBody, downloads);
 
   modalOverlay.classList.add("is-open");
@@ -554,6 +608,8 @@ function openWindowModal(content) {
 }
 
 function closeWindowModal() {
+  stepActiveSlideshow = null;
+  modalBody.querySelectorAll("video").forEach((v) => v.pause());
   modalOverlay.classList.remove("is-open");
   modalOverlay.setAttribute("aria-hidden", "true");
   unlockPageScroll();
@@ -561,33 +617,90 @@ function closeWindowModal() {
 }
 
 /* ---------------------------------------------------------------------- */
-/* Media thumbnails (images/video) — click opens the shared lightbox,     */
-/* with left/right navigation when an entry has more than one.           */
+/* Media: shown straight away as a framed slideshow at the top of the     */
+/* window. Arrows, dots, the arrow keys and swipes step through; clicking */
+/* an image opens it full size in the lightbox. Videos play inline.       */
 /* ---------------------------------------------------------------------- */
+const SLIDE_CHEVRON_LEFT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+const SLIDE_CHEVRON_RIGHT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+let stepActiveSlideshow = null;
+
 function buildMediaHTML(items) {
   // No src yet on anything: render nothing at all, rather than a visible
   // empty box. Set `src` in data.js and the slot appears automatically.
   if (!items.length) return "";
 
   const multi = items.length > 1;
-  const thumbClass = multi ? "window-media-thumb" : "window-media";
-  const thumbsHTML = items.map((item, i) => {
-    const playIcon = item.type === "video" ? `<span class="media-play-icon">${ICONS.play || ""}</span>` : "";
+  const slides = items.map((item, i) => {
     const el = item.type === "video"
-      ? `<video src="${item.src}" muted playsinline></video>`
-      : `<img src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
-    return `<div class="${thumbClass} media-trigger" data-media-index="${i}">${el}${playIcon}</div>`;
+      ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
+      : `<img class="media-trigger" data-media-index="${i}" src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
+    return `<div class="slide${i === 0 ? " is-active" : ""}">${el}</div>`;
   }).join("");
-
-  return multi ? `<div class="window-media-strip">${thumbsHTML}</div>` : thumbsHTML;
+  const arrows = multi
+    ? `<button type="button" class="slide-arrow slide-prev" aria-label="Previous image">${SLIDE_CHEVRON_LEFT}</button>
+       <button type="button" class="slide-arrow slide-next" aria-label="Next image">${SLIDE_CHEVRON_RIGHT}</button>`
+    : "";
+  const hasCaptions = items.some((m) => m.caption);
+  const bar = multi
+    ? `<div class="slide-bar"><span class="slide-count">1 / ${items.length}</span><span class="slide-dots">${items.map((_, i) => `<button type="button" class="slide-dot${i === 0 ? " is-active" : ""}" data-slide="${i}" aria-label="Show image ${i + 1}"></button>`).join("")}</span></div>`
+    : "";
+  return `<div class="window-slideshow">
+    <div class="slide-frame">${slides}${arrows}</div>
+    ${hasCaptions ? '<p class="slide-caption"></p>' : ""}
+    ${bar}
+  </div>`;
 }
 
-function wireMediaTriggers(scope, items) {
-  scope.querySelectorAll(".media-trigger").forEach((el) => {
+function wireSlideshow(scope, items) {
+  const root = scope.querySelector(".window-slideshow");
+  if (!root) return;
+  const slides = Array.from(root.querySelectorAll(".slide"));
+  const dots = Array.from(root.querySelectorAll(".slide-dot"));
+  const caption = root.querySelector(".slide-caption");
+  const count = root.querySelector(".slide-count");
+  const frame = root.querySelector(".slide-frame");
+  let index = 0;
+
+  function show(next) {
+    index = (next + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("is-active", i === index);
+      const video = slide.querySelector("video");
+      if (video && i !== index) video.pause();
+    });
+    dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
+    if (count) count.textContent = `${index + 1} / ${slides.length}`;
+    if (caption) {
+      const text = items[index].caption;
+      caption.innerHTML = text ? `<span class="slide-fig">Fig. ${index + 1}</span>${escapeHTML(text)}` : "";
+    }
+  }
+  show(0);
+
+  const prev = root.querySelector(".slide-prev");
+  const next = root.querySelector(".slide-next");
+  if (prev) prev.addEventListener("click", () => show(index - 1));
+  if (next) next.addEventListener("click", () => show(index + 1));
+  dots.forEach((dot) => dot.addEventListener("click", () => show(parseInt(dot.dataset.slide, 10))));
+
+  // Swipe on touch screens.
+  let startX = null;
+  frame.addEventListener("pointerdown", (e) => { startX = e.pointerType === "touch" ? e.clientX : null; });
+  frame.addEventListener("pointerup", (e) => {
+    if (startX === null) return;
+    const dx = e.clientX - startX;
+    startX = null;
+    if (Math.abs(dx) > 40) show(index + (dx < 0 ? 1 : -1));
+  });
+
+  root.querySelectorAll(".media-trigger").forEach((el) => {
     el.addEventListener("click", () => {
       openImageGallery(items, parseInt(el.dataset.mediaIndex, 10) || 0, el);
     });
   });
+
+  stepActiveSlideshow = slides.length > 1 ? (delta) => show(index + delta) : null;
 }
 
 /* ---------------------------------------------------------------------- */

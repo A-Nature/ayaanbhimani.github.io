@@ -303,7 +303,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   align-items: flex-start;
   justify-content: space-between;
   gap: 28px;
-  margin-bottom: 56px;
+  margin-bottom: 44px;
 }
 .archive-title { transform: rotate(-1.6deg); }
 .archive-title .paper {
@@ -374,20 +374,23 @@ body.no-canvas .site-bg-fallback { display: block; }
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: 12px;
-  row-gap: 56px;
+  row-gap: 30px;
   align-items: center;
 }
 /* Records take eight columns; photos are a fixed width tucked against the
    outer edge, which leaves an even gutter between paper and print. */
 .record.side-left { grid-column: 1 / span 8; }
 .record.side-right { grid-column: 5 / span 8; }
-/* a record with no photo beside it sits centered so the desk stays balanced */
-.record.solo { grid-column: 3 / span 8; }
-.archive-photo { margin: 0; width: 280px; max-width: 100%; }
+/* a record with no photo beside it gets a little extra width instead */
+.record.solo.side-left { grid-column: 1 / span 9; }
+.record.solo.side-right { grid-column: 4 / span 9; }
+.archive-photo { margin: 0; width: 270px; max-width: 100%; }
 .archive-photo.side-right { grid-column: 9 / span 4; justify-self: end; }
 .archive-photo.side-left { grid-column: 1 / span 4; justify-self: start; }
 
-/* The dotted string sits above the papers and ignores the pointer. */
+/* Marker arrows: drawn on top of the papers, ignoring the pointer. Each
+   stroke is a wobbly path with a "V" arrowhead; they draw themselves in
+   once, the first time the desk scrolls into view. */
 .archive-links {
   position: absolute;
   inset: 0;
@@ -396,19 +399,29 @@ body.no-canvas .site-bg-fallback { display: block; }
   overflow: visible;
   pointer-events: none;
   z-index: 4;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.45));
+}
+.link-lines {
+  filter: url(#marker-rough);
 }
 .link-lines path {
   fill: none;
-  stroke: #9c3228;
-  stroke-width: 3.2;
+  stroke: #1d2a54;
+  stroke-width: 4.4;
   stroke-linecap: round;
-  stroke-dasharray: 0.1 9;
+  stroke-linejoin: round;
+  opacity: 0.88;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1;
 }
-.link-pin {
-  fill: #c0392b;
-  stroke: #5b130f;
-  stroke-width: 1.5;
+.archive-links.is-drawn .link-lines path {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.9s ease-out var(--d, 0s);
+}
+.archive-links.is-drawn .link-lines .arrow-head {
+  transition-duration: 0.28s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .archive-links.is-drawn .link-lines path { transition: none; }
 }
 
 /* ---- Records: three kinds of paper, cycled ---------------------------- */
@@ -1582,3 +1595,101 @@ body.no-canvas .site-bg-fallback { display: block; }
   html { scroll-behavior: auto; }
   * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
+
+
+/* ==========================================================================
+   Project/experience windows: framed slideshow, shown immediately
+   ========================================================================== */
+#window-overlay .window-modal { max-width: 740px; }
+.window-slideshow { margin-bottom: 24px; }
+.slide-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0b0907;
+  border: 4px solid #a8803a;
+  outline: 1px solid #4f3816;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 235, 180, 0.22),
+    inset 0 0 30px rgba(0, 0, 0, 0.55),
+    0 10px 22px -6px rgba(0, 0, 0, 0.6);
+}
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.slide img,
+.slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.slide img.media-trigger { cursor: zoom-in; }
+.slide-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 166, 87, 0.7);
+  background: rgba(20, 16, 11, 0.72);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide-arrow svg { width: 18px; height: 18px; }
+.slide-arrow:hover { border-color: var(--color-accent-2); color: var(--color-accent-2); }
+.slide-prev { left: 10px; }
+.slide-next { right: 10px; }
+.slide-caption {
+  margin-top: 12px;
+  min-height: 2.9em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-sand);
+}
+.slide-fig {
+  margin-right: 10px;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
+}
+.slide-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+.slide-count {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+.slide-dots { display: flex; gap: 8px; }
+.slide-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(216, 166, 87, 0.7);
+  background: transparent;
+}
+.slide-dot.is-active { background: var(--color-accent-2); }

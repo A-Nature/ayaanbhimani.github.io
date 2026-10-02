@@ -38,25 +38,35 @@ const SITE_DATA = {
     // on each card; `text` is Ayaan's own wording.
     records: [
       {
-        era: "Early years",
-        text: "Ever since I was young, I've loved coding. I used to make all sorts of unique games in Scratch, and that passion never stopped."
+        era: "Grade 5",
+        text: "Ever since I was young, I've loved coding. It started in grade 5, when I was introduced to Scratch coding at school. I instantly fell in love with it and excelled at it. I quickly accelerated through Scratch coding, and before long, I was making my own maze and choose-your-own-adventure games. My teacher saw this passion, so she gave me the option to try harder prompts for our projects and she even let me answer my classmates\u2019 questions to help her out. After some time, I explored beyond the bubble of scratch. It started with Python, which I learned alongside my friend whose dad taught us the Python basics."
       },
       {
-        era: "Self-taught",
-        text: "Over the past few years I've taught myself C++, Unreal Engine, Python, and Java through hands-on projects. From a real multiplayer game to Minecraft mods, I'm drawn to cool projects that force me to learn but also let me express my creativity. I love understanding why something works but also building it from the ground up."
+        era: "Grade 8",
+        text: "When I was in Grade 8, my Python knowledge had extended quite a bit, and I was also dipping my toes in other coding languages. At the time, I loved the game \u2018Jurassic World Evolution\u2019, especially when it was played with community-made mods. And so, I went ahead and made my own mods, learning with lua and how to publish my creations. At this point, I knew I wanted to pursue a life in coding. My final goal and dream at this point, was to attend the University of Waterloo for Software Engineering."
+      },
+      {
+        era: "High school",
+        text: "When high school hit, my computer science classes elevated my knowledge in Python and C++, allowing me to create various terminal based programs, but more interestingly, 3 unique games. A platformer in Python/Pygame, a clicker game in C++/Raylib, and a tower defense game in C++/Raylib. This is where my game development journey started to pick up."
+      },
+      {
+        era: "Grade 11 onward",
+        text: "In early grade 11, I started to build my own game in Unreal Engine 5, a project that is still ongoing today. Over the past few years I've taught myself C++, Unreal Engine, Python, and Java through hands-on projects. From a real multiplayer game to Minecraft mods, I'm drawn to cool projects that force me to learn but also let me express my creativity. I love understanding why something works but also building it from the ground up."
       },
       {
         era: "Today",
-        text: "I'm a Software Engineering student at the University of Waterloo with a passion for game development, systems programming, and building things from scratch."
+        text: "And that brings us here, I\u2019m living 14 year-old me\u2019s dream of attending the University of Waterloo for Software Engineering, with a passion for game development, systems programming, and building things from scratch."
       }
     ],
     // Photos of Ayaan, laid on the desk beside the records and aged by CSS.
-    // One photo per record, in order (extras get rows of their own). Leave the
-    // list empty and nothing renders. `caption` is optional handwriting; `ratio` and `pos` (CSS aspect-ratio and
-    // object-position) optionally re-crop a photo.
+    //   record   which record (0 = first) the photo sits beside
+    //   side     "left" or "right" of the desk (the record takes the other side)
+    //   caption  optional handwriting on the print
+    //   ratio / pos  optional CSS aspect-ratio / object-position re-crop
+    // Leave the list empty and nothing renders.
     photos: [
-      { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019" },
-      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "2026", ratio: "1 / 1", pos: "44% 50%" }
+      { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019", record: 0, side: "right" },
+      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "2026", record: 4, side: "left", ratio: "1 / 1", pos: "44% 50%" }
     ]
   },
 
@@ -113,6 +123,34 @@ const SITE_DATA = {
         // Capture ideas: before/after of a structure being copy-pasted, a short clip of it in action,
         // or two players using it at once to show the per-player clipboards.
       }],
+      reflection: "" // TODO(Ayaan)
+    },
+    {
+      id: "jwe-mods",
+      fossil: "egg", // drawn on the card, see js/fossils.js
+      name: "Jurassic World Evolution Mods",
+      dates: "2021",
+      year: 2021,
+      description: "Custom mods for Jurassic World Evolution, and my first real step into code. The two that took the most work were the new species I added to the game, Lapparentosaurus and Spinops, whose models I designed myself based on similar dinosaurs. Lapparentosaurus is my best mod: a giant sauropod with its own genome, profile and comfort requirements in the game's Genome Library, plus a range of skin variants (environment skins for jungle, steppe, tundra, alpine and arid habitats, and hatchery skins). Before those I started smaller, with reskins and remodels of existing dinosaurs: Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. Along the way I learned Lua in Notepad++, my first asset design in Blender and Substance Painter, and how to code around a dependency, ACSE (the Awesome Cobra Script Extender).",
+      tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
+      links: [
+        { label: "Lapparentosaurus", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1194" },
+        { label: "Fiercer Sinoceratops", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1064" },
+        { label: "Nexus Mods page (1305)", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1305" },
+        { label: "Nexus Mods page (968)", url: "https://www.nexusmods.com/jurassicworldevolution/mods/968" }
+      ],
+      downloads: [],
+      // Lapparentosaurus leads (best mod), then Spinops, then the earlier reskins.
+      media: [
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-blue.webp", alt: "A blue-grey spotted Lapparentosaurus stretching its long neck above the trees", caption: "Lapparentosaurus, a new species I built for the game, in its blue-grey spotted skin" },
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-profile.webp", alt: "Lapparentosaurus herd by a lake with the in-game profile panel open", caption: "A blue and yellow skin variant in a herd, with its profile and comfort requirements in the game panel" },
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-tan.webp", alt: "A tan, leopard-spotted Lapparentosaurus with a dark red head", caption: "A tan, spotted variant with a darker, red-crowned head" },
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-genome.webp", alt: "The Genome Library with Lapparentosaurus selected among the base game dinosaurs", caption: "Lapparentosaurus in the Genome Library, sitting alongside the base game's dinosaurs with its own genome traits" },
+        { type: "image", src: "images/projects/jwe-spinops-lake.webp", alt: "A Spinops wading through a lake, with a dark red frill and two tall spikes", caption: "Spinops, my second new species, wading through a lake in a dark red and orange skin" },
+        { type: "image", src: "images/projects/jwe-spinops-herd.webp", alt: "Three Spinops in a paddock, each with a different skin", caption: "A Spinops herd in the paddock, showing the orange-brown and charcoal skin variants" },
+        { type: "image", src: "images/projects/jwe-sinoceratops.webp", alt: "A Sinoceratops with enlarged horns and a red and yellow face, next to a pink one", caption: "Fiercer Sinoceratops, with larger horns, a bigger crest and a red and yellow colour scheme" },
+        { type: "image", src: "images/projects/jwe-anaturaptor.webp", alt: "A small raptor with a purple tail and rose-coloured throat standing in grass", caption: "Anaturaptor, my first test: a reskin in purple and rose" }
+      ],
       reflection: "" // TODO(Ayaan)
     },
     {
