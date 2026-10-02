@@ -19,9 +19,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/style.css?v=27">
+<link rel="stylesheet" href="css/style.css?v=29">
 </head>
 <body>
 
@@ -73,44 +73,25 @@
      ======================================================================= -->
 <section class="about" id="about">
   <div class="container">
-    <div class="about-content">
-      <span class="section-label">About Me</span>
-      <h2 class="section-heading">My Backstory</h2>
-      <div class="about-bio" id="about-bio"></div>
+    <!-- An archive sheet on the curator's desk: the name written on a taped
+         scrap, then catalogue records in order of when they happened.
+         Photos (about.photos in data.js) pin to the side when there are any. -->
+    <div class="archive-wrap">
+      <div class="archive-sheet">
+        <header class="archive-head">
+          <div class="archive-title">
+            <span class="section-label">The Archive</span>
+            <h2 class="section-heading">My History</h2>
+          </div>
+          <div class="archive-name" aria-label="Ayaan Bhimani"><span aria-hidden="true">Ayaan Bhimani</span></div>
+        </header>
+        <div class="archive-body" id="archive-body">
+          <ol class="records" id="about-records"></ol>
+          <div class="archive-photos" id="about-photos"></div>
+        </div>
+      </div>
     </div>
   </div>
-  <!-- Far-off volcanoes behind the hills, with an ash plume at the main crater -->
-  <svg class="about-volcanoes" viewBox="0 -60 1440 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <defs>
-      <linearGradient id="cone-fill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#4A3533"/>
-        <stop offset="1" stop-color="#2A1D1C"/>
-      </linearGradient>
-      <filter id="ash-blur" filterUnits="userSpaceOnUse" x="800" y="-60" width="400" height="260">
-        <feGaussianBlur stdDeviation="7"/>
-      </filter>
-    </defs>
-    <g fill="#5A4548" opacity="0.42" filter="url(#ash-blur)">
-      <circle cx="902" cy="146" r="12"/>
-      <circle cx="912" cy="122" r="17"/>
-      <circle cx="930" cy="96" r="24"/>
-      <circle cx="960" cy="70" r="32"/>
-      <circle cx="1002" cy="48" r="40"/>
-      <circle cx="1054" cy="34" r="46"/>
-    </g>
-    <g fill="url(#cone-fill)" opacity="0.92">
-      <path d="M60,300 C150,296 200,262 238,226 L256,208 Q270,213 284,208 L302,226 C340,262 400,296 480,300 Z"/>
-      <path d="M730,300 C800,292 850,230 880,180 L890,164 Q902,170 914,164 L924,180 C954,230 1010,292 1090,300 Z"/>
-      <path d="M1150,300 C1200,296 1240,276 1268,246 L1282,232 Q1294,236 1306,232 L1320,246 C1348,276 1390,296 1440,300 Z"/>
-    </g>
-    <path d="M908,168 L912,190 L906,206 L914,230 L909,252" fill="none" stroke="#E0854F" stroke-width="2.4" stroke-linecap="round" opacity="0.7"/>
-  </svg>
-  <!-- Layered hill silhouette, dusk sky fading into the ground below -->
-  <svg class="about-horizon" viewBox="0 0 1440 160" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0,90 L120,70 L260,95 L420,60 L600,85 L800,55 L980,80 L1180,50 L1320,75 L1440,60 L1440,160 L0,160 Z" fill="#8B5A42" opacity="0.55"/>
-    <path d="M0,115 L160,95 L340,120 L520,90 L700,110 L900,85 L1100,105 L1300,80 L1440,100 L1440,160 L0,160 Z" fill="#4A332A" opacity="0.8"/>
-    <path d="M0,140 L200,125 L400,140 L650,120 L900,138 L1150,118 L1440,135 L1440,160 L0,160 Z" fill="#241A13"/>
-  </svg>
 </section>
 
 <!-- =======================================================================
@@ -220,11 +201,11 @@
   </div>
 </div>
 
-<script src="js/data.js?v=27"></script>
-<script src="js/icons.js?v=27"></script>
-<script src="js/boids.js?v=27"></script>
-<script src="js/lightbox.js?v=27"></script>
-<script src="js/fossils.js?v=27"></script>
-<script src="js/main.js?v=27"></script>
+<script src="js/data.js?v=29"></script>
+<script src="js/icons.js?v=29"></script>
+<script src="js/boids.js?v=29"></script>
+<script src="js/lightbox.js?v=29"></script>
+<script src="js/fossils.js?v=29"></script>
+<script src="js/main.js?v=29"></script>
 </body>
 </html>

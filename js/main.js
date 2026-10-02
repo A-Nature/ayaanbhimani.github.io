@@ -77,12 +77,35 @@ function renderHero() {
 /* About                                                                   */
 /* ---------------------------------------------------------------------- */
 function renderAbout() {
-  const bioWrap = document.getElementById("about-bio");
-  bioWrap.innerHTML = "";
-  SITE_DATA.about.bio.forEach((paragraph) => {
-    const p = document.createElement("p");
-    p.textContent = paragraph;
-    bioWrap.appendChild(p);
+  const list = document.getElementById("about-records");
+  const photoWrap = document.getElementById("about-photos");
+  const body = document.getElementById("archive-body");
+  list.innerHTML = "";
+  photoWrap.innerHTML = "";
+
+  SITE_DATA.about.records.forEach((record, i) => {
+    const li = document.createElement("li");
+    li.className = "record";
+    li.innerHTML = `
+      <div class="record-card">
+        <div class="record-head"><span>Record ${String(i + 1).padStart(2, "0")}</span><span>${escapeHTML(record.era)}</span></div>
+        <p>${escapeHTML(record.text)}</p>
+      </div>
+    `;
+    list.appendChild(li);
+  });
+
+  // Photos only when there are some; otherwise the records take the full width.
+  const photos = (SITE_DATA.about.photos || []).filter((ph) => ph && ph.src);
+  body.classList.toggle("has-photos", photos.length > 0);
+  photos.forEach((ph, i) => {
+    const fig = document.createElement("figure");
+    fig.className = "archive-photo";
+    fig.innerHTML = `
+      <img src="${ph.src}" alt="${escapeHTML(ph.alt || "")}">
+      ${ph.caption ? `<figcaption>${escapeHTML(ph.caption)}</figcaption>` : ""}
+    `;
+    photoWrap.appendChild(fig);
   });
 }
 

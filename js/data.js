@@ -34,12 +34,26 @@ const SITE_DATA = {
   },
 
   about: {
-    // Rendered as one <p> per paragraph, see renderAbout() in main.js.
-    bio: [
-      "I'm a Software Engineering student at the University of Waterloo with a passion for game development, systems programming, and building things from scratch.",
-      "Ever since I was young, I've loved coding. I used to make all sorts of unique games in Scratch, and that passion never stopped.",
-      "Over the past few years I've taught myself C++, Unreal Engine, Python, and Java through hands-on projects. From a real multiplayer game to Minecraft mods, I'm drawn to cool projects that force me to learn but also let me express my creativity. I love understanding why something works but also building it from the ground up."
-    ]
+    // Catalogue records, in the order they happened. `era` is the short label
+    // on each card; `text` is Ayaan's own wording.
+    records: [
+      {
+        era: "Early years",
+        text: "Ever since I was young, I've loved coding. I used to make all sorts of unique games in Scratch, and that passion never stopped."
+      },
+      {
+        era: "Self-taught",
+        text: "Over the past few years I've taught myself C++, Unreal Engine, Python, and Java through hands-on projects. From a real multiplayer game to Minecraft mods, I'm drawn to cool projects that force me to learn but also let me express my creativity. I love understanding why something works but also building it from the ground up."
+      },
+      {
+        era: "Today",
+        text: "I'm a Software Engineering student at the University of Waterloo with a passion for game development, systems programming, and building things from scratch."
+      }
+    ],
+    // Photos of Ayaan, pinned beside the records, aged and slightly crumpled
+    // by CSS. Leave empty and nothing renders. Add entries like:
+    //   { src: "images/about/me-1.jpg", alt: "Short description", caption: "Handwritten caption" }
+    photos: []
   },
 
   // -------------------------------------------------------------------

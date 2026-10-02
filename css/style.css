@@ -255,52 +255,257 @@ section {
 body.no-canvas .site-bg-fallback { display: block; }
 
 /* ==========================================================================
-   About
+   About / "My History": an archive sheet on a curator's desk. Aged,
+   creased paper holds the name (handwritten on a taped scrap) and the
+   story as catalogue records in the order they happened. Everything here
+   is CSS: paper grain is an SVG noise tile, creases are thin gradients.
    ========================================================================== */
 .about {
+  --ink: #2b2118;
+  --ink-blue: #1f2a4d;
+  --paper: #e3cf9f;
+  --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
   position: relative;
-  overflow: hidden;
-  /* Its own sky, deliberately a different scene from the Hero's dusk: a
-     humid green-grey morning warming to pale sand at the horizon. */
-  background: linear-gradient(180deg, #2F4A47 0%, #5F7F73 40%, #A9B08A 75%, #D8C690 100%);
+  padding: 110px 0 120px;
+  /* The desk: dark wood with faint grain and a pool of light. */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 30%, rgba(255, 214, 150, 0.10), transparent 75%),
+    repeating-linear-gradient(92deg, rgba(0, 0, 0, 0.10) 0 1px, transparent 1px 9px),
+    repeating-linear-gradient(88deg, rgba(255, 220, 170, 0.03) 0 2px, transparent 2px 23px),
+    linear-gradient(180deg, #2b1f16 0%, #231912 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 150px; /* room for the horizon silhouette below the text */
 }
-.about-content {
-  max-width: 680px;
+.archive-wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  filter: drop-shadow(0 22px 28px rgba(0, 0, 0, 0.55));
+  transform: rotate(-0.35deg);
+}
+.archive-sheet {
   position: relative;
-  z-index: 1;
+  padding: 54px 56px 64px;
+  color: var(--ink);
+  /* torn, slightly uneven edges */
+  clip-path: polygon(
+    0 9px, 3% 3px, 8% 8px, 14% 2px, 21% 7px, 28% 1px, 35% 8px, 43% 3px, 51% 9px, 59% 2px,
+    67% 7px, 75% 1px, 83% 8px, 90% 3px, 96% 8px, 100% 2px,
+    calc(100% - 3px) 22%, 100% 46%, calc(100% - 4px) 71%, 100% calc(100% - 3px),
+    96% calc(100% - 8px), 89% calc(100% - 2px), 81% calc(100% - 9px), 73% calc(100% - 3px),
+    64% calc(100% - 8px), 55% calc(100% - 1px), 46% calc(100% - 7px), 37% calc(100% - 2px),
+    28% calc(100% - 9px), 19% calc(100% - 3px), 11% calc(100% - 8px), 5% calc(100% - 2px),
+    0 calc(100% - 6px), 4px 72%, 0 47%, 3px 21%
+  );
+  background:
+    radial-gradient(circle at 14% 22%, rgba(120, 70, 20, 0.16) 0 7px, transparent 22px),
+    radial-gradient(circle at 83% 71%, rgba(120, 70, 20, 0.14) 0 5px, transparent 26px),
+    radial-gradient(circle at 61% 12%, rgba(120, 70, 20, 0.12) 0 3px, transparent 18px),
+    radial-gradient(ellipse at 50% 50%, transparent 52%, rgba(110, 70, 25, 0.38) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32  0 0 0 0 .22  0 0 0 0 .1  0 0 0 .3 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(162deg, #ead9ae 0%, var(--paper) 55%, #cdb27a 100%);
 }
-.about-bio {
-  font-size: 1.08rem;
-  color: var(--color-text);
-  background: rgba(24, 18, 20, 0.45);
-  backdrop-filter: blur(2px);
-  border-radius: var(--radius);
-  padding: 24px;
+/* Creases and soft crumple shading, multiplied over the paper. */
+.archive-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background:
+    linear-gradient(101deg, transparent 27.6%, rgba(80, 52, 22, 0.2) 27.9%, rgba(255, 246, 220, 0.3) 28.25%, transparent 28.6%),
+    linear-gradient(78deg, transparent 63.2%, rgba(80, 52, 22, 0.16) 63.5%, rgba(255, 246, 220, 0.28) 63.8%, transparent 64.1%),
+    linear-gradient(7deg, transparent 41.4%, rgba(80, 52, 22, 0.18) 41.7%, rgba(255, 246, 220, 0.28) 42%, transparent 42.3%),
+    linear-gradient(142deg, transparent 80.3%, rgba(80, 52, 22, 0.14) 80.6%, rgba(255, 246, 220, 0.25) 80.9%, transparent 81.2%),
+    radial-gradient(ellipse 38% 30% at 22% 38%, rgba(150, 110, 60, 0.14), transparent 100%),
+    radial-gradient(ellipse 34% 40% at 74% 60%, rgba(150, 110, 60, 0.16), transparent 100%),
+    radial-gradient(ellipse 30% 26% at 46% 88%, rgba(150, 110, 60, 0.12), transparent 100%);
+}
+.archive-sheet > * { position: relative; }
+
+.archive-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 36px;
+}
+.about .section-label {
+  color: #8a3b1f;
+  margin-bottom: 8px;
+}
+.about .section-heading {
+  color: var(--ink);
+  margin-bottom: 0;
+}
+/* The name, handwritten on a scrap of paper held down with tape. */
+.archive-name {
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 4px;
+  padding: 16px 30px 20px;
+  background: linear-gradient(170deg, #f1e6c8, #e2d1a2);
+  transform: rotate(-3.2deg);
+  clip-path: polygon(0 6%, 6% 0, 18% 5%, 33% 0, 52% 4%, 70% 0, 88% 5%, 100% 1%, 99% 40%, 100% 78%, 96% 100%, 80% 95%, 62% 100%, 44% 96%, 27% 100%, 10% 95%, 0 99%, 1% 55%);
+}
+.archive-name span {
+  font-family: var(--hand);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: var(--ink-blue);
+  white-space: nowrap;
+  text-shadow: 0 0 1px rgba(31, 42, 77, 0.5);
+}
+.archive-name::after {
+  content: "";
+  position: absolute;
+  left: 26px;
+  right: 24px;
+  bottom: 12px;
+  height: 7px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C30 1 60 7 95 4 S160 2 198 5' fill='none' stroke='%231f2a4d' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  opacity: 0.8;
+}
+
+.archive-body {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.archive-body.has-photos {
+  grid-template-columns: minmax(0, 1fr) 250px;
+}
+
+/* Records: pinned to a thread running down the sheet. */
+.records {
+  position: relative;
+  margin: 0;
+  padding: 0 0 0 42px;
+  list-style: none;
+}
+.records::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 14px;
+  bottom: 14px;
+  border-left: 2px dashed rgba(90, 40, 28, 0.55);
+}
+.record {
+  position: relative;
+  margin-bottom: 30px;
+}
+.record:last-child { margin-bottom: 0; }
+.record::before {
+  content: "";
+  position: absolute;
+  left: -40px;
+  top: 12px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #e8685a, #a52a22 55%, #5b130f 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+.record-card {
+  padding: 14px 22px 18px;
+  background:
+    linear-gradient(165deg, #f7efd6, #ecdfba);
+  border: 1px solid rgba(90, 60, 30, 0.35);
+  border-top: 3px solid #a8392a;
+  box-shadow: 0 4px 10px rgba(40, 24, 8, 0.28);
+  transform: rotate(0.3deg);
+}
+.record:nth-child(even) .record-card { transform: rotate(-0.4deg); }
+.record-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(90, 40, 28, 0.35);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a3b1f;
+}
+.record-card p {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  line-height: 28px;
+  color: var(--ink);
+  /* ruled lines sit under each line of text */
+  background: repeating-linear-gradient(180deg, transparent 0 27px, rgba(70, 100, 150, 0.22) 27px 28px);
+}
+
+/* Photos: aged prints, taped on and a bit crumpled. */
+.archive-photos {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 34px;
 }
-.about-volcanoes {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 360px;
-  display: block;
-  pointer-events: none;
+.archive-photo {
+  position: relative;
+  margin: 0;
+  padding: 10px 10px 40px;
+  background: linear-gradient(160deg, #eadcb8, #d8c493);
+  box-shadow: 0 5px 12px rgba(40, 24, 8, 0.4);
+  transform: rotate(2.4deg);
 }
-.about-horizon {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+.archive-photo:nth-child(even) { transform: rotate(-2.8deg); }
+.archive-photo img {
   width: 100%;
-  height: 130px;
-  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  filter: sepia(0.7) contrast(0.92) brightness(0.96) saturate(0.8);
+}
+.archive-photo::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 70px;
+  height: 20px;
+  margin-left: -35px;
+  background: rgba(214, 196, 130, 0.62);
+  transform: rotate(-3deg);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+.archive-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   pointer-events: none;
+  mix-blend-mode: multiply;
+  background:
+    linear-gradient(112deg, transparent 33.6%, rgba(80, 52, 22, 0.4) 33.9%, rgba(255, 246, 220, 0.55) 34.3%, transparent 34.7%),
+    linear-gradient(35deg, transparent 58.4%, rgba(80, 52, 22, 0.34) 58.7%, rgba(255, 246, 220, 0.5) 59.1%, transparent 59.5%),
+    linear-gradient(180deg, transparent 62%, rgba(80, 52, 22, 0.22) 62.4%, transparent 63%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, rgba(110, 70, 25, 0.35) 100%);
+}
+.archive-photo figcaption {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 8px;
+  text-align: center;
+  font-family: var(--hand);
+  font-size: 1.25rem;
+  line-height: 1.1;
+  color: var(--ink-blue);
+}
+
+@media (max-width: 760px) {
+  .about { padding: 84px 0 90px; }
+  .archive-sheet { padding: 38px 22px 44px; }
+  .archive-head { flex-direction: column; gap: 20px; }
+  .archive-name span { font-size: 2rem; }
+  .archive-body.has-photos { grid-template-columns: 1fr; }
+  .archive-photos { flex-direction: row; flex-wrap: wrap; gap: 26px; justify-content: center; }
+  .archive-photo { width: 200px; }
+  .records { padding-left: 34px; }
+  .record::before { left: -32px; }
 }
 
 /* ==========================================================================
@@ -1336,6 +1541,3 @@ body.no-canvas .site-bg-fallback { display: block; }
   html { scroll-behavior: auto; }
   * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
-
-/* The Backstory has its own sky, so its small label gets a tone that reads on it. */
-.about .section-label { color: #E9D9A8; }
