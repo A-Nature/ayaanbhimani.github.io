@@ -204,8 +204,8 @@ function buildProjectModalContent(project) {
 /* ---------------------------------------------------------------------- */
 const EXP_TABS = [
   { key: "work", label: "Work" },
-  { key: "volunteer", label: "Volunteer" },
-  { key: "extracurricular", label: "Extracurricular" }
+  { key: "extracurricular", label: "Extracurricular" },
+  { key: "volunteer", label: "Volunteer" }
 ];
 
 function renderExperience() {
@@ -229,6 +229,13 @@ function renderExperience() {
 
     const list = SITE_DATA.experience[tab.key] || [];
     list.forEach((entry) => {
+      const item = document.createElement("div");
+      item.className = "tl-item";
+      item.innerHTML = `
+        <div class="tl-tag-wrap"><span class="tl-tag">${escapeHTML(entry.dates)}</span></div>
+        <span class="tl-node" aria-hidden="true"></span>
+      `;
+
       const card = document.createElement("button");
       card.type = "button";
       card.className = "timeline-card";
@@ -236,10 +243,10 @@ function renderExperience() {
       card.innerHTML = `
         <div class="role">${escapeHTML(entry.role)}</div>
         <div class="place">${escapeHTML(entry.place)}</div>
-        <div class="dates">${escapeHTML(entry.dates)}</div>
       `;
       card.addEventListener("click", () => openWindowModal(buildExperienceModalContent(entry)));
-      group.appendChild(card);
+      item.appendChild(card);
+      group.appendChild(item);
     });
 
     timelineWrap.appendChild(group);
