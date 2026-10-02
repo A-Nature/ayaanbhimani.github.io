@@ -235,6 +235,20 @@ function drawArchiveLinks() {
     out += `<path class="arrow-head" pathLength="1" style="--d:${(delay + 0.9).toFixed(2)}s" d="M${f(h1x)} ${f(h1y)}L${f(x2)} ${f(y2)}L${f(h2x)} ${f(h2y)}"/>`;
   };
 
+  // On a phone the papers stack in one column (record, then its photo), so
+  // the arrows simply run down the gaps in DOM order and never cross a paper.
+  if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches) {
+    const nameEl = board.querySelector(".archive-name");
+    // the name scrap is the last thing in the stacked header
+    const nodes = ((nameEl || title) ? [nameEl || title] : []).concat(Array.from(board.querySelectorAll("#archive-items > .board-item")));
+    for (let i = 0; i < nodes.length - 1; i++) {
+      const a = rel(nodes[i]), c = rel(nodes[i + 1]);
+      arrow(a.l + (a.r - a.l) * 0.3, a.b + 2, c.l + (c.r - c.l) * 0.3, c.t - 8, "v");
+    }
+    svg.innerHTML = `<g class="link-lines">${out}</g>`;
+    return;
+  }
+
   const first = recs.length ? rel(recs[0]) : null;
   if (title && first) {
     const t = rel(title);
@@ -313,7 +327,7 @@ function renderProjects() {
     const bottomColor = i < layers.length - 1
       ? `color-mix(in srgb, ${thisColor} 72%, black)`
       : "var(--color-bg)";
-    band.style.background = `linear-gradient(to bottom, ${thisColor} 0%, ${bottomColor} 100%)`;
+    band.style.background = thisColor;
     band.style.setProperty("--layer-top", thisColor);
 
     const grain = document.createElement("div");

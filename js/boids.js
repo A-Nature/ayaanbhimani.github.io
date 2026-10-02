@@ -54,7 +54,7 @@
   const PERCEPTION_SQ = CONFIG.perceptionRadius * CONFIG.perceptionRadius;
   const SEPARATION_SQ = CONFIG.separationRadius * CONFIG.separationRadius;
 
-  let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, window.innerWidth < 768 ? 1.5 : 2);
   let boids = [];
   let running = true;
   let rafId = null;
@@ -78,7 +78,7 @@
 
   function seed() {
     const target = Math.round(
-      Math.min(CONFIG.maxCount, Math.max(CONFIG.minCount, width * height * CONFIG.countPerArea))
+      Math.min(width < 768 ? 90 : CONFIG.maxCount, Math.max(CONFIG.minCount, width * height * CONFIG.countPerArea))
     );
     boids = new Array(target).fill(null).map(() => ({
       x: Math.random() * width,
