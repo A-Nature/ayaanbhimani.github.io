@@ -52,9 +52,11 @@ const SITE_DATA = {
     ],
     // Photos of Ayaan, laid on the desk beside the records and aged by CSS.
     // One photo per record, in order (extras get rows of their own). Leave the
-    // list empty and nothing renders. `caption` is optional handwriting.
+    // list empty and nothing renders. `caption` is optional handwriting; `ratio` and `pos` (CSS aspect-ratio and
+    // object-position) optionally re-crop a photo.
     photos: [
-      { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019" }
+      { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019" },
+      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "", ratio: "1 / 1", pos: "44% 50%" }
     ]
   },
 

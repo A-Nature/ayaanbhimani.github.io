@@ -76,6 +76,14 @@ function renderHero() {
 /* ---------------------------------------------------------------------- */
 /* About                                                                   */
 /* ---------------------------------------------------------------------- */
+// Optional per-photo crop from data.js (CSS aspect-ratio / object-position).
+function photoCropStyle(ph) {
+  const parts = [];
+  if (ph.ratio) parts.push(`aspect-ratio:${escapeHTML(ph.ratio)}`);
+  if (ph.pos) parts.push(`object-position:${escapeHTML(ph.pos)}`);
+  return parts.length ? ` style="${parts.join(";")}"` : "";
+}
+
 function renderAbout() {
   const wrap = document.getElementById("archive-items");
   const board = document.getElementById("archive-board");
@@ -87,7 +95,7 @@ function renderAbout() {
 
   const photoHTML = (ph, n) => `
     <div class="paper">
-      <img src="${ph.src}" alt="${escapeHTML(ph.alt || "")}">
+      <img src="${ph.src}" alt="${escapeHTML(ph.alt || "")}"${photoCropStyle(ph)}>
       <span class="photo-fig">Fig. ${n}</span>
       ${ph.caption ? `<span class="photo-caption">${escapeHTML(ph.caption)}</span>` : ""}
     </div>`;
