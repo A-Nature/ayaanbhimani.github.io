@@ -11,9 +11,12 @@
   --color-border: #2A313C;
   --color-text: #E6EDF3;
   --color-text-muted: #8B949E;
-  --color-accent: #4FB286;       /* muted teal-green — primary accent */
-  --color-accent-soft: #4FB28626;
-  --color-accent-2: #D8A657;     /* muted gold — secondary accent, sparing use (awards) */
+  --color-accent: #E0854F;       /* muted terracotta — primary accent */
+  --color-accent-soft: #E0854F26;
+  --color-accent-2: #D8A657;     /* muted ochre/gold — secondary accent, sparing use */
+
+  /* Dusk sky, used behind Hero + About only (see #sky-gradient below) */
+  --sky-gradient: linear-gradient(180deg, #13142A 0%, #2B2436 32%, #463530 58%, #6E4A3A 80%, #A5703F 100%);
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, monospace;
@@ -148,6 +151,11 @@ section {
   align-items: center;
   padding-top: 64px;
 }
+.hero h1,
+.hero .hero-subtitle,
+.hero .hero-location {
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
+}
 .hero h1 {
   font-size: clamp(2.4rem, 6vw, 4rem);
   line-height: 1.08;
@@ -199,20 +207,30 @@ section {
 }
 
 /* ==========================================================================
-   Ambient boid-flock background
+   Sky + ambient boid-flock background
    ==========================================================================
-   Fixed behind the entire page (z-index -1 always paints under normal-flow
-   content). Hero and About deliberately have no background-color, so the
-   canvas shows through there; every section below sets an opaque
+   Three fixed, full-viewport layers stacked behind the entire page (each
+   paints under normal-flow content, so no section needs its own z-index).
+   Bottom to top: the sky gradient, then the boid canvas drawn on top of it,
+   then (only if canvas/motion isn't available) a static fallback texture.
+   Hero and About deliberately have no background-color of their own, so
+   these layers show through there; every section below sets an opaque
    background-color so the rest of the page stays clean and readable.
 */
+#sky-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--sky-gradient);
+  pointer-events: none;
+}
 #boid-canvas {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   z-index: -1;
-  opacity: 0.5;
+  opacity: 0.6;
   pointer-events: none;
 }
 .site-bg-fallback {
@@ -220,8 +238,8 @@ section {
   inset: 0;
   z-index: -1;
   background:
-    radial-gradient(circle at 20% 20%, var(--color-accent-soft), transparent 45%),
-    radial-gradient(circle at 80% 65%, #D8A65722, transparent 40%);
+    radial-gradient(circle at 20% 20%, #00000022, transparent 45%),
+    radial-gradient(circle at 80% 65%, #A5703F33, transparent 40%);
   display: none;
   pointer-events: none;
 }
@@ -231,22 +249,36 @@ body.no-canvas .site-bg-fallback { display: block; }
    About
    ========================================================================== */
 .about {
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 150px; /* room for the horizon silhouette below the text */
 }
 .about-content {
   max-width: 680px;
+  position: relative;
+  z-index: 1;
 }
 .about-bio {
   font-size: 1.08rem;
   color: var(--color-text);
-  background: rgba(13, 17, 23, 0.4);
+  background: rgba(24, 18, 20, 0.45);
   backdrop-filter: blur(2px);
   border-radius: var(--radius);
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+.about-horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 130px;
+  display: block;
+  pointer-events: none;
 }
 
 /* ==========================================================================

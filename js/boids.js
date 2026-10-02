@@ -1,14 +1,17 @@
 /*
   boids.js
   ---------------------------------------------------------------------------
-  Ambient flocking simulation, rendered as a fixed full-viewport background
-  behind the whole page (see #boid-canvas in css/style.css — it's only
-  actually visible behind Hero/About, since every section below has an
-  opaque background painted over it). A simplified JS/canvas nod to Ayaan's
-  real C++ boid project. Kept subtle and low-cost:
+  A flock of birds in the dusk sky behind Hero/About (see #boid-canvas and
+  #sky-gradient in css/style.css — the flock is only actually visible there,
+  since every section below has an opaque background painted over it). A
+  simplified JS/canvas nod to Ayaan's real C++ boid project. Kept subtle and
+  low-cost:
     - pauses once you scroll past Hero + About (IntersectionObserver)
-    - pauses on prefers-reduced-motion / falls back to a static background
+    - on prefers-reduced-motion, draws one static frame instead of animating
     - degrades to the static gradient fallback if canvas 2D isn't available
+    - clicking/tapping in Hero or About scatters nearby birds; hovering
+      gently pushes them aside. Listeners live on the sections, not the
+      canvas, so buttons and links keep working normally.
 */
 
 (function () {
@@ -20,13 +23,14 @@
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ctx = canvas.getContext && canvas.getContext("2d");
 
-  if (!ctx || prefersReducedMotion) {
+  if (!ctx) {
     document.body.classList.add("no-canvas");
     return;
   }
 
-  const BOID_COLOR = "78, 178, 150";   // muted teal-green, matches --color-accent
-  const BOID_COLOR_DIM = "139, 148, 158"; // --color-text-muted, for depth variety
+  // Dark bird silhouettes against the sky gradient, not the site accent color.
+  const BOID_COLOR = "20, 16, 15";
+  const BOID_COLOR_DIM = "70, 56, 52"; // lighter/hazier, for depth variety
 
   const CONFIG = {
     countPerArea: 1 / 9000,  // boid count scales with section area
@@ -38,13 +42,25 @@
     edgeMargin: 40,
     alignWeight: 0.045,
     cohesionWeight: 0.03,
-    separationWeight: 0.09
+    separationWeight: 0.09,
+    scatterRadius: 150,     // px, click/tap flee radius
+    scatterDurationMs: 1000,
+    scatterForce: 3.2,
+    scatterSpeedMultiplier: 3.5,
+    hoverRadius: 80,        // px, continuous hover repel radius
+    hoverForce: 0.22
   };
 
   let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
   let boids = [];
   let running = true;
   let rafId = null;
+
+  // Interactive scatter (click/tap, fades out) and hover repel. Coordinates
+  // are plain viewport pixels (clientX/clientY), matching the boid space
+  // directly since the canvas is a fixed, full-viewport element.
+  let scatterPoints = []; // { x, y, startedAt }
+  let pointerX = 0, pointerY = 0, pointerActive = false;
 
   function resize() {
     width = window.innerWidth;
@@ -71,6 +87,11 @@
   }
 
   function step() {
+    const now = performance.now();
+    if (scatterPoints.length) {
+      scatterPoints = scatterPoints.filter((sp) => now - sp.startedAt < CONFIG.scatterDurationMs);
+    }
+
     for (let i = 0; i < boids.length; i++) {
       const b = boids[i];
       let alignX = 0, alignY = 0, alignN = 0;
@@ -111,10 +132,38 @@
       if (b.y < CONFIG.edgeMargin) b.vy += 0.02;
       if (b.y > height - CONFIG.edgeMargin) b.vy -= 0.02;
 
+      // Click/tap scatter: a strong flee force within scatterRadius that
+      // fades out linearly over scatterDurationMs.
+      let fleeing = false;
+      for (let k = 0; k < scatterPoints.length; k++) {
+        const sp = scatterPoints[k];
+        const dx = b.x - sp.x, dy = b.y - sp.y;
+        const d = Math.hypot(dx, dy);
+        if (d > 0 && d < CONFIG.scatterRadius) {
+          const fade = 1 - (now - sp.startedAt) / CONFIG.scatterDurationMs;
+          const strength = (1 - d / CONFIG.scatterRadius) * fade * CONFIG.scatterForce;
+          b.vx += (dx / d) * strength;
+          b.vy += (dy / d) * strength;
+          fleeing = true;
+        }
+      }
+
+      // Hover: a much weaker continuous repel near the pointer.
+      if (pointerActive) {
+        const dx = b.x - pointerX, dy = b.y - pointerY;
+        const d = Math.hypot(dx, dy);
+        if (d > 0 && d < CONFIG.hoverRadius) {
+          const strength = (1 - d / CONFIG.hoverRadius) * CONFIG.hoverForce;
+          b.vx += (dx / d) * strength;
+          b.vy += (dy / d) * strength;
+        }
+      }
+
+      const speedCap = fleeing ? CONFIG.maxSpeed * CONFIG.scatterSpeedMultiplier : CONFIG.maxSpeed;
       const speed = Math.hypot(b.vx, b.vy);
-      if (speed > CONFIG.maxSpeed) {
-        b.vx = (b.vx / speed) * CONFIG.maxSpeed;
-        b.vy = (b.vy / speed) * CONFIG.maxSpeed;
+      if (speed > speedCap) {
+        b.vx = (b.vx / speed) * speedCap;
+        b.vy = (b.vy / speed) * speedCap;
       }
 
       b.x += b.vx;
@@ -142,7 +191,7 @@
       ctx.lineTo(-len * 0.7, len * 0.5);
       ctx.lineTo(-len * 0.7, -len * 0.5);
       ctx.closePath();
-      ctx.fillStyle = `rgba(${color}, 0.55)`;
+      ctx.fillStyle = `rgba(${color}, 0.8)`;
       ctx.fill();
       ctx.restore();
     }
@@ -169,6 +218,36 @@
       rafId = null;
     }
   }
+
+  if (prefersReducedMotion) {
+    // A still flock instead of no flock at all: seed positions and draw one
+    // frame, but never start the loop or wire up interactivity.
+    resize();
+    draw();
+    window.addEventListener("resize", () => { resize(); draw(); }, { passive: true });
+    return;
+  }
+
+  // Click/tap scatters nearby birds; listeners live on the sections (not
+  // the canvas, which is pointer-events:none anyway) so buttons and links
+  // inside Hero/About are completely unaffected.
+  function handleScatter(e) {
+    const point = e.changedTouches ? e.changedTouches[0] : e;
+    scatterPoints.push({ x: point.clientX, y: point.clientY, startedAt: performance.now() });
+  }
+  function handlePointerMove(e) {
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+    pointerActive = true;
+  }
+  function handlePointerLeave() {
+    pointerActive = false;
+  }
+  [hero, about].forEach((section) => {
+    section.addEventListener("click", handleScatter);
+    section.addEventListener("pointermove", handlePointerMove, { passive: true });
+    section.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+  });
 
   // Run only while Hero or About is actually on screen — that's the only
   // place the canvas is visible under the sections above it.
