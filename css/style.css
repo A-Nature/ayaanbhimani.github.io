@@ -263,7 +263,7 @@ body.no-canvas .site-bg-fallback { display: block; }
    ========================================================================== */
 .about {
   --ink: #2b2118;
-  --ink-blue: #1f2a4d;
+  --ink-blue: #1c1915; /* the "pen" colour for all handwriting: now black */
   --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
   --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .32  0 0 0 0 .22  0 0 0 0 .1  0 0 0 .34 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   position: relative;
@@ -363,7 +363,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   right: 26px;
   bottom: 13px;
   height: 7px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C30 1 60 7 95 4 S160 2 198 5' fill='none' stroke='%231f2a4d' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 8' preserveAspectRatio='none'%3E%3Cpath d='M2 5 C30 1 60 7 95 4 S160 2 198 5' fill='none' stroke='%231c1915' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
   opacity: 0.8;
 }
 
@@ -446,11 +446,12 @@ body.no-canvas .site-bg-fallback { display: block; }
 /* 0: a page ripped from a spiral notebook, in pen */
 .record-v0 { transform: rotate(-1.2deg); }
 .record-v0 .paper {
-  padding: 22px 28px 26px 70px;
+  --pl: 70px;  /* left padding, past the margin line and the holes */
+  --pr: 28px;
+  padding: 22px var(--pr) 26px var(--pl);
   background:
     linear-gradient(90deg, transparent 54px, rgba(176, 56, 44, 0.5) 54px 56px, transparent 56px),
     radial-gradient(circle at 20px 38px, #241a12 0 6px, transparent 7px) 0 0 / 100% 56px repeat-y,
-    repeating-linear-gradient(180deg, transparent 0 29px, rgba(52, 84, 140, 0.3) 29px 30px) 0 66px / 100% 100% no-repeat,
     radial-gradient(circle at 76% 22%, rgba(120, 70, 20, 0.2) 0 10px, transparent 34px),
     radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(110, 70, 25, 0.5) 100%),
     var(--noise),
@@ -460,9 +461,16 @@ body.no-canvas .site-bg-fallback { display: block; }
 .record-v0 .record-head { margin-left: -4px; }
 .record-v0 .paper p {
   font-family: var(--hand);
+  --rule: 30px;
   font-size: 1.5rem;
-  line-height: 30px;
+  line-height: var(--rule);
   color: var(--ink-blue);
+  /* The ruled lines are drawn on the text block itself, one per line box, so
+     every line of writing sits on a rule. The block is stretched out over the
+     paper's padding so the rules still run edge to edge. */
+  margin: 0 calc(-1 * var(--pr)) 0 calc(-1 * var(--pl));
+  padding: 0 var(--pr) 0 var(--pl);
+  background: repeating-linear-gradient(180deg, transparent 0 calc(var(--rule) - 1px), rgba(52, 84, 140, 0.32) calc(var(--rule) - 1px) var(--rule));
 }
 
 /* 1: a buff file card, typed */
@@ -561,7 +569,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   .side-left { align-self: flex-start; }
   .side-right { align-self: flex-end; }
   .archive-photo { width: 62%; }
-  .record-v0 .paper { padding-left: 58px; }
+  .record-v0 .paper { --pl: 58px; }
   .record-v0 .paper p { font-size: 1.35rem; }
 }
 
@@ -1811,6 +1819,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   .archive-photo.side-left { transform: rotate(-2deg); }
   .archive-photo.side-right { transform: rotate(2deg); }
   .record-card p, .record .paper p { font-size: 1rem; }
-  .record-v0 .paper p { font-size: 1.3rem; line-height: 28px; }
+  .record-v0 .paper p { font-size: 1.3rem; --rule: 28px; }
   .record-v1 .paper p { font-size: 0.86rem; }
 }
