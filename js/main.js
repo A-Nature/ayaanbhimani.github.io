@@ -51,10 +51,17 @@ function initNavScroll() {
 /* Hero                                                                    */
 /* ---------------------------------------------------------------------- */
 function renderHero() {
-  const { hero } = SITE_DATA;
+  const { hero, contact } = SITE_DATA;
   document.getElementById("hero-name").textContent = hero.name;
   document.getElementById("hero-subtitle").textContent = hero.subtitle;
   document.getElementById("hero-location").textContent = hero.location;
+
+  const resumeLink = document.getElementById("hero-resume-link");
+  if (resumeLink && contact.resume) {
+    resumeLink.href = contact.resume;
+  } else if (resumeLink) {
+    resumeLink.remove();
+  }
 }
 
 /* ---------------------------------------------------------------------- */

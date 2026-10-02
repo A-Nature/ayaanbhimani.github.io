@@ -48,6 +48,7 @@ const SITE_DATA = {
     {
       id: "erm",
       name: "ERM",
+      dates: "November 2024 – Present",
       description: "Multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. Players take on one of three roles (Rogues, Frontliners, Trackers), each with distinct mechanics layering deception, investigation, and teamwork. Inspired by Mafia, Among Us, and Dead by Daylight. Full gameplay programming, multiplayer replication, role assignment, and round progression built largely from scratch, along with all 3D models, animations, sound design, music, and UI.",
       tags: ["Unreal Engine 5", "C++/Blueprints", "Game System Design", "Asset Creation"],
       links: [
@@ -68,7 +69,8 @@ const SITE_DATA = {
     {
       id: "minecraft-mods",
       name: "Minecraft Mods",
-      description: "Two Minecraft mods built in Java for Forge 1.7.10 as part of a summer coding camp. Ayaan's Replicator Mod is a WorldEdit-style copy/paste tool. PrehistoriCraft, still a work in progress, adds custom dinosaur entities modeled in Blockbench, with a two-version plan: a 1.7.10 camp build and a future 1.20.1+ CurseForge release using GeckoLib.",
+      dates: "July 2026",
+      description: "Two Minecraft mods built in Java for Forge 1.7.10 as part of a summer coding camp. Ayaan's Replicator Mod is a packet-based multiplayer copy/paste system with per-player clipboard state and undo support. PrehistoriCraft, still a work in progress, adds custom dinosaur entities modeled in Blockbench, with a two-version plan: a 1.7.10 camp build and a future 1.20.1+ CurseForge release using GeckoLib.",
       tags: ["Java", "Minecraft Forge", "Blockbench", "GeckoLib"],
       links: [],
       downloads: [
@@ -87,7 +89,8 @@ const SITE_DATA = {
     {
       id: "boid-sim",
       name: "Boid Simulation",
-      description: "2D boid/fish schooling simulation built in C++ with raylib, with runtime weight controls for live tuning of flocking behavior. Currently being extended with a neuroevolution/genetic algorithm layer.",
+      dates: "July 2026",
+      description: "2D boid/fish schooling simulation built in C++ with raylib, implementing the three classic boid rules (separation, alignment, and cohesion) from scratch, with runtime weight controls for live tuning of flocking behavior. Currently being extended with a neuroevolution/genetic algorithm layer.",
       tags: ["C++", "raylib", "Simulation", "Genetic Algorithms"],
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/boidsim" }
@@ -127,8 +130,9 @@ const SITE_DATA = {
     {
       id: "stratagem-pad",
       name: "Helldivers Stratagem Pad",
-      description: "A custom hardware controller inspired by the stratagem input system from Helldivers 2. A microcontroller reads swipe input from a touch surface and runs the sequence through a small state machine to match it against a set of stratagem codes, then lights up a display to show the result in real time. The case was designed in Tinkercad and printed on a Bambu Lab printer, with a battery built in so the whole thing runs untethered. Still in progress.",
-      tags: ["Embedded Systems", "C/C++", "Gesture Recognition", "3D Printing"],
+      dates: "August 2026 – Present",
+      description: "A wrist-mounted hardware controller inspired by the stratagem input system from Helldivers 2. An ESP32-S3 development board runs custom firmware that reads swipe gestures and matches them against a set of stratagem codes, then lights up a display to show the result in real time. The case was self-designed in Tinkercad and printed on a Bambu Lab printer, with a battery built in so the whole thing runs untethered. Still in progress.",
+      tags: ["Embedded Systems", "ESP32-S3", "C/C++", "3D Printing"],
       links: [],
       downloads: [
         // e.g. { label: "Firmware Source (.zip)", path: "files/projects/stratagem-pad-source.zip" }
@@ -293,15 +297,23 @@ const SITE_DATA = {
   skills: [
     {
       category: "Languages",
-      items: ["C++", "C", "Java", "Python", "JavaScript"]
+      items: ["Python", "C++", "C", "Java"]
     },
     {
-      category: "Engines & Tools",
-      items: ["Unreal Engine 5", "Minecraft Forge", "GeckoLib", "Blockbench", "Blender", "raylib"]
+      category: "Tools",
+      items: ["Git", "GitHub", "Docker"]
     },
     {
-      category: "Systems & Simulation",
-      items: ["Multiplayer Networking/Replication", "Genetic Algorithms/Neuroevolution"]
+      category: "Systems",
+      items: ["Packet-based Protocols", "Data Serialization (NBT)", "UART Communication", "Multiplayer Replication", "Genetic Algorithms/Neuroevolution"]
+    },
+    {
+      category: "Game Development",
+      items: ["Unreal Engine 5", "raylib", "Minecraft Forge", "GeckoLib"]
+    },
+    {
+      category: "Fabrication & Embedded",
+      items: ["Embedded Systems (ESP32)", "Tinkercad", "Blockbench", "Blender", "3D Printing"]
     },
     {
       // Skills built through jobs, volunteering, and leadership roles, not
@@ -338,7 +350,8 @@ const SITE_DATA = {
   contact: {
     email: "ayaan.b@outlook.com",
     github: "https://github.com/A-Nature",
-    linkedin: "https://www.linkedin.com/in/ayaan-bhimani-803662407/",
-    instagram: "https://www.instagram.com/ayaanb08"
+    linkedin: "https://www.linkedin.com/in/ayaan-bhimani/",
+    instagram: "https://www.instagram.com/ayaanb08",
+    resume: "files/ayaan-bhimani-resume.pdf"
   }
 };
