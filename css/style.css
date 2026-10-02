@@ -159,6 +159,7 @@ section {
   align-items: center;
   padding-top: 64px;
 }
+.hero .container { width: 100%; }
 .hero h1,
 .hero .hero-subtitle,
 .hero .hero-location {
@@ -290,112 +291,212 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 
 /* ==========================================================================
-   Projects — the dig site. Sediment strata (one band per layer, newest/
-   in-progress on top, oldest deepest), each holding its projects as
-   "fossil" cards. Layer colors and the noise texture are decorative only —
-   every card has its own solid, dark, readable background regardless of
-   which band it sits on, so names stay legible at a glance either way.
+   Projects — the dig site. Sediment strata (newest/in-progress on top,
+   oldest deepest), each holding its projects as stone slabs with a fossil
+   (or, once set, a real screenshot/photo) pressed into them. Band colors
+   are decorative; every slab keeps its own dark, readable surface.
    ========================================================================== */
 .projects {
   padding-top: 0;
   padding-bottom: 0;
   position: relative;
+  background: var(--color-rock-dark); /* matches the horizon silhouette above */
 }
 .projects-heading {
-  padding: 96px 0 32px;
+  padding: 88px 0 28px;
   position: relative;
   z-index: 1;
+  background: var(--color-rock-dark);
 }
-/* One subtle noise texture spans the whole section, on top of every band. */
-.projects::before {
+.projects-heading .section-heading { margin-bottom: 10px; }
+.projects-sub {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  max-width: 520px;
+}
+
+.project-layer {
+  position: relative;
+  padding: 60px 0 76px;
+}
+/* Irregular, wavy top edge so layers read as rock, not stripes. */
+.project-layer::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -17px;
+  height: 18px;
+  background: var(--layer-top);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='18' preserveAspectRatio='none'%3E%3Cpath d='M0 18V9C40 1 72 15 116 8S196 2 236 10 330 16 372 7L420 9V18Z'/%3E%3C/svg%3E") bottom left / 420px 18px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='18' preserveAspectRatio='none'%3E%3Cpath d='M0 18V9C40 1 72 15 116 8S196 2 236 10 330 16 372 7L420 9V18Z'/%3E%3C/svg%3E") bottom left / 420px 18px repeat-x;
+}
+/* Fine sediment laminations running across the layer. */
+.project-layer::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.05;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0 21px, rgba(0, 0, 0, 0.09) 21px 22px,
+    transparent 22px 40px, rgba(255, 235, 200, 0.07) 40px 41px,
+    transparent 41px 66px, rgba(0, 0, 0, 0.06) 66px 68px
+  );
+}
+.layer-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.16;
   mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-.project-layer {
-  position: relative;
-  padding: 56px 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-.project-layer:last-child {
-  border-bottom: none;
-  padding-bottom: 72px;
-}
+.project-layer > .container { position: relative; z-index: 1; }
+
 .project-layer-label {
   display: inline-block;
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(20, 16, 11, 0.65);
-  background: rgba(237, 230, 216, 0.55);
-  border: 1px solid rgba(20, 16, 11, 0.25);
+  color: rgba(20, 16, 11, 0.7);
+  background: rgba(237, 230, 216, 0.6);
+  border: 1px solid rgba(20, 16, 11, 0.28);
   border-radius: 3px;
-  padding: 3px 8px;
-  margin-bottom: 20px;
+  padding: 3px 9px;
+  margin-bottom: 22px;
 }
+
 .fossil-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  position: relative;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap: 22px;
 }
 .fossil-card {
   position: relative;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 22px 20px;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: stretch;
   text-align: left;
+  padding: 0;
   overflow: hidden;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  border-radius: 12px;
+  color: var(--color-text);
+  border: 1px solid rgba(214, 186, 140, 0.3);
+  background: linear-gradient(150deg, #3f3328 0%, #2c231b 55%, #231b15 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 210, 0.1),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.35),
+    0 14px 26px -12px rgba(0, 0, 0, 0.7);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
-/* Simple fossil-specimen framing: tick-marked corners, like a museum
-   display card, rather than a per-project icon. */
-.fossil-card::after {
+.fossil-card::before {
   content: "";
   position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(201, 168, 118, 0.18);
-  border-radius: 3px;
-  pointer-events: none;
-}
-/* A layer of "dust" sits over the card until you brush it off (hover/focus). */
-.fossil-card .fossil-dust {
-  position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(201, 168, 118, 0.16), transparent 60%);
-  opacity: 1;
-  transition: opacity 0.25s ease;
   pointer-events: none;
+  opacity: 0.12;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 .fossil-card:hover,
 .fossil-card:focus-visible {
+  transform: translateY(-4px);
   border-color: var(--color-accent);
-  transform: translateY(-3px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 240, 210, 0.14),
+    inset 0 -3px 8px rgba(0, 0, 0, 0.3),
+    0 20px 30px -12px rgba(0, 0, 0, 0.75);
   outline: none;
 }
+
+/* The pressed-in stone panel the fossil sits in. */
+.fossil-relief {
+  position: relative;
+  flex: 0 0 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at 35% 28%, #52443a 0%, #2f261e 62%, #251d17 100%);
+  border-right: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: inset -3px 0 10px rgba(0, 0, 0, 0.4), inset 0 3px 12px rgba(0, 0, 0, 0.4);
+}
+.fossil-svg {
+  width: 100%;
+  height: auto;
+  color: rgba(226, 198, 150, 0.9);
+  /* light edge below, dark edge above: reads as carved/pressed into stone */
+  filter: drop-shadow(0 1.5px 0 rgba(255, 240, 210, 0.22)) drop-shadow(0 -1px 1.5px rgba(0, 0, 0, 0.75));
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+/* A film of dust over the fossil until you brush it off (hover/focus). */
+.fossil-dust {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 40% 38%, rgba(201, 168, 118, 0.3), rgba(201, 168, 118, 0.12) 75%);
+  transition: opacity 0.35s ease;
+}
 .fossil-card:hover .fossil-dust,
-.fossil-card:focus-visible .fossil-dust {
-  opacity: 0;
+.fossil-card:focus-visible .fossil-dust { opacity: 0; }
+.fossil-card:hover .fossil-svg,
+.fossil-card:focus-visible .fossil-svg {
+  transform: scale(1.06) rotate(-2deg);
+  color: rgba(246, 222, 178, 1);
+}
+.fossil-relief.has-cover { padding: 0; }
+.fossil-cover {
+  width: 100%;
+  height: 100%;
+  min-height: 150px;
+  object-fit: cover;
+}
+
+.fossil-info {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  padding: 22px 24px;
+}
+.fossil-catalog {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent-2);
 }
 .fossil-card .project-name {
   font-family: var(--font-mono);
-  font-size: 0.95rem;
+  font-size: 1.15rem;
+  line-height: 1.25;
   color: var(--color-text);
-  position: relative;
 }
 .fossil-card .project-tagline {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--color-text-muted);
-  position: relative;
+}
+.fossil-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+}
+.fossil-open {
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--color-accent);
+}
+
+@media (max-width: 560px) {
+  .fossil-relief { flex-basis: 96px; padding: 12px; }
+  .fossil-info { padding: 16px 16px; }
+  .fossil-card .project-name { font-size: 1rem; }
 }
 
 /* ==========================================================================
@@ -821,9 +922,9 @@ body.no-canvas .site-bg-fallback { display: block; }
   background: var(--color-bg);
 }
 .skills-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));
+  gap: 36px 56px;
 }
 .skills-group h3 {
   font-family: var(--font-mono);

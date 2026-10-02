@@ -121,18 +121,26 @@ function renderProjects() {
   wrap.innerHTML = "";
 
   const layers = groupProjectsIntoLayers(SITE_DATA.projects);
+  let specimenNo = 0;
 
   layers.forEach((layer, i) => {
     const band = document.createElement("div");
     band.className = "project-layer";
-    // Each band gradient-blends into the next layer's color (or into the
-    // bedrock background for the last one), so the strata read as
-    // continuous sediment rather than hard-edged stripes.
+    // Each band shades darker toward its bottom (the last one fades into
+    // the bedrock background), so the wavy edge where the next layer
+    // begins stays visible instead of every band melting together.
+    // --layer-top colors that wavy edge.
     const thisColor = PROJECT_LAYER_COLORS[i % PROJECT_LAYER_COLORS.length];
-    const nextColor = i < layers.length - 1
-      ? PROJECT_LAYER_COLORS[(i + 1) % PROJECT_LAYER_COLORS.length]
+    const bottomColor = i < layers.length - 1
+      ? `color-mix(in srgb, ${thisColor} 72%, black)`
       : "var(--color-bg)";
-    band.style.background = `linear-gradient(to bottom, ${thisColor} 0%, ${nextColor} 100%)`;
+    band.style.background = `linear-gradient(to bottom, ${thisColor} 0%, ${bottomColor} 100%)`;
+    band.style.setProperty("--layer-top", thisColor);
+
+    const grain = document.createElement("div");
+    grain.className = "layer-grain";
+    grain.setAttribute("aria-hidden", "true");
+    band.appendChild(grain);
 
     const inner = document.createElement("div");
     inner.className = "container";
@@ -145,14 +153,29 @@ function renderProjects() {
     const grid = document.createElement("div");
     grid.className = "fossil-grid";
     layer.projects.forEach((project) => {
+      specimenNo++;
       const card = document.createElement("button");
       card.type = "button";
       card.className = "fossil-card";
       card.setAttribute("aria-haspopup", "dialog");
+
+      // A real screenshot/photo wins over the drawn fossil once one is
+      // set in the project's media array.
+      const cover = (project.media || []).find((m) => m && m.src && m.type === "image");
+      const art = cover
+        ? `<img class="fossil-cover" src="${cover.src}" alt="${escapeHTML(cover.alt || "")}">`
+        : `<span class="fossil-dust" aria-hidden="true"></span>${fossilSVG(project.fossil)}`;
+
+      const tags = (project.tags || []).slice(0, 3).join(" · ");
       card.innerHTML = `
-        <span class="fossil-dust" aria-hidden="true"></span>
-        <span class="project-name">${escapeHTML(project.name)}</span>
-        <span class="project-tagline">${escapeHTML(project.tags[0] || "")}</span>
+        <span class="fossil-relief${cover ? " has-cover" : ""}">${art}</span>
+        <span class="fossil-info">
+          <span class="fossil-catalog">Specimen Nº ${String(specimenNo).padStart(3, "0")}</span>
+          <span class="project-name">${escapeHTML(project.name)}</span>
+          <span class="project-tagline">${escapeHTML(tags)}</span>
+          ${project.dates ? `<span class="fossil-meta">${escapeHTML(project.dates)}</span>` : ""}
+          <span class="fossil-open">View details &rarr;</span>
+        </span>
       `;
       card.addEventListener("click", () => openWindowModal(buildProjectModalContent(project)));
       grid.appendChild(card);

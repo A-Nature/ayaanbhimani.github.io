@@ -54,6 +54,7 @@ const SITE_DATA = {
   projects: [
     {
       id: "erm",
+      fossil: "footprint", // drawn on the card, see js/fossils.js
       name: "ERM",
       dates: "November 2024 – Present",
       year: 2024, // used to sort into strata layers in the Projects section
@@ -76,6 +77,7 @@ const SITE_DATA = {
     },
     {
       id: "minecraft-mods",
+      fossil: "bone", // drawn on the card, see js/fossils.js
       name: "Minecraft Mods",
       dates: "July 2026",
       year: 2026,
@@ -97,6 +99,7 @@ const SITE_DATA = {
     },
     {
       id: "boid-sim",
+      fossil: "fish", // drawn on the card, see js/fossils.js
       name: "Boid Simulation",
       dates: "July 2026",
       year: 2026,
@@ -119,6 +122,7 @@ const SITE_DATA = {
     },
     {
       id: "tower-defense",
+      fossil: "ammonite", // drawn on the card, see js/fossils.js
       name: "Out of Control (Tower Defense)",
       dates: "2024", // TODO(Ayaan): confirm/adjust, guessed since no exact date was given
       year: 2024,
@@ -141,6 +145,7 @@ const SITE_DATA = {
     },
     {
       id: "stratagem-pad",
+      fossil: "trilobite", // drawn on the card, see js/fossils.js
       name: "Helldivers Stratagem Pad",
       dates: "August 2026 – Present",
       year: 2026,
@@ -162,6 +167,7 @@ const SITE_DATA = {
     },
     {
       id: "helldivers-helmet",
+      fossil: "shell", // drawn on the card, see js/fossils.js
       name: "Helldivers Helmet",
       dates: "2026", // TODO(Ayaan): confirm/adjust, guessed since no exact date was given
       year: 2026,
@@ -266,6 +272,16 @@ const SITE_DATA = {
           { label: "ReSwipe Final Report (.pdf)", path: "files/experience/reswipe-final-report.pdf" }
         ],
         media: [{ type: "image", src: null, alt: "Junior Achievement: ReSwipe" }],
+        reflection: ""
+      },
+      {
+        id: "ex-camp-noor",
+        role: "Summer Camp Organizer",
+        place: "Camp Noor, Al Mahdi Islamic Community Centre",
+        dates: "May 2025 – Present",
+        description: "Helped plan and run Camp Noor, a children's summer camp. Came up with activity ideas, helped coordinate logistics, and created organizational forms to keep operations running smoothly. Worked with the rest of the team to build the camp experience from the ground up so campers had a structured, enjoyable, and memorable time. Gained hands-on experience in event planning and program design.",
+        downloads: [],
+        media: [{ type: "image", src: null, alt: "Camp Noor" }],
         reflection: ""
       },
       {
