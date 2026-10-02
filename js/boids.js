@@ -35,9 +35,9 @@
   const BOID_COLOR = "20, 16, 15";
 
   const CONFIG = {
-    countPerArea: 1 / 3600,  // boid count scales with section area
-    maxCount: 140,
-    minCount: 40,
+    countPerArea: 1 / 2600,  // boid count scales with section area
+    maxCount: 320,
+    minCount: 70,
     maxSpeed: 1.1,
     perceptionRadius: 70,
     separationRadius: 26,
@@ -52,6 +52,8 @@
     hoverRadius: 80,        // px, continuous hover repel radius
     hoverForce: 0.22
   };
+  const PERCEPTION_SQ = CONFIG.perceptionRadius * CONFIG.perceptionRadius;
+  const SEPARATION_SQ = CONFIG.separationRadius * CONFIG.separationRadius;
 
   let width = 0, height = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
   let boids = [];
@@ -104,15 +106,18 @@
         const o = boids[j];
         const dx = o.x - b.x;
         const dy = o.y - b.y;
-        const d = Math.hypot(dx, dy);
+        // Squared distances: with hundreds of birds this loop runs tens of
+        // thousands of times a frame, so skip the sqrt unless it's needed.
+        const d2 = dx * dx + dy * dy;
 
-        if (d < CONFIG.perceptionRadius) {
+        if (d2 < PERCEPTION_SQ) {
           alignX += o.vx; alignY += o.vy; alignN++;
           cohX += o.x; cohY += o.y; cohN++;
-        }
-        if (d < CONFIG.separationRadius && d > 0) {
-          sepX -= dx / d;
-          sepY -= dy / d;
+          if (d2 < SEPARATION_SQ && d2 > 0) {
+            const d = Math.sqrt(d2);
+            sepX -= dx / d;
+            sepY -= dy / d;
+          }
         }
       }
 
