@@ -23,7 +23,7 @@
   --color-clay: #8B5A42;
   --color-rock-dark: #241A13;
 
-  /* Dusk sky, used behind Hero + About only (see #sky-gradient below) */
+  /* Dusk sky behind the Hero (see .hero::before) */
   --sky-gradient: linear-gradient(180deg, #13142A 0%, #2B2436 32%, #463530 58%, #6E4A3A 80%, #A5703F 100%);
 
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -154,12 +154,23 @@ section {
    Hero
    ========================================================================== */
 .hero {
+  position: relative;
   min-height: 100vh;
   display: flex;
   align-items: center;
   padding-top: 64px;
 }
 .hero .container { width: 100%; }
+/* The sky scrolls with the Hero (it isn't fixed), so the Backstory below
+   can have a landscape of its own. z-index -2 sits under the boid canvas. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--sky-gradient);
+  pointer-events: none;
+}
 .hero h1,
 .hero .hero-subtitle,
 .hero .hero-location {
@@ -216,23 +227,12 @@ section {
 }
 
 /* ==========================================================================
-   Sky + ambient boid-flock background
+   Boid-flock background
    ==========================================================================
-   Three fixed, full-viewport layers stacked behind the entire page (each
-   paints under normal-flow content, so no section needs its own z-index).
-   Bottom to top: the sky gradient, then the boid canvas drawn on top of it,
-   then (only if canvas/motion isn't available) a static fallback texture.
-   Hero and About deliberately have no background-color of their own, so
-   these layers show through there; every section below sets an opaque
-   background-color so the rest of the page stays clean and readable.
+   The canvas is fixed behind the whole page and the Hero's sky sits under it.
+   Only the Hero is transparent, so the flock shows there and nowhere else:
+   every section below sets its own opaque background.
 */
-#sky-gradient {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background: var(--sky-gradient);
-  pointer-events: none;
-}
 #boid-canvas {
   position: fixed;
   inset: 0;
@@ -260,6 +260,8 @@ body.no-canvas .site-bg-fallback { display: block; }
 .about {
   position: relative;
   overflow: hidden;
+  /* Its own dusk sky, picking up where the Hero's amber horizon ends. */
+  background: linear-gradient(180deg, #A5703F 0%, #B27846 55%, #BE8350 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding-bottom: 150px; /* room for the horizon silhouette below the text */
 }
@@ -1333,3 +1335,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   html { scroll-behavior: auto; }
   * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
 }
+
+/* The Backstory sits on the amber sky, so its small label needs a darker tone. */
+.about .section-label { color: #3a2314; }

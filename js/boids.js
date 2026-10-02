@@ -1,15 +1,15 @@
 /*
   boids.js
   ---------------------------------------------------------------------------
-  A flock of birds in the dusk sky behind Hero/About (see #boid-canvas and
+  A flock of birds in the dusk sky behind the Hero (see #boid-canvas and
   #sky-gradient in css/style.css — the flock is only actually visible there,
   since every section below has an opaque background painted over it). A
   simplified JS/canvas nod to Ayaan's real C++ boid project. Kept subtle and
   low-cost:
-    - pauses once you scroll past Hero + About (IntersectionObserver)
+    - pauses once you scroll past the Hero (IntersectionObserver)
     - on prefers-reduced-motion, draws one static frame instead of animating
     - degrades to the static gradient fallback if canvas 2D isn't available
-    - clicking/tapping in Hero or About scatters nearby birds; hovering
+    - clicking/tapping in the Hero scatters nearby birds; hovering
       gently pushes them aside. Listeners live on the sections, not the
       canvas, so buttons and links keep working normally.
 */
@@ -17,8 +17,7 @@
 (function () {
   const canvas = document.getElementById("boid-canvas");
   const hero = document.getElementById("top");
-  const about = document.getElementById("about");
-  if (!canvas || !hero || !about) return;
+  if (!canvas || !hero) return;
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const ctx = canvas.getContext && canvas.getContext("2d");
@@ -35,25 +34,22 @@
   const BOID_COLOR = "20, 16, 15";
 
   const CONFIG = {
-    countPerArea: 1 / 7500,  // boid count scales with section area
-    maxCount: 150,
-    minCount: 40,
+    countPerArea: 1 / 2600,  // boid count scales with section area
+    maxCount: 320,
+    minCount: 70,
     maxSpeed: 1.1,
-    minSpeed: 0.55,         // keeps birds gliding instead of stalling and spinning
-    perceptionRadius: 90,
-    separationRadius: 48,
+    perceptionRadius: 70,
+    separationRadius: 26,
     edgeMargin: 40,
     alignWeight: 0.045,
     cohesionWeight: 0.03,
-    separationWeight: 0.12,
+    separationWeight: 0.09,
     scatterRadius: 150,     // px, click/tap flee radius
     scatterDurationMs: 1000,
     scatterForce: 3.2,
     scatterSpeedMultiplier: 3.5,
     hoverRadius: 80,        // px, continuous hover repel radius
-    hoverForce: 0.22,
-    flapRate: 0.035,         // wingbeat phase per frame; set both flap values
-    flapSpeedGain: 0.03     // to 0 for fixed wings
+    hoverForce: 0.22
   };
   const PERCEPTION_SQ = CONFIG.perceptionRadius * CONFIG.perceptionRadius;
   const SEPARATION_SQ = CONFIG.separationRadius * CONFIG.separationRadius;
@@ -88,11 +84,8 @@
       x: Math.random() * width,
       y: Math.random() * height,
       vx: (Math.random() - 0.5) * CONFIG.maxSpeed,
-      vy: (Math.random() - 0.5) * CONFIG.maxSpeed,
-      phase: Math.random() * Math.PI * 2,
-      angle: 0
+      vy: (Math.random() - 0.5) * CONFIG.maxSpeed
     }));
-    boids.forEach((b) => { b.angle = Math.atan2(b.vy, b.vx); });
   }
 
   function step() {
@@ -178,21 +171,8 @@
         b.vy = (b.vy / speed) * speedCap;
       }
 
-      // Never stall: a near-zero velocity makes the heading flip around
-      if (speed < CONFIG.minSpeed) {
-        const heading = speed > 0.0001 ? Math.atan2(b.vy, b.vx) : b.angle;
-        b.vx = Math.cos(heading) * CONFIG.minSpeed;
-        b.vy = Math.sin(heading) * CONFIG.minSpeed;
-      }
-
       b.x += b.vx;
       b.y += b.vy;
-      // Ease the drawn heading toward the velocity so sharp steering
-      // doesn't snap the wings around from one frame to the next.
-      let diff = Math.atan2(b.vy, b.vx) - b.angle;
-      diff = Math.atan2(Math.sin(diff), Math.cos(diff));
-      b.angle += diff * 0.12;
-      b.phase += CONFIG.flapRate + speed * CONFIG.flapSpeedGain;
 
       if (b.x < -20) b.x = width + 20;
       if (b.x > width + 20) b.x = -20;
@@ -201,60 +181,24 @@
     }
   }
 
-  // Each bird is a small pterosaur seen from above: a head with a long crest
-  // pointing back, a narrow body, and two swept wings with a bent leading
-  // edge. Points are in a local frame (nose toward +x, unit = SIZE px) and
-  // rotated by the bird's heading. The flap swings the wing tips back and
-  // forth and shortens the span a little, like a top-down view of a wingbeat.
-  // Everything goes into one path and one fill so hundreds of birds stay
-  // cheap; the nonzero fill rule merges any overlapping pieces.
-  const SIZE = 8.5;
   function draw() {
     ctx.clearRect(0, 0, width, height);
-    ctx.beginPath();
     for (const b of boids) {
-      const angle = b.angle;
-      const c = Math.cos(angle) * SIZE;
-      const s = Math.sin(angle) * SIZE;
-      const flap = Math.sin(b.phase);
-      const tipX = -0.85 + flap * 0.4;       // wing tips sweep fore and aft
-      const span = 1.9 - Math.abs(flap) * 0.25;
+      const angle = Math.atan2(b.vy, b.vx);
+      const len = 6.5;
 
-      const P = (x, y) => [b.x + x * c - y * s, b.y + x * s + y * c];
-      const poly = (pts) => {
-        const first = P(pts[0][0], pts[0][1]);
-        ctx.moveTo(first[0], first[1]);
-        for (let i = 1; i < pts.length; i++) {
-          const p = P(pts[i][0], pts[i][1]);
-          ctx.lineTo(p[0], p[1]);
-        }
-        ctx.closePath();
-      };
-
-      // Long beak, skull and slim body as one outline
-      poly([
-        [1.55, 0], [1.0, 0.07], [0.7, 0.13], [0.4, 0.16], [-0.1, 0.14],
-        [-0.6, 0.07], [-0.6, -0.07], [-0.1, -0.14], [0.4, -0.16],
-        [0.7, -0.13], [1.0, -0.07]
-      ]);
-      // Crest, a thin spike trailing off the back of the skull
-      poly([[0.75, 0.1], [0.2, 0.0], [0.75, -0.05]]);
-      // Wings, mirrored: shoulder, elbow bend, tip, then the trailing edge
-      // home. The mirrored side is reversed so every piece winds the same
-      // way and overlaps never cut holes under the nonzero rule.
-      for (const side of [1, -1]) {
-        const wing = [
-          [0.4, side * 0.12],
-          [0.25 + flap * 0.1, side * span * 0.42],
-          [tipX, side * span],
-          [-0.2 + flap * 0.15, side * span * 0.45],
-          [-0.4, side * 0.13]
-        ];
-        poly(side > 0 ? wing : wing.reverse());
-      }
+      ctx.save();
+      ctx.translate(b.x, b.y);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(len, 0);
+      ctx.lineTo(-len * 0.7, len * 0.5);
+      ctx.lineTo(-len * 0.7, -len * 0.5);
+      ctx.closePath();
+      ctx.fillStyle = `rgba(${BOID_COLOR}, 0.8)`;
+      ctx.fill();
+      ctx.restore();
     }
-    ctx.fillStyle = `rgba(${BOID_COLOR}, 0.82)`;
-    ctx.fill();
   }
 
   function loop() {
@@ -290,7 +234,7 @@
 
   // Click/tap scatters nearby birds; listeners live on the sections (not
   // the canvas, which is pointer-events:none anyway) so buttons and links
-  // inside Hero/About are completely unaffected.
+  // inside the Hero are completely unaffected.
   function handleScatter(e) {
     const point = e.changedTouches ? e.changedTouches[0] : e;
     scatterPoints.push({ x: point.clientX, y: point.clientY, startedAt: performance.now() });
@@ -303,26 +247,19 @@
   function handlePointerLeave() {
     pointerActive = false;
   }
-  [hero, about].forEach((section) => {
-    section.addEventListener("click", handleScatter);
-    section.addEventListener("pointermove", handlePointerMove, { passive: true });
-    section.addEventListener("pointerleave", handlePointerLeave, { passive: true });
-  });
+  hero.addEventListener("click", handleScatter);
+  hero.addEventListener("pointermove", handlePointerMove, { passive: true });
+  hero.addEventListener("pointerleave", handlePointerLeave, { passive: true });
 
-  // Run only while Hero or About is actually on screen — that's the only
+  // Run only while the Hero is on screen, which is the only
   // place the canvas is visible under the sections above it.
-  let heroVisible = false;
-  let aboutVisible = false;
   const io = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.target === hero) heroVisible = entry.isIntersecting;
-      if (entry.target === about) aboutVisible = entry.isIntersecting;
+      if (entry.isIntersecting) start();
+      else stop();
     });
-    if (heroVisible || aboutVisible) start();
-    else stop();
   }, { threshold: 0.05 });
   io.observe(hero);
-  io.observe(about);
 
   // ResizeObserver on <html> catches real viewport size once layout/fonts
   // settle, and any later size change — more reliable than a single
