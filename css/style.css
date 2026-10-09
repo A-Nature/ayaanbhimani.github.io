@@ -416,16 +416,7 @@ body.no-canvas .site-bg-fallback { display: block; }
 .link-lines .arrow-head {
   stroke-width: 4;
 }
-.archive-links.is-drawn .link-lines path {
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 0.9s ease-out var(--d, 0s);
-}
-.archive-links.is-drawn .link-lines .arrow-head {
-  transition-duration: 0.3s;
-}
-@media (prefers-reduced-motion: reduce) {
-  .archive-links.is-drawn .link-lines path { transition: none; }
-}
+/* stroke-dashoffset is set from the scroll position in updateArchiveArrows() */
 
 /* ---- Records: three kinds of paper, cycled ---------------------------- */
 .record-head {

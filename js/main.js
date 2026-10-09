@@ -153,20 +153,47 @@ function renderAbout() {
   window.addEventListener("load", drawArchiveLinks);
   if (window.ResizeObserver) new ResizeObserver(drawArchiveLinks).observe(board);
 
-  // The marker arrows draw themselves the first time the desk scrolls into view.
-  const linksSvg = document.getElementById("archive-links");
-  const reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduceMotion || !("IntersectionObserver" in window)) {
-    linksSvg.classList.add("is-drawn");
-  } else {
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) {
-        linksSvg.classList.add("is-drawn");
-        io.disconnect();
-      }
-    }, { threshold: 0.15 });
-    io.observe(board);
-  }
+  // The marker arrows are drawn by scrolling: each one is inked in as the
+  // page moves past it (see updateArchiveArrows), and rubbed out again if
+  // the reader scrolls back up.
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; updateArchiveArrows(); });
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+}
+
+// Sets how much of each arrow is inked, from where it sits in the viewport.
+// An arrow starts once its top is about 85% of the way down the screen and is
+// complete after the page has moved by its own length (at least 140px), the
+// head going on last.
+let archiveArrows = [];
+function updateArchiveArrows() {
+  const board = document.getElementById("archive-board");
+  if (!board || !archiveArrows.length) return;
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const top = board.getBoundingClientRect().top;
+  const start = window.innerHeight * 0.85;
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  archiveArrows.forEach((a) => {
+    const p = reduce ? 1 : clamp((start - (top + a.top)) / Math.max(a.height, 140));
+    a.line.style.strokeDashoffset = (1 - clamp(p / 0.9)).toFixed(3);
+    a.head.style.strokeDashoffset = (1 - clamp((p - 0.88) / 0.12)).toFixed(3);
+  });
+}
+
+// Remember each arrow's line and head and where it sits on the desk.
+function collectArchiveArrows(svg) {
+  const lines = Array.from(svg.querySelectorAll(".arrow-line"));
+  const heads = Array.from(svg.querySelectorAll(".arrow-head"));
+  archiveArrows = lines.map((line, i) => {
+    const bb = line.getBBox();
+    return { line, head: heads[i], top: bb.y, height: bb.height };
+  });
+  updateArchiveArrows();
 }
 
 // Marker arrows linking the papers in reading order: the title to the first
@@ -246,6 +273,7 @@ function drawArchiveLinks() {
       arrow(a.l + (a.r - a.l) * 0.3, a.b + 2, c.l + (c.r - c.l) * 0.3, c.t - 8, "v");
     }
     svg.innerHTML = `<g class="link-lines">${out}</g>`;
+    collectArchiveArrows(svg);
     return;
   }
 
@@ -277,6 +305,7 @@ function drawArchiveLinks() {
   });
 
   svg.innerHTML = `<g class="link-lines">${out}</g>`;
+  collectArchiveArrows(svg);
 }
 
 /* ---------------------------------------------------------------------- */

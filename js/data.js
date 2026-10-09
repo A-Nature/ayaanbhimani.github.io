@@ -148,7 +148,7 @@ const SITE_DATA = {
         { type: "video", src: "images/projects/platformer-player-animations.mp4", alt: "Showcase of the frog player's animations", caption: "The frog's animations: idle, walk and jump" },
         { type: "video", src: "images/projects/platformer-enemy-animations.mp4", alt: "Showcase of the crocodile enemy's animations", caption: "The crocodile enemy's animations: idle and walk" }
       ],
-      reflection: "" // TODO(Ayaan)
+      reflection: "This was a game I mostly had fun with in class. Grade 10 computer science was a fairly introductory Python course, so this is certainly not my most polished project. In no way is it finished, either, but if given enough time I think I could have finished the game, but since it was designed to only be a demo game as a culminating project, I never really touched it again. This project is still my first, fully made by me, project that could be publishable as a title if finished. It holds a special place in my heart as my first game development experience."
     },
     {
       id: "jwe-mods",
@@ -157,6 +157,7 @@ const SITE_DATA = {
       dates: "2021",
       year: 2021,
       description: "Custom mods for Jurassic World Evolution and a big step into code. The two that took the most work were the new species I added to the game, Lapparentosaurus and Spinops, whose models I made myself (started with an existing in-game model and editing it). Lapparentosaurus is my most detailed mod, with (in my opinion) stunning skin colours and a great model. The new species had their own genome and profile in the game's functionality, plus a range of skin variants, as if it was an official addition. Before those I started smaller, with reskins and remodels of existing dinosaurs. Anaturaptor was a first test and then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. Along the way I learned Lua in Notepad++, my first asset design in Blender and Substance Painter, and how to code around a dependency, ACSE (the Awesome Cobra Script Extender).",
+      credits: "Not made by me: the Awesome Cobra Script Extender (ACSE) by harlequinzeg0 and ilodev, which the mods are scripted on top of, and Cobra Tools by OpenNaja, used to open and edit the game's files. The original models I started from belong to Jurassic World Evolution by Frontier Developments. Made by me: the edited models, the skins, and the new species' setup in the game.",
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
       links: [
         { label: "Lapparentosaurus", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1194" },
@@ -168,15 +169,15 @@ const SITE_DATA = {
       // Lapparentosaurus leads (best mod), then Spinops, then the earlier reskins.
       media: [
         { type: "image", src: "images/projects/jwe-lapparentosaurus-blue.webp", alt: "A blue-grey spotted Lapparentosaurus stretching its long neck above the trees", caption: "Lapparentosaurus, a new species I built for the game, in a blue-grey spotted skin" },
-        { type: "image", src: "images/projects/jwe-lapparentosaurus-profile.webp", alt: "Lapparentosaurus herd by a lake with the in-game profile panel open", caption: "A blue and yellow skin variant in a herd, with its profile and comfort requirements in the game panel" },
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-profile.webp", alt: "Lapparentosaurus herd by a lake with the in-game profile panel open", caption: "A blue and yellow variant in a herd, with its unique profile in the game panel" },
         { type: "image", src: "images/projects/jwe-lapparentosaurus-tan.webp", alt: "A tan, leopard-spotted Lapparentosaurus with a dark red head", caption: "A tan, spotted variant with a darker, red-crowned head" },
-        { type: "image", src: "images/projects/jwe-lapparentosaurus-genome.webp", alt: "The Genome Library with Lapparentosaurus selected among the base game dinosaurs", caption: "Lapparentosaurus in the Genome Library, sitting alongside the base game's dinosaurs with its own genome traits" },
-        { type: "image", src: "images/projects/jwe-spinops-lake.webp", alt: "A Spinops wading through a lake, with a dark red frill and two tall spikes", caption: "Spinops, my second new species, wading through a lake in a dark red and orange skin" },
-        { type: "image", src: "images/projects/jwe-spinops-herd.webp", alt: "Three Spinops in a paddock, each with a different skin", caption: "A Spinops herd in the paddock, showing the orange-brown and charcoal skin variants" },
-        { type: "image", src: "images/projects/jwe-sinoceratops.webp", alt: "A Sinoceratops with enlarged horns and a red and yellow face, next to a pink one", caption: "Fiercer Sinoceratops, with larger horns, a bigger crest and a red and yellow colour scheme" },
-        { type: "image", src: "images/projects/jwe-anaturaptor.webp", alt: "A small raptor with a purple tail and rose-coloured throat standing in grass", caption: "Anaturaptor, my first test: a reskin in purple and rose" }
+        { type: "image", src: "images/projects/jwe-lapparentosaurus-genome.webp", alt: "The Genome Library with Lapparentosaurus selected among the base game dinosaurs", caption: "Lapparentosaurus in the game's dinosaur library, sitting alongside the base game's dinosaurs with its own genome traits" },
+        { type: "image", src: "images/projects/jwe-spinops-lake.webp", alt: "A Spinops wading through a lake, with a dark red frill and two tall spikes", caption: "Spinops, my second new species, wading through a lake in a red and orange skin" },
+        { type: "image", src: "images/projects/jwe-spinops-herd.webp", alt: "Three Spinops in a paddock, each with a different skin", caption: "A Spinops herd showing the orange-brown and charcoal variants" },
+        { type: "image", src: "images/projects/jwe-sinoceratops.webp", alt: "A Sinoceratops with enlarged horns and a red and yellow face, next to a pink one", caption: "Fiercer Sinoceratops, with larger horns, a bigger crest and a new colour scheme" },
+        { type: "image", src: "images/projects/jwe-anaturaptor.webp", alt: "A small raptor with a purple tail and rose-coloured throat standing in grass", caption: "Anaturaptor, a remodel and reskin of the velociraptor." }
       ],
-      reflection: "" // TODO(Ayaan)
+      reflection: "These mods were a leap into a jungle of code I had never really experienced. Lua scripts in Notepad++ scared me at first, but thankfully an online tutorial for creating a new species in Jurassic World Evolution guided me through the entire coding process. I can’t say I actually learned much about how to code from this project, but more so I learned how to use a text editor efficiently and also how code looks at large scales. On top of that, the sight of such complex systems made me more interested in learning about it. Overall, it was really for my own entertainment to make and publish my own mods, and they did gain some real retention from the game’s community, especially the Lapparentosaurus, which was encouraging and made me feel proud of myself."
     },
     {
       id: "boid-sim",
