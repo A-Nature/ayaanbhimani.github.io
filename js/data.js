@@ -126,12 +126,25 @@ const SITE_DATA = {
       reflection: "" // TODO(Ayaan)
     },
     {
+      id: "planet-pioneers",
+      fossil: "ammonite", // drawn on the card, see js/fossils.js
+      name: "Planet Pioneers",
+      dates: "January 2025",
+      year: 2025,
+      description: "A cookie-clicker style incremental game made as my Grade 11 computer science culminating project, in C++ with raylib. You click in space to earn Stardust, the in-game currency, and spend it on buying planets and upgrades. There are four planets to unlock in order (the Moon, Mars, Doughdor and Danieland), and each planet has two structures you can buy. One raises Stardust per second and the other raises Stardust per click. Structures stay locked until you own their planet, each purchase raises the next price by 20%, and every structure has a maximum amount you can own. Planets change from dark to full colour as you can afford and then own them, and upgrade icons appear on a planet as you buy its structures. Hovering over a planet shows its description, cost and unlock requirements. Each click spawns 24 particles with random velocities and colours that fade out over two seconds, and plays a sound. There is also background music. The game is built with structs and reusable functions in C++, runs at 1920x1080, and scales to fit any screen size, with fullscreen on F. All planet and upgrade sprites were designed by me in Libresprite.",
+      tags: ["C++", "raylib", "Libresprite", "Game Design"],
+      links: [],
+      downloads: [],
+      media: [],
+      reflection: "When we got this project, I wanted to make a polished product. We had more time and I had a better base in coding. The game is simple, but it's stable and has a clear progression system. There are four purchasable planets, each with two structures you can buy: one raises Stardust (the in-game currency) per second, and the other raises it per click. I also coded a random particle system as a visual feature, which took a lot of testing and debugging. Planet Pioneers taught me many coding skills like organizing a game with structs and reusable functions, passing data by reference, handling textures, sound and music in raylib, and balancing a progression system. And, it was a blast to make. You may notice some unfamiliar names in the planet names or descriptions, which were the names of my friends in the class that I wanted to feature. Creating this game really built up my passion for coding and game development, as I got to see various functions and systems work together to make the game flow. It was also a great creative outlet to generate interesting ideas. All in all, Planet Pioneers is a creation that I am very proud of making and that I love to look back on."
+    },
+    {
       id: "platformer-demo",
       fossil: "fern", // drawn on the card, see js/fossils.js
       name: "Split-Screen Platformer Demo",
-      dates: "2023",
-      year: 2023,
-      description: "A two-player platformer demo, made as my grade 10 computer science culminating project in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate: one player in a jungle, the other in a cave, who would eventually be able to reach into each other's worlds. Since it's a demo, there is a single level, with difficulty options, movement, death and moving enemies. Only the jungle side is playable (a frog, with crocodile enemies); the cave side is visual only, built to be used later.",
+      dates: "January 2024",
+      year: 2024,
+      description: "A two-player platformer demo, made as my grade 10 computer science culminating project in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate. One player in a jungle and the other in a cave, who would eventually be able to reach into each other's worlds and interact. Since the project requirement was a demo with little time to make a final product, there is a single level, with difficulty options, movement, death and moving enemies. Only the jungle side is playable (a frog, with crocodile enemies), and the cave side is visual only, built to be used later.",
       credits: "Made by me: the character art (the frog, the crocodile and the other creatures) and the menu art. Not made by me: the background art and the static objects (platforms, ladders, trees, signs), the font (Grand9K Pixel) and the music.",
       tags: ["Python", "Pygame", "Game Design"],
       links: [],
@@ -148,7 +161,7 @@ const SITE_DATA = {
         { type: "video", src: "images/projects/platformer-player-animations.mp4", alt: "Showcase of the frog player's animations", caption: "The frog's animations: idle, walk and jump" },
         { type: "video", src: "images/projects/platformer-enemy-animations.mp4", alt: "Showcase of the crocodile enemy's animations", caption: "The crocodile enemy's animations: idle and walk" }
       ],
-      reflection: "This was a game I mostly had fun with in class. Grade 10 computer science was a fairly introductory Python course, so this is certainly not my most polished project. In no way is it finished, either, but if given enough time I think I could have finished the game, but since it was designed to only be a demo game as a culminating project, I never really touched it again. This project is still my first, fully made by me, project that could be publishable as a title if finished. It holds a special place in my heart as my first game development experience."
+      reflection: "This was a game I mostly had fun with in class. Grade 10 computer science was a fairly introductory Python course, so it’s not my most polished project. I think I could have finished the game with enough time, but because the class had limited time and the project was only to make a working demo, I never touched it again. This project is still my first, fully made by me, project that could be publishable as a title if finished. I had a ton of fun making it and it holds a special place in my heart as my first game development experience."
     },
     {
       id: "jwe-mods",
@@ -156,7 +169,7 @@ const SITE_DATA = {
       name: "Jurassic World Evolution Mods",
       dates: "2021",
       year: 2021,
-      description: "Custom mods for Jurassic World Evolution and a big step into code. The two that took the most work were the new species I added to the game, Lapparentosaurus and Spinops, whose models I made myself (started with an existing in-game model and editing it). Lapparentosaurus is my most detailed mod, with (in my opinion) stunning skin colours and a great model. The new species had their own genome and profile in the game's functionality, plus a range of skin variants, as if it was an official addition. Before those I started smaller, with reskins and remodels of existing dinosaurs. Anaturaptor was a first test and then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours.",
+      description: "Custom mods for Jurassic World Evolution. The main ones are two new species, Lapparentosaurus and Spinops, whose models I made by editing an existing in-game model. Each new species has its own genome, profile and range of skin variants, set up as if it was an official addition. Before those I made smaller mods: reskins and remodels of existing dinosaurs, starting with Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. The mods are scripted in Lua in Notepad++ on top of ACSE (the Awesome Cobra Script Extender), with models and textures made in Blender and Substance Painter.",
       credits: "Not made by me: the Awesome Cobra Script Extender (ACSE) by harlequinzeg0 and ilodev, which the mods are scripted on top of, and Cobra Tools by OpenNaja, used to open and edit the game's files. The original models I started from belong to Jurassic World Evolution by Frontier Developments. Made by me: the edited models, the skins, and the new species' setup in the game.",
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
       links: [
@@ -177,7 +190,7 @@ const SITE_DATA = {
         { type: "image", src: "images/projects/jwe-sinoceratops.webp", alt: "A Sinoceratops with enlarged horns and a red and yellow face, next to a pink one", caption: "Fiercer Sinoceratops, with larger horns, a bigger crest and a new colour scheme" },
         { type: "image", src: "images/projects/jwe-anaturaptor.webp", alt: "A small raptor with a purple tail and rose-coloured throat standing in grass", caption: "Anaturaptor, a remodel and reskin of the velociraptor." }
       ],
-      reflection: "These mods were a leap into a jungle of code I had never really experienced. Lua scripts in Notepad++ scared me at first, but thankfully an online tutorial for creating a new species in Jurassic World Evolution guided me through the entire coding process. I can’t say I actually learned much about how to code from this project, but more so I learned how to use a text editor efficiently and also how code looks at large scales. On top of that, the sight of such complex systems made me more interested in learning about it. Overall, it was really for my own entertainment to make and publish my own mods, and they did gain some real retention from the game’s community, especially the Lapparentosaurus, which was encouraging and made me feel proud of myself."
+      reflection: "These mods were a leap into a jungle of code I had never really experienced. Lua scripts in Notepad++ scared me at first, but thankfully an online tutorial for creating a new species in Jurassic World Evolution guided me through the entire coding process. I can't say I actually learned much about how to code from this project, but more so I learned how to use a text editor efficiently and also how code looks at large scales. It was also my first time making assets in Blender and Substance Painter. However, the sight of such complex systems made me more interested in learning about it. Lapparentosaurus is my favourite and most detailed mod, and I think it has stunning skin colours and a great model. Overall, it was really for my own entertainment to make and publish my own mods, and they did gain some real retention from the game's community, especially the Lapparentosaurus, which was encouraging and made me feel proud of myself."
     },
     {
       id: "boid-sim",
@@ -206,7 +219,7 @@ const SITE_DATA = {
       id: "tower-defense",
       fossil: "ammonite", // drawn on the card, see js/fossils.js
       name: "Out of Control (Tower Defense)",
-      dates: "2026",
+      dates: "May – June 2026",
       year: 2026,
       description: "Simple, Helldivers 2 inspired tower defense game. Primitive and incomplete, was mostly just a school project, but learned more about asset design and game systems. A unique part to code was the targeting system for the turrets which was cool to learn.",
       tags: ["C++", "raylib", "Game Design"],
@@ -251,7 +264,7 @@ const SITE_DATA = {
       id: "helldivers-helmet",
       fossil: "shell", // drawn on the card, see js/fossils.js
       name: "Helldivers Helmet",
-      dates: "2026",
+      dates: "July – September 2026",
       year: 2026,
       description: "A large Helldivers 2 helmet, printed in several sections on a Bambu Lab printer since it was too big for one piece. Most of the real work was dialing in print settings so the sections did not warp or fail partway through, then sanding, gluing everything together, and painting the final piece. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
       tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting"],

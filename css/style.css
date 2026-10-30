@@ -1296,8 +1296,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   font-size: 0.95rem;
 }
 .window-reflection {
-  border-left: 2px solid var(--color-accent);
-  padding-left: 14px;
   font-style: italic;
   color: var(--color-text-muted);
 }
@@ -1831,3 +1829,29 @@ body.no-canvas .site-bg-fallback { display: block; }
   font-size: 0.72rem;
   white-space: nowrap;
 }
+
+/* Reflection and credits fold under their headings. */
+.window-fold { margin-top: 24px; }
+.window-fold > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.window-fold > summary::-webkit-details-marker { display: none; }
+.window-fold > summary::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin: -2px 2px 0 1px;
+  border-right: 1.6px solid currentColor;
+  border-bottom: 1.6px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+}
+.window-fold[open] > summary::before { transform: rotate(45deg); margin-top: -4px; }
+.window-fold > summary:hover { color: var(--color-accent); }
+.window-fold > summary:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }

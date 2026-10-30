@@ -653,13 +653,15 @@ function openWindowModal(content) {
   const descriptionHTML = content.description
     ? `<div class="window-section-title">Description</div><p class="window-description">${escapeHTML(content.description)}</p>`
     : "";
+  // Reflection and credits fold away under their headings: the reflection
+  // starts open, credits start closed. Either is skipped entirely when empty.
+  const foldHTML = (title, body, open) =>
+    `<details class="window-fold"${open ? " open" : ""}><summary class="window-section-title">${title}</summary>${body}</details>`;
   const creditsHTML = content.credits
-    ? `<div class="window-section-title">Credits</div><p class="window-description window-credits">${escapeHTML(content.credits)}</p>`
+    ? foldHTML("Credits", `<p class="window-description window-credits">${escapeHTML(content.credits)}</p>`, false)
     : "";
-  // No reflection yet: skip the section entirely rather than showing a
-  // visible gap or placeholder text.
   const reflectionHTML = content.reflection
-    ? `<div class="window-section-title">Reflection</div><p class="window-reflection">${escapeHTML(content.reflection)}</p>`
+    ? foldHTML("Reflection", `<p class="window-reflection">${escapeHTML(content.reflection)}</p>`, true)
     : "";
   // No downloads yet: skip the section, same rule as media and reflection.
   const downloadsHTML = downloads.length
@@ -669,7 +671,7 @@ function openWindowModal(content) {
     ? `<div class="window-links">${content.links.map((l) => `<a class="btn" href="${l.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(l.label)}</a>`).join("")}</div>`
     : "";
 
-  modalBody.innerHTML = watermarkHTML + mediaHTML + placardHTML + descriptionHTML + creditsHTML + reflectionHTML + downloadsHTML + linksHTML;
+  modalBody.innerHTML = watermarkHTML + mediaHTML + placardHTML + descriptionHTML + reflectionHTML + creditsHTML + downloadsHTML + linksHTML;
   wireSlideshow(modalBody, mediaItems);
   wirePdfDownloadLinks(modalBody, downloads);
 
