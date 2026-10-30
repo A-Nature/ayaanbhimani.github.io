@@ -135,11 +135,14 @@ const SITE_DATA = {
       tags: ["C++", "raylib", "Libresprite", "Game Design"],
       links: [],
       downloads: [],
+      // Only used for the card on the Projects grid.
+      thumbnail: { src: "images/projects/planet-pioneers-thumb.webp", alt: "Three planets covered in pixel-art buildings and upgrades against a dark nebula" },
       media: [
-        { type: "video", src: "images/projects/planet-pioneers-tour.mp4", alt: "Hovering over each planet in Planet Pioneers to read its description", caption: "A tour of the planets: hovering over one shows its description, cost and unlock requirements" },
-        { type: "video", src: "images/projects/planet-pioneers-purchasing.mp4", alt: "Buying planets with Stardust in Planet Pioneers", caption: "Buying planets with Stardust: they go from dark to full colour as you afford and then own them" },
+        { type: "video", src: "images/projects/planet-pioneers-demo.mp4", alt: "A run of Planet Pioneers: clicking in space to earn Stardust, then hovering over the planets", caption: "The game in action: clicking in space to earn Stardust, then checking the planets" },
+        { type: "video", src: "images/projects/planet-pioneers-tour.mp4", alt: "Hovering over each planet in Planet Pioneers to read its description", caption: "A tour of the planets. Hovering over one shows its description, cost and unlock requirements." },
+        { type: "video", src: "images/projects/planet-pioneers-purchasing.mp4", alt: "Buying planets with Stardust in Planet Pioneers", caption: "Buying planets with Stardust. When bought, they go from dark to full colour." },
         { type: "video", src: "images/projects/planet-pioneers-max-out.mp4", alt: "Buying structures until they reach their maximum in Planet Pioneers", caption: "Buying structures until each one hits its maximum, when it greys out in the upgrades list" },
-        { type: "video", src: "images/projects/planet-pioneers-particles.mp4", alt: "Click particles in Planet Pioneers", caption: "The click particles: 24 randomly coloured particles per click that fade out over two seconds" }
+        { type: "video", src: "images/projects/planet-pioneers-particles.mp4", alt: "Click particles in Planet Pioneers", caption: "The random particle effects with 24 randomly coloured particles per click that fade out over two seconds" }
       ],
       reflection: "When we got this project, I wanted to make a polished product. We had more time and I had a better base in coding. The game is simple, but it's stable and has a clear progression system. There are four purchasable planets, each with two structures you can buy: one raises Stardust (the in-game currency) per second, and the other raises it per click. I also coded a random particle system as a visual feature, which took a lot of testing and debugging. Planet Pioneers taught me many coding skills like organizing a game with structs and reusable functions, passing data by reference, handling textures, sound and music in raylib, and balancing a progression system. And, it was a blast to make. You may notice some unfamiliar names in the planet names or descriptions, which were the names of my friends in the class that I wanted to feature. Creating this game really built up my passion for coding and game development, as I got to see various functions and systems work together to make the game flow. It was also a great creative outlet to generate interesting ideas. All in all, Planet Pioneers is a creation that I am very proud of making and that I love to look back on."
     },
