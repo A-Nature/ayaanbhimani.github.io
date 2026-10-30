@@ -110,7 +110,7 @@ const SITE_DATA = {
       name: "Ayaan's Replicator Mod",
       dates: "July 2026",
       year: 2026,
-      description: "A Minecraft mod built in Java for Forge 1.7.10 as part of a summer coding camp. It's a copy/paste tool for building, designed for multiplayer: a packet-based system with per-player clipboard state and undo support.",
+      description: "A Minecraft mod built in Java for Forge 1.7.10 to improve the building experience for campers at the summer camp that I worked at. It's a copy/paste tool for building, designed for multiplayer, built by a packet-based system with per-player clipboard state and undo support.",
       tags: ["Java", "Minecraft Forge", "Packet Networking"],
       links: [],
       downloads: [
@@ -123,7 +123,7 @@ const SITE_DATA = {
         // Capture ideas: before/after of a structure being copy-pasted, a short clip of it in action,
         // or two players using it at once to show the per-player clipboards.
       }],
-      reflection: "" // TODO(Ayaan)
+      reflection: "This is the kind of project that I started from a tiny spark of motivation and finished within a few weeks. It started when I noticed the kids at the summer camp I was working at often had a hard time making large builds in survival mode in Minecraft. Parts of the builds were often repetitive, but with a version of the popular “WorldEdit” addon available for the older education-edition license that the camp owned (specifically, 1.7.10), I took it upon myself to build the tool myself. It allowed me to learn an entirely new language, Java, and have some fun with it at the same time."
     },
     {
       id: "planet-pioneers",
@@ -132,9 +132,12 @@ const SITE_DATA = {
       dates: "January 2025",
       year: 2025,
       description: "A cookie-clicker style incremental game made as my Grade 11 computer science culminating project, in C++ with raylib. You click in space to earn Stardust, the in-game currency, and spend it on buying planets and upgrades. There are four planets to unlock in order (the Moon, Mars, Doughdor and Danieland), and each planet has two structures you can buy. One raises Stardust per second and the other raises Stardust per click. Structures stay locked until you own their planet, each purchase raises the next price by 20%, and every structure has a maximum amount you can own. Planets change from dark to full colour as you can afford and then own them, and upgrade icons appear on a planet as you buy its structures. Hovering over a planet shows its description, cost and unlock requirements. Each click spawns 24 particles with random velocities and colours that fade out over two seconds, and plays a sound. There is also background music. The game is built with structs and reusable functions in C++, runs at 1920x1080, and scales to fit any screen size, with fullscreen on F. All planet and upgrade sprites were designed by me in Libresprite.",
+      credits: "Made by me: the game, and every planet and upgrade sprite. Not made by me: raylib, and the Raylib C++ Starter Template for VS Code by Nick Koumaris (MIT licence, included in the download) that the project started from: https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE",
       tags: ["C++", "raylib", "Libresprite", "Game Design"],
       links: [],
-      downloads: [],
+      downloads: [
+        { label: "Playable demo and source (.zip, Windows, run main.exe)", path: "files/projects/planet-pioneers-demo.zip" }
+      ],
       // Only used for the card on the Projects grid.
       thumbnail: { src: "images/projects/planet-pioneers-thumb.webp", alt: "Three planets covered in pixel-art buildings and upgrades against a dark nebula" },
       media: [
@@ -274,8 +277,9 @@ const SITE_DATA = {
       name: "Helldivers Helmet",
       dates: "July – September 2026",
       year: 2026,
-      description: "A large Helldivers 2 helmet, printed in several sections on a Bambu Lab printer since it was too big for one piece. Most of the real work was dialing in print settings so the sections did not warp or fail partway through, then sanding, gluing everything together, and painting the final piece. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
-      tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting"],
+      description: "A wearable Helldivers 2 helmet, 3D printed and custom painted fully by me. The 3D file was purchased from Galactic Armory (link in credits). It was printed in pieces on my Bambu A1 mini using various colours of PLA. The printing process involved optimizing settings, maintaining the printer, and troubleshooting when prints failed (“spaghettification”). Pieces were then glued together using Gorilla Glue and hot glue. The helmet was primed using filler primer and large gaps were filled with Bondo Spot Putty, and then was sanded down for a smooth surface. Once it was primed, masking tape and saran wrap were used to paint in black, grey and gold coats with spray paint, followed by gold details using a stencil. Finally, touches of ‘terminid blood’, aka enemy blood, were added using acrylic paint and splatter techniques. The visor was created using a vacuum-formed acrylic sheet using an oven and a mold and the tint was achieved using window tint sheets. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
+      credits: "The 3D print files are the Helldivers 2 Helmet, Hero of the Federation, from Galactic Armory, which I bought. Helldivers 2 and its designs belong to Arrowhead Game Studios. The printing, assembly, painting and visor are my own work. Store page: https://galacticarmory.net/products/helldivers-2-helmet-hero-of-the-federation-3d-print-files",
+      tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting", "Vacuum Forming"],
       links: [],
       downloads: [],
       media: [{
@@ -284,7 +288,7 @@ const SITE_DATA = {
         alt: "Helldivers helmet build"
         // Capture ideas: the printed sections before assembly, mid-paint, and the finished helmet.
       }],
-      reflection: "" // TODO(Ayaan)
+      reflection: "I’ve always sucked at art. Painting, drawing, making crafts, and paying attention to small details has never been my strong suit. But when my friend told me to join him and make a custom helmet, I thought I’d try it. I had a lot of concerns and worries with the project. Could my printer even handle anything of this size? How does the painting work? Will my helmet break? The good thing is my friend had done tons of research beforehand, and assured me it would turn out okay. So we found 3D files online of our chosen helmets (mine being ‘The Hero of the Federation’ from Helldivers 2) and the journey began. There were some scary parts, like failed 3D prints at 2 am, running out of paint, terrifyingly large (less than a centimeter) gaps between parts, and a freshly-painted helmet falling onto grass. But it turned out amazing, and the final product is absolutely the physical project I am most proud of. It has no connection to software (other than optimizing my 3D printer), but the most valuable part of this project was showing myself that I am capable of more than I think I am if I just push myself and try it."
     }
   ],
 

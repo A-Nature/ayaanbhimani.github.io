@@ -658,7 +658,7 @@ function openWindowModal(content) {
   const foldHTML = (title, body, open) =>
     `<details class="window-fold"${open ? " open" : ""}><summary class="window-section-title">${title}</summary>${body}</details>`;
   const creditsHTML = content.credits
-    ? foldHTML("Credits", `<p class="window-description window-credits">${escapeHTML(content.credits)}</p>`, false)
+    ? foldHTML("Credits", `<p class="window-description window-credits">${linkifyCredits(escapeHTML(content.credits))}</p>`, false)
     : "";
   const reflectionHTML = content.reflection
     ? foldHTML("Reflection", `<p class="window-reflection">${escapeHTML(content.reflection)}</p>`, true)
@@ -679,6 +679,15 @@ function openWindowModal(content) {
   modalOverlay.setAttribute("aria-hidden", "false");
   lockPageScroll();
   document.getElementById("window-close").focus();
+}
+
+// Credits are plain text; any web address in them becomes a link showing just the site name.
+function linkifyCredits(html) {
+  return html.replace(/https?:\/\/[^\s<]+/g, (url) => {
+    let host = url;
+    try { host = new URL(url.replace(/&amp;/g, "&")).hostname.replace(/^www\./, ""); } catch (e) { /* keep the raw text */ }
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${host}</a>`;
+  });
 }
 
 function closeWindowModal() {
