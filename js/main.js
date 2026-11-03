@@ -521,7 +521,7 @@ function skillItemHTML(item) {
     if (u.url) return `<a href="${escapeHTML(u.url)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
     return label;
   });
-  const usesHTML = uses.length ? `<span class="skill-uses">${uses.join('<span class="sep"> \u00b7 </span>')}</span>` : "";
+  const usesHTML = uses.length ? `<ul class="skill-uses">${uses.map((u) => `<li>${u}</li>`).join("")}</ul>` : "";
   return `<div class="skill-item"><span class="skill-tag">${escapeHTML(skill.name)}</span>${usesHTML}</div>`;
 }
 

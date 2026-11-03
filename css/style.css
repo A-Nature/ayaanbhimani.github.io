@@ -1452,7 +1452,6 @@ body.no-canvas .site-bg-fallback { display: block; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
   gap: 20px;
-  max-width: 860px;
 }
 .education-entry {
   padding: 18px 20px 20px;
@@ -1857,7 +1856,6 @@ body.no-canvas .site-bg-fallback { display: block; }
    The solid part is the time already spent, with a soft glow where it ends. */
 .edu-strip {
   position: relative;
-  max-width: 860px;
   margin: 8px 0 36px;
   padding-top: 30px;
 }
@@ -2025,36 +2023,49 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 .skills-practice a { white-space: nowrap; }
 
-/* Skills: a small "used in" line of links under a tag. */
-.skills-tags { align-items: flex-start; row-gap: 16px; }
+/* Skills: under a tag, a short list of where it was used, with star bullets
+   like the awards in Education. */
+.skills-tags { align-items: flex-start; row-gap: 18px; }
 .skill-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 5px;
+  gap: 7px;
 }
 .skill-uses {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 3px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 2px 12px;
+  flex-direction: column;
+  gap: 3px;
   max-width: 230px;
-  padding-left: 4px;
+}
+.skill-uses li {
+  position: relative;
+  padding-left: 16px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  line-height: 1.55;
+  font-size: 0.72rem;
+  line-height: 1.5;
   color: var(--color-text-muted);
 }
+.skill-uses li::before {
+  content: "\2726";
+  position: absolute;
+  left: 0;
+  top: 1px;
+  font-size: 0.62rem;
+  color: var(--color-accent-2);
+}
 .skill-uses a {
-  white-space: nowrap;
   color: var(--color-text-muted);
-  border-bottom: 1px dotted rgba(168, 152, 131, 0.55);
+  text-decoration: none;
 }
 .skill-uses a:hover {
   color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-.skill-uses .sep { display: none; }
 
 /* A faint Colosseum behind the Education section (CC0, Public Domain Vectors). */
 .education { position: relative; overflow: hidden; }
