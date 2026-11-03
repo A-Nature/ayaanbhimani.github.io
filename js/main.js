@@ -582,13 +582,19 @@ function renderEducationStrip(entries) {
     const flag = e.expected
       ? `<span class="edu-flag" style="--l:${(left + width).toFixed(2)}%"><span>Expected graduation</span></span>`
       : "";
+    // On the school you are in right now, say how far through it you are.
+    const pctLabel = state === "current"
+      ? `<span class="edu-era-pct">${Math.max(1, Math.round(done))}% through</span>`
+      : "";
     return `<div class="edu-era is-${state}" style="--l:${left.toFixed(2)}%;--w:${width.toFixed(2)}%;--done:${done.toFixed(1)}%">
-        <span class="edu-era-name">${escapeHTML(e.short || e.institution)}</span>
+        <span class="edu-era-name">${escapeHTML(e.short || e.institution)}</span>${pctLabel}
       </div>${flag}`;
   }).join("");
 
+  // The marker slides in from the start of the school you are in.
+  const curEra = dated.find((e) => now >= t(e.start) && now < t(e.end));
   const nowMarker = (now >= from && now <= to)
-    ? `<div class="edu-now" style="--l:${pct(now).toFixed(2)}%"><span>Now</span></div>`
+    ? `<div class="edu-now" style="--l:${pct(now).toFixed(2)}%;--from:${(curEra ? pct(t(curEra.start)) : pct(now)).toFixed(2)}%"><span>Now</span></div>`
     : "";
 
   let ticks = "";
@@ -601,6 +607,22 @@ function renderEducationStrip(entries) {
       ${eras}${nowMarker}
     </div>
     <div class="edu-ticks" aria-hidden="true">${ticks}</div>`;
+
+  // The bars fill in the first time the strip scrolls into view.
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  strip.classList.remove("anim", "is-in");
+  if (reduce || !("IntersectionObserver" in window)) {
+    strip.classList.add("is-in");
+    return;
+  }
+  strip.classList.add("anim");
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      strip.classList.add("is-in");
+      io.disconnect();
+    }
+  }, { threshold: 0.4 });
+  io.observe(strip);
 }
 
 /* ---------------------------------------------------------------------- */
