@@ -524,6 +524,18 @@ function renderSkills() {
     `;
     wrap.appendChild(el);
   });
+
+  // The practice link under the groups. No url, nothing shown.
+  const practice = SITE_DATA.skillsPractice;
+  const practiceEl = document.getElementById("skills-practice");
+  if (practiceEl) {
+    if (practice && practice.url) {
+      practiceEl.innerHTML = `${escapeHTML(practice.text || "")} <a href="${practice.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(practice.label || practice.url)} \u2192</a>`;
+      practiceEl.hidden = false;
+    } else {
+      practiceEl.hidden = true;
+    }
+  }
 }
 
 /* ---------------------------------------------------------------------- */

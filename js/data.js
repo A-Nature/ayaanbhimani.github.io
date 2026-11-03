@@ -487,6 +487,13 @@ const SITE_DATA = {
     }
   ],
 
+  // A line under the skills that points to practice work. Leave `url` empty and nothing renders.
+  skillsPractice: {
+    text: "I also practise problem solving on LeetCode.",
+    label: "LeetCode solutions on GitHub",
+    url: "https://github.com/A-Nature/leetcode_collection"
+  },
+
   // Kept intentionally short, this is mostly here for completeness.
   education: [
     {
