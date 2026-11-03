@@ -487,8 +487,7 @@ const SITE_DATA = {
         { name: "Packet-based Protocols", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "ERM", project: "erm" }] },
         { name: "Data Serialization (NBT)", uses: [{ label: "Replicator Mod", project: "replicator-mod" }] },
         { name: "Client-Server Networking", uses: [{ label: "ERM", project: "erm" }, { label: "Replicator Mod", project: "replicator-mod" }] },
-        { name: "Multiplayer Replication", uses: [{ label: "ERM", project: "erm" }] },
-        { name: "Embedded Systems (ESP32)", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] }
+        { name: "Multiplayer Replication", uses: [{ label: "ERM", project: "erm" }] }
       ]
     },
     {
@@ -505,13 +504,14 @@ const SITE_DATA = {
       items: [
         { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
         "Blockbench",
-        { name: "Libresprite", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }] },
-        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] }
+        { name: "Libresprite", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }] }
       ]
     },
     {
-      category: "Fabrication",
+      category: "Fabrication & Embedded",
       items: [
+        { name: "Embedded Systems (ESP32)", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] },
+        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] },
         { name: "3D Printing", uses: [{ label: "Helmet", project: "helldivers-helmet" }, { label: "Stratagem Pad", project: "stratagem-pad" }] }
       ]
     },
