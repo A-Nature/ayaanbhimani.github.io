@@ -2017,3 +2017,4 @@ body.no-canvas .site-bg-fallback { display: block; }
   .edu-now { transition: none; }
   .edu-now::after { animation: none; }
 }
+.window-fold .window-description + .window-description { margin-top: 10px; }

@@ -75,6 +75,10 @@ const SITE_DATA = {
   // `year` (newest on top), in the Projects section. Projects with
   // `status: "in-progress"` sit in their own "Still Excavating" layer on
   // top, regardless of year. See renderProjects() in main.js.
+  //   `description` — the short summary, always visible in the window.
+  //   `technical` — the longer, in-depth write-up, in a dropdown that starts closed
+  //                 (blank line between paragraphs).
+  //   `reflection` — Ayaan's own words, also a closed dropdown. Empty renders nothing.
   //   `downloads` — [{ label, path }], e.g. source zips, packaged .jar
   //                 builds. Drop the file in /files/projects and add an
   //                 entry, no other code changes needed.
@@ -87,7 +91,8 @@ const SITE_DATA = {
       dates: "November 2024 – Present",
       year: 2024, // used to sort into strata layers in the Projects section
       status: "in-progress", // ongoing, so it sits in the "Still Excavating" layer
-      description: "Multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. Players take on one of three roles (Rogues, Frontliners, Trackers), each with distinct mechanics layering deception, investigation, and teamwork. Inspired by Mafia, Among Us, and Dead by Daylight. Full gameplay programming, multiplayer replication, role assignment, and round progression built largely from scratch, along with all 3D models, animations, sound design, music, and UI.",
+      description: "A multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. There are three roles, and each one plays differently.",
+      technical: "Built in Unreal Engine 5 with C++ and Blueprints, on a dedicated server where the server is the authority. Role assignment, round progression and win conditions are decided on the server and replicated to every player. The Rogues want to eliminate everyone else so the rogue virus can spread. The Frontliners reinforce the firewall structures, which they can activate, and do specific tasks to hold them. The Trackers use a range of abilities to find out who has been hit with the virus.\n\nI wrote the gameplay systems, the replication and the round flow, and made the 3D models, animations, sound design, music and UI as well. Replication of player interactions was the hardest part. Players moving on each other's screens came together fairly early, but getting animations to play when they interacted took far longer. The simplest interaction I built is a punch that only works in the lobby, just for fun, and getting it to hit the right player took a long time.",
       tags: ["Unreal Engine 5", "C++/Blueprints", "Game System Design", "Asset Creation"],
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/ERM" }
@@ -110,7 +115,8 @@ const SITE_DATA = {
       name: "Ayaan's Replicator Mod",
       dates: "July 2026",
       year: 2026,
-      description: "A Minecraft mod built in Java for Forge 1.7.10 to improve the building experience for campers at the summer camp that I worked at. It's a copy/paste tool for building, designed for multiplayer, built by a packet-based system with per-player clipboard state and undo support.",
+      description: "A copy/paste building tool for Minecraft 1.7.10 (Forge), written in Java to improve building for the campers at the summer camp I worked at. Built for multiplayer, with a clipboard for each player and undo.",
+      technical: "A Forge 1.7.10 mod in Java. Everything that changes the world happens on the server, and the client only asks for it with packets, so players on the same server can't overwrite each other. Each player has their own clipboard state and selection, kept in a clipboard storage and an active-clipboard manager. A copy records the selected blocks into a saved clipboard that can be named, listed and switched between. It doesn't copy what is inside chests. Pasting supports rotation, and every paste is recorded in a per-player undo stack so it can be reversed.\n\nThe network layer is a small set of packets. They save a clipboard, activate one, set the rotation and undo, and there are responses that send the clipboard list and the materials a build needs back to the client. On the client there are key bindings, a preview of where the paste will land, a checklist overlay for the required materials in survival mode, and screens for naming and picking clipboards. It runs through two items, an Infinity Copier and an Infinity Replicator.\n\nThe controls are simple. With the Copier, right-click a block to set the first corner, then shift-right-click a block to set the second corner, which opens a prompt to name and save the selection as a clipboard. With the Replicator, right-click to paste at that spot, and shift-right-click to open the menu of saved clipboards and pick one. R rotates the paste, and X undoes it.",
       tags: ["Java", "Minecraft Forge", "Packet Networking"],
       links: [],
       downloads: [
@@ -131,7 +137,8 @@ const SITE_DATA = {
       name: "Planet Pioneers",
       dates: "January 2025",
       year: 2025,
-      description: "A cookie-clicker style incremental game made as my Grade 11 computer science culminating project, in C++ with raylib. You click in space to earn Stardust, the in-game currency, and spend it on buying planets and upgrades. There are four planets to unlock in order (the Moon, Mars, Doughdor and Danieland), and each planet has two structures you can buy. One raises Stardust per second and the other raises Stardust per click. Structures stay locked until you own their planet, each purchase raises the next price by 20%, and every structure has a maximum amount you can own. Planets change from dark to full colour as you can afford and then own them, and upgrade icons appear on a planet as you buy its structures. Hovering over a planet shows its description, cost and unlock requirements. Each click spawns 24 particles with random velocities and colours that fade out over two seconds, and plays a sound. There is also background music. The game is built with structs and reusable functions in C++, runs at 1920x1080, and scales to fit any screen size, with fullscreen on F. All planet and upgrade sprites were designed by me in Libresprite.",
+      description: "A cookie-clicker style game in C++ and raylib. You click in space to earn Stardust and spend it on four planets and their upgrades. It was my Grade 11 culminating project, and I drew every sprite.",
+      technical: "Written in C++ with raylib, built around two structs, a Planet and a Button, and reusable functions for drawing planets and upgrade buttons and for handling upgrade and planet purchases. The functions take the balance and the income values by reference, so a purchase changes the game state directly. There are four planets to unlock in order. Each has two structures, one that raises Stardust per second and one that raises Stardust per click, and they stay locked until you own the planet. Every purchase raises the next price by 20%, and each structure has a maximum count.\n\nPlanets are drawn dark until you can afford them and in full colour once you own them, and hovering one shows its description, cost and unlock requirements. Each click spawns 24 particles with random velocities and colours that fade out over two seconds, and plays a click sound over background music. The game renders at 1920x1080 and scales to fit any screen, with F for fullscreen. The sprites were drawn in Libresprite.",
       credits: "I made the game and every planet and upgrade sprite. I did not make raylib, or the Raylib C++ Starter Template for VS Code by Nick Koumaris (MIT licence, included in the download) that the project started from, which is at https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE",
       tags: ["C++", "raylib", "Libresprite", "Game Design"],
       links: [],
@@ -155,7 +162,8 @@ const SITE_DATA = {
       name: "Split-Screen Platformer Demo",
       dates: "January 2024",
       year: 2024,
-      description: "A two-player platformer demo, made as my grade 10 computer science culminating project in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate. One player in a jungle and the other in a cave, who would eventually be able to reach into each other's worlds and interact. Since the project requirement was a demo with little time to make a final product, there is a single level, with difficulty options, movement, death and moving enemies. Only the jungle side is playable (a frog, with crocodile enemies), and the cave side is visual only, built to be used later.",
+      description: "A two-player platformer demo in Python and Pygame, with a jungle on top and a cave below, inspired by Fireboy and Watergirl. Only the jungle is playable, because of time constraints and because it was only meant to be a demo.",
+      technical: "Built in Python with Pygame. The level is drawn from full-screen picture layers for the background, foreground, interactable parts and ladders. The jungle and the cave are part of that artwork, one picture split down the middle, not two separate screens. There is one level, with difficulty options, movement, death and moving enemies. The playable character is a frog and the enemies are crocodiles, both animated from sprite frames I drew.\n\nCollision works on rectangles. Each frame, the player's rectangle is checked against the rectangle of each block, platform and ladder, and against each enemy for death. When the player overlaps a ladder, gravity stops, and W moves them up slowly and S moves them down, so climbing replaces jumping. The ladder check runs before the jump. Enemies walk back and forth between two points at a speed set by the difficulty. Only the jungle side responds to input, and the cave is visual only, built so it can be used later. The background, platforms, ladders, trees, signs, font and music came from other sources and are credited in the window.",
       credits: "I made the character art (the frog, the crocodile and the other creatures) and the menu art. I did not make the background art, the static objects (platforms, ladders, trees, signs), the font (Grand9K Pixel) or the music.",
       tags: ["Python", "Pygame", "Game Design"],
       links: [],
@@ -180,7 +188,8 @@ const SITE_DATA = {
       name: "Jurassic World Evolution Mods",
       dates: "2021",
       year: 2021,
-      description: "Custom mods for Jurassic World Evolution. The main ones are two new species, Lapparentosaurus and Spinops, whose models I made by editing an existing in-game model. Each new species has its own genome, profile and range of skin variants, set up as if it was an official addition. Before those I made smaller mods: reskins and remodels of existing dinosaurs, starting with Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. The mods are scripted in Lua in Notepad++ on top of ACSE (the Awesome Cobra Script Extender), with models and textures made in Blender and Substance Painter.",
+      description: "Custom mods for Jurassic World Evolution with around 3,000 downloads in total on Nexus Mods. The main ones are two new species, Lapparentosaurus and Spinops, each with its own model, genome, profile and skins.",
+      technical: "The mods run on ACSE, the Awesome Cobra Script Extender, with the game logic written in Lua in Notepad++. For each new species I started from an existing in-game model, opened and repacked the game files with Cobra Tools, edited the model in Blender and textured it in Substance Painter. The species were added to the game's data so each has its own genome and profile and shows up in the Genome Library next to the base-game dinosaurs, with a range of skin variants, as if it shipped with the game.\n\nLapparentosaurus is the most popular, with around 1.7k downloads, and Spinops follows with around 1.2k. Before those I made smaller mods, starting with Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and a new colour scheme.",
       credits: "I did not make the Awesome Cobra Script Extender (ACSE) by harlequinzeg0 and ilodev, which the mods are scripted on top of, or Cobra Tools by OpenNaja, used to open and edit the game's files. The original models I started from belong to Jurassic World Evolution by Frontier Developments. I made the edited models, the skins, and the new species' setup in the game.",
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
       links: [
@@ -209,7 +218,8 @@ const SITE_DATA = {
       name: "Boid Simulation",
       dates: "July 2026",
       year: 2026,
-      description: "2D boid/fish schooling simulation built in C++ with raylib, implementing the three classic boid rules (separation, alignment, and cohesion) from scratch, with runtime weight controls for live tuning of flocking behavior.",
+      description: "A 2D fish-schooling simulation in C++ and raylib, with the three classic boid rules written from scratch and weights you can tune while it runs.",
+      technical: "Written in C++ with raylib, running 100 fish at 1920x1080. Each frame, every fish looks at the others and applies the three boid rules. Separation pushes it away from anything inside 45 pixels, and the push gets stronger the closer the neighbour is. Alignment steers it toward the average heading of nearby fish. Cohesion pulls it toward the centre of the group. Every fish moves at a constant speed and only its direction changes, and the fish sprite is rotated to face where it is going. The three weights can be changed while it runs and are shown on screen as SEP, ALIGN and COH, so you can watch the flock change as you tune them. Checking every fish against every other is O(n²), which is fine at this size.",
       tags: ["C++", "raylib", "Simulation"],
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/boidsim" }
@@ -232,7 +242,8 @@ const SITE_DATA = {
       name: "Out of Control (Tower Defense)",
       dates: "May – June 2026",
       year: 2026,
-      description: "Simple, Helldivers 2 inspired tower defense game. Primitive and incomplete, was mostly just a school project, but learned more about asset design and game systems. A unique part to code was the targeting system for the turrets which was cool to learn.",
+      description: "A simple tower defense game inspired by Helldivers 2, made in C++ with raylib for a school project. It is a demo, with two finished enemies and one turret, all fully animated.",
+      technical: "Written in C++ with raylib. The game runs in waves. Enemies move along a path and you place turrets to stop them. Each turret picks the nearest enemy and locks onto it until it goes out of range, which was the most interesting part to code. There are only two finished enemy sprites and one turret, but all of them are fully animated, so it is very much a demo. I made the art, and the project taught me a lot about asset design and how a game's systems fit together.",
       tags: ["C++", "raylib", "Game Design"],
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/outofcontrol" }
@@ -256,7 +267,8 @@ const SITE_DATA = {
       dates: "August 2026 – Present",
       year: 2026,
       status: "in-progress", // sits in the "Still Excavating" layer regardless of year
-      description: "A wrist-mounted hardware controller inspired by the stratagem input system from Helldivers 2. An ESP32-S3 development board runs custom firmware that reads swipe gestures and matches them against a set of stratagem codes, then lights up a display to show the result in real time. The case was self-designed in Tinkercad and printed on a Bambu Lab printer, with a battery built in so the whole thing runs untethered. Still in progress.",
+      description: "A wrist-mounted controller for Helldivers 2 stratagems. Swipe a code on the pad and it lights up the result. ESP32-S3 firmware, a case I designed and printed, and a built-in battery.",
+      technical: "An ESP32-S3 development board runs custom C/C++ firmware that reads swipe gestures and matches them against a set of stratagem codes, then shows the result on a display in real time. The case was modelled in Tinkercad and printed on a Bambu Lab printer, with a battery inside so it runs untethered. It is still in progress.",
       tags: ["Embedded Systems", "ESP32-S3", "C/C++", "3D Printing"],
       links: [],
       downloads: [
@@ -277,7 +289,8 @@ const SITE_DATA = {
       name: "Helldivers Helmet",
       dates: "July – September 2026",
       year: 2026,
-      description: "A wearable Helldivers 2 helmet, 3D printed and custom painted fully by me. The 3D file was purchased from Galactic Armory (link in credits). It was printed in pieces on my Bambu A1 mini using various colours of PLA. The printing process involved optimizing settings, maintaining the printer, and troubleshooting when prints failed (“spaghettification”). Pieces were then glued together using Gorilla Glue and hot glue. The helmet was primed using filler primer and large gaps were filled with Bondo Spot Putty, and then was sanded down for a smooth surface. Once it was primed, masking tape and saran wrap were used to paint in black, grey and gold coats with spray paint, followed by gold details using a stencil. Finally, touches of ‘terminid blood’, aka enemy blood, were added using acrylic paint and splatter techniques. The visor was created using a vacuum-formed acrylic sheet using an oven and a mold and the tint was achieved using window tint sheets. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
+      description: "A wearable Helldivers 2 helmet that I 3D printed in pieces, then primed, painted and weathered myself, with a vacuum-formed, tinted visor.",
+      technical: "The model is a purchased print file, Hero of the Federation, from Galactic Armory. I printed it in about 15 pieces, including the small details, on a Bambu A1 mini in several colours of PLA, which meant tuning settings, maintaining the printer and recovering from failed prints. The pieces were joined with Gorilla Glue and hot glue, then filled with filler primer and Bondo Spot Putty and sanded smooth. Painting went in layers, using masking tape and saran wrap for the black, grey and gold spray coats, a stencil for the gold details, and acrylic splatter for the terminid blood weathering. The visor was vacuum-formed from an acrylic sheet over a mold using an oven, and tinted with window tint film.\n\nThe build took over 30 hours of work. Most of it happened after work, with my friend and me meeting up around 5 or 6 pm each day when we both got back from our jobs.",
       credits: "The 3D print files are the Helldivers 2 Helmet, Hero of the Federation, from Galactic Armory, which I bought. Helldivers 2 and its designs belong to Arrowhead Game Studios. The printing, assembly, painting and visor are my own work. The store page is at https://galacticarmory.net/products/helldivers-2-helmet-hero-of-the-federation-3d-print-files",
       tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting", "Vacuum Forming"],
       links: [],
