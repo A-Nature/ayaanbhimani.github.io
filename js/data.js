@@ -520,7 +520,7 @@ const SITE_DATA = {
       // just coding projects. See `experience` above for where these came from.
       items: [
         { name: "Marketing & Branding", uses: [{ label: "ReSwipe", experience: "ex-reswipe" }] },
-        "Public Speaking",
+        { name: "Public Speaking", uses: [{ label: "ReSwipe", experience: "ex-reswipe" }] },
         { name: "Team Leadership", uses: [{ label: "ReSwipe", experience: "ex-reswipe" }, { label: "Oakridge STEAM", experience: "ex-oakridge-steam" }] },
         { name: "Youth Mentorship", uses: [{ label: "Brick Works Academy", experience: "work-brickworks" }, { label: "Camp Noor", experience: "ex-camp-noor" }, { label: "Interfaith Peace Camp", experience: "vol-peace-camp" }] },
         { name: "Customer Service", uses: [{ label: "Haven's Creamery", experience: "work-havens" }] },
