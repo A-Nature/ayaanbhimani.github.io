@@ -509,10 +509,12 @@ function buildExperienceModalContent(entry) {
 /* ---------------------------------------------------------------------- */
 /* Skills                                                                  */
 /* ---------------------------------------------------------------------- */
-// One skill tag, with a small "used in" line of links underneath when the skill
-// lists where it was used. A plain string is just a tag.
+// One skill. A skill that lists where it was used gets a tag with a small star,
+// and a card with the links opens from it (see renderSkills). A plain string, or
+// a skill with no uses, is just a tag.
 function skillItemHTML(item) {
   const skill = typeof item === "string" ? { name: item } : item;
+  const name = escapeHTML(skill.name);
   const uses = (skill.uses || []).map((u) => {
     const label = escapeHTML(u.label);
     if (u.project) return `<a href="#projects" data-project="${escapeHTML(u.project)}">${label}</a>`;
@@ -521,8 +523,14 @@ function skillItemHTML(item) {
     if (u.url) return `<a href="${escapeHTML(u.url)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
     return label;
   });
-  const usesHTML = uses.length ? `<ul class="skill-uses">${uses.map((u) => `<li>${u}</li>`).join("")}</ul>` : "";
-  return `<div class="skill-item"><span class="skill-tag">${escapeHTML(skill.name)}</span>${usesHTML}</div>`;
+  if (!uses.length) return `<div class="skill-item"><span class="skill-tag">${name}</span></div>`;
+  return `<div class="skill-item has-uses">
+    <button type="button" class="skill-tag" aria-expanded="false">${name}<span class="skill-star" aria-hidden="true">\u2726</span></button>
+    <div class="skill-pop"><div class="skill-pop-card">
+      <div class="skill-pop-title">Used in</div>
+      <ul>${uses.map((u) => `<li>${u}</li>`).join("")}</ul>
+    </div></div>
+  </div>`;
 }
 
 function renderSkills() {
@@ -541,21 +549,66 @@ function renderSkills() {
     wrap.appendChild(el);
   });
 
-  // The "used in" links open the project or experience window.
+  // Hover (or tap) a tag with a star to see where it was used; the links in
+  // the card open the project or experience window.
   if (!wrap.dataset.wired) {
     wrap.dataset.wired = "1";
+    const canHover = window.matchMedia && window.matchMedia("(hover: hover)").matches;
+    const setOpen = (item, open) => {
+      item.classList.toggle("is-open", open);
+      const btn = item.querySelector("button.skill-tag");
+      if (btn) btn.setAttribute("aria-expanded", String(open));
+      if (open) {
+        // flip to the right edge if the card would run off the screen
+        item.classList.remove("align-right");
+        const pop = item.querySelector(".skill-pop");
+        if (pop && pop.getBoundingClientRect().right > window.innerWidth - 12) item.classList.add("align-right");
+      }
+    };
+    const closeAll = (except) => wrap.querySelectorAll(".skill-item.is-open").forEach((i) => { if (i !== except) setOpen(i, false); });
+
     wrap.addEventListener("click", (ev) => {
       const link = ev.target.closest("a[data-project], a[data-experience]");
-      if (!link) return;
-      ev.preventDefault();
-      if (link.dataset.project) {
-        const project = SITE_DATA.projects.find((p) => p.id === link.dataset.project);
-        if (project) openWindowModal(buildProjectModalContent(project));
-      } else {
-        const entry = Object.values(SITE_DATA.experience).flat().find((e) => e.id === link.dataset.experience);
-        if (entry) openWindowModal(buildExperienceModalContent(entry));
+      if (link) {
+        ev.preventDefault();
+        if (link.dataset.project) {
+          const project = SITE_DATA.projects.find((p) => p.id === link.dataset.project);
+          if (project) openWindowModal(buildProjectModalContent(project));
+        } else {
+          const entry = Object.values(SITE_DATA.experience).flat().find((e) => e.id === link.dataset.experience);
+          if (entry) openWindowModal(buildExperienceModalContent(entry));
+        }
+        closeAll();
+        return;
+      }
+      const tag = ev.target.closest("button.skill-tag");
+      if (tag) {
+        const item = tag.closest(".skill-item");
+        const open = !item.classList.contains("is-open");
+        closeAll(item);
+        setOpen(item, open);
       }
     });
+    if (canHover) {
+      wrap.addEventListener("mouseover", (ev) => {
+        const item = ev.target.closest(".skill-item.has-uses");
+        if (!item) return;
+        clearTimeout(item._closeTimer);
+        closeAll(item);
+        setOpen(item, true);
+      });
+      wrap.addEventListener("mouseout", (ev) => {
+        const item = ev.target.closest(".skill-item.has-uses");
+        if (!item || item.contains(ev.relatedTarget)) return;
+        item._closeTimer = setTimeout(() => setOpen(item, false), 140);
+      });
+    }
+    wrap.addEventListener("focusout", (ev) => {
+      const item = ev.target.closest(".skill-item.has-uses");
+      if (item && !item.contains(ev.relatedTarget)) setOpen(item, false);
+    });
+    document.addEventListener("click", (ev) => { if (!ev.target.closest(".skill-item")) closeAll(); });
+    document.addEventListener("keydown", (ev) => { if (ev.key === "Escape") closeAll(); });
   }
 
   // The practice link under the groups. No url, nothing shown.

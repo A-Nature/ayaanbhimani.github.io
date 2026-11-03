@@ -458,9 +458,10 @@ const SITE_DATA = {
     ]
   },
 
-  // Each skill can list where it was used. In `uses`, `project` or `experience`
-  // (an id) opens that window, `education: true` jumps to Education, and `url`
-  // opens a link. A skill with no uses is shown as a plain tag.
+  // Skills. The technical groups follow the resume (Languages, Tools, Systems, Game
+  // Development), so keep the two in step. Each skill can list where it was used.
+  // In `uses`, `project` or `experience` (an id) opens that window, `education: true`
+  // jumps to Education, and `url` opens a link. A skill with no uses is a plain tag.
   skills: [
     {
       category: "Languages",
@@ -468,7 +469,8 @@ const SITE_DATA = {
         { name: "Python", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Platformer Demo", project: "platformer-demo" }] },
         { name: "C++", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }, { label: "ERM", project: "erm" }] },
         { name: "C", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }, { label: "University of Waterloo", education: true }] },
-        { name: "Java", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "Oakbotics", experience: "ex-oakbotics" }] }
+        { name: "Java", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "Oakbotics", experience: "ex-oakbotics" }] },
+        { name: "Lua", uses: [{ label: "Jurassic Mods", project: "jwe-mods" }] }
       ]
     },
     {
@@ -476,7 +478,8 @@ const SITE_DATA = {
       items: [
         { name: "Git", uses: [{ label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
         { name: "GitHub", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
-        "Docker"
+        { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
+        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] }
       ]
     },
     {
@@ -484,7 +487,9 @@ const SITE_DATA = {
       items: [
         { name: "Packet-based Protocols", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "ERM", project: "erm" }] },
         { name: "Data Serialization (NBT)", uses: [{ label: "Replicator Mod", project: "replicator-mod" }] },
-        { name: "Multiplayer Replication", uses: [{ label: "ERM", project: "erm" }] }
+        { name: "Client-Server Networking", uses: [{ label: "ERM", project: "erm" }, { label: "Replicator Mod", project: "replicator-mod" }] },
+        { name: "Multiplayer Replication", uses: [{ label: "ERM", project: "erm" }] },
+        { name: "Embedded Systems (ESP32)", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] }
       ]
     },
     {
@@ -492,16 +497,13 @@ const SITE_DATA = {
       items: [
         { name: "Unreal Engine 5", uses: [{ label: "ERM", project: "erm" }] },
         { name: "raylib", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
+        { name: "Game Modding", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
         { name: "Minecraft Forge", uses: [{ label: "Replicator Mod", project: "replicator-mod" }] }
       ]
     },
     {
-      category: "Fabrication & Embedded",
+      category: "Fabrication",
       items: [
-        { name: "Embedded Systems (ESP32)", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] },
-        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] },
-        "Blockbench",
-        { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
         { name: "3D Printing", uses: [{ label: "Helmet", project: "helldivers-helmet" }, { label: "Stratagem Pad", project: "stratagem-pad" }] }
       ]
     },

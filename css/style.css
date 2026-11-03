@@ -2023,49 +2023,115 @@ body.no-canvas .site-bg-fallback { display: block; }
 }
 .skills-practice a { white-space: nowrap; }
 
-/* Skills: under a tag, a short list of where it was used, with star bullets
-   like the awards in Education. */
-.skills-tags { align-items: flex-start; row-gap: 18px; }
-.skill-item {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 7px;
+/* Skills: a tag with a star opens a small card listing where it was used. */
+.skills-tags { align-items: flex-start; }
+.skill-item { position: relative; }
+.skill-item.is-open { z-index: 7; }
+button.skill-tag {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
-.skill-uses {
+button.skill-tag:hover,
+.skill-item.is-open button.skill-tag {
+  border-color: rgba(216, 166, 87, 0.7);
+  border-left-color: var(--color-accent-2);
+  box-shadow: 0 0 14px rgba(216, 166, 87, 0.18);
+}
+button.skill-tag:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.skill-star {
+  margin-left: 9px;
+  font-size: 0.62rem;
+  color: var(--color-accent-2);
+  opacity: 0.8;
+}
+.skill-pop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 6;
+  padding-top: 8px;
+  min-width: 190px;
+  max-width: min(280px, 82vw);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s;
+}
+.skill-item.is-open .skill-pop { opacity: 1; visibility: visible; transform: none; }
+.skill-item.align-right .skill-pop { left: auto; right: 0; }
+.skill-pop-card {
+  background: #1a140d;
+  border: 1px solid #4a3722;
+  border-radius: 8px;
+  padding: 10px 14px 12px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+}
+.skill-pop-title {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: 7px;
+}
+.skill-pop ul {
   list-style: none;
   margin: 0;
-  padding: 0 0 0 3px;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  max-width: 230px;
+  gap: 4px;
 }
-.skill-uses li {
+.skill-pop li {
   position: relative;
   padding-left: 16px;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: var(--color-text-muted);
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
-.skill-uses li::before {
+.skill-pop li::before {
   content: "\2726";
   position: absolute;
   left: 0;
-  top: 1px;
+  top: 2px;
   font-size: 0.62rem;
   color: var(--color-accent-2);
 }
-.skill-uses a {
-  color: var(--color-text-muted);
-  text-decoration: none;
-}
-.skill-uses a:hover {
+.skill-pop a { color: var(--color-text); text-decoration: none; }
+.skill-pop a:hover {
   color: var(--color-accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* Space behind Skills and Education: a night sky that darkens into the page,
+   with a canvas of stars (js/starfield.js) drawn over it. */
+.skills {
+  background:
+    radial-gradient(ellipse 55% 38% at 12% 8%, rgba(120, 90, 170, 0.16), transparent 70%),
+    radial-gradient(ellipse 45% 35% at 92% 70%, rgba(224, 133, 79, 0.07), transparent 70%),
+    linear-gradient(180deg, #0a0c1b 0%, #0e0f1e 100%);
+}
+.education {
+  background:
+    radial-gradient(ellipse 50% 40% at 85% 12%, rgba(120, 90, 170, 0.12), transparent 70%),
+    linear-gradient(180deg, #0e0f1e 0%, #14100B 100%);
+}
+.starfield {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.skills > .container { position: relative; z-index: 1; }
+.skill-tag { background: rgba(28, 22, 18, 0.82); }
+.education-entry { background: rgba(32, 24, 16, 0.86); }
 
 /* A faint Colosseum behind the Education section (CC0, Public Domain Vectors). */
 .education { position: relative; overflow: hidden; }
