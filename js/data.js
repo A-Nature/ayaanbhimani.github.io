@@ -458,32 +458,66 @@ const SITE_DATA = {
     ]
   },
 
+  // Each skill can list where it was used. In `uses`, `project` or `experience`
+  // (an id) opens that window, `education: true` jumps to Education, and `url`
+  // opens a link. A skill with no uses is shown as a plain tag.
   skills: [
     {
       category: "Languages",
-      items: ["Python", "C++", "C", "Java"]
+      items: [
+        { name: "Python", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Platformer Demo", project: "platformer-demo" }] },
+        { name: "C++", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }, { label: "ERM", project: "erm" }] },
+        { name: "C", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }, { label: "University of Waterloo", education: true }] },
+        { name: "Java", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "Oakbotics", experience: "ex-oakbotics" }] }
+      ]
     },
     {
       category: "Tools",
-      items: ["Git", "GitHub", "Docker"]
+      items: [
+        { name: "Git", uses: [{ label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
+        { name: "GitHub", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
+        "Docker"
+      ]
     },
     {
       category: "Systems",
-      items: ["Packet-based Protocols", "Data Serialization (NBT)", "UART Communication", "Multiplayer Replication", "Genetic Algorithms/Neuroevolution"]
+      items: [
+        { name: "Packet-based Protocols", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "ERM", project: "erm" }] },
+        { name: "Data Serialization (NBT)", uses: [{ label: "Replicator Mod", project: "replicator-mod" }] },
+        { name: "Multiplayer Replication", uses: [{ label: "ERM", project: "erm" }] }
+      ]
     },
     {
       category: "Game Development",
-      items: ["Unreal Engine 5", "raylib", "Minecraft Forge"]
+      items: [
+        { name: "Unreal Engine 5", uses: [{ label: "ERM", project: "erm" }] },
+        { name: "raylib", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
+        { name: "Minecraft Forge", uses: [{ label: "Replicator Mod", project: "replicator-mod" }] }
+      ]
     },
     {
       category: "Fabrication & Embedded",
-      items: ["Embedded Systems (ESP32)", "Tinkercad", "Blockbench", "Blender", "3D Printing"]
+      items: [
+        { name: "Embedded Systems (ESP32)", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] },
+        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] },
+        "Blockbench",
+        { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
+        { name: "3D Printing", uses: [{ label: "Helmet", project: "helldivers-helmet" }, { label: "Stratagem Pad", project: "stratagem-pad" }] }
+      ]
     },
     {
+      category: "Work & Leadership",
       // Skills built through jobs, volunteering, and leadership roles, not
       // just coding projects. See `experience` above for where these came from.
-      category: "Work & Leadership",
-      items: ["Marketing & Branding", "Public Speaking", "Team Leadership", "Youth Mentorship", "Customer Service", "Event Logistics", "Problem Solving Under Pressure"]
+      items: [
+        { name: "Marketing & Branding", uses: [{ label: "ReSwipe", experience: "ex-reswipe" }] },
+        "Public Speaking",
+        { name: "Team Leadership", uses: [{ label: "ReSwipe", experience: "ex-reswipe" }, { label: "Oakridge STEAM", experience: "ex-oakridge-steam" }] },
+        { name: "Youth Mentorship", uses: [{ label: "Brick Works Academy", experience: "work-brickworks" }, { label: "Camp Noor", experience: "ex-camp-noor" }, { label: "Interfaith Peace Camp", experience: "vol-peace-camp" }] },
+        { name: "Customer Service", uses: [{ label: "Haven's Creamery", experience: "work-havens" }] },
+        { name: "Event Logistics", uses: [{ label: "Oakridge STEAM", experience: "ex-oakridge-steam" }, { label: "Camp Noor", experience: "ex-camp-noor" }] },
+        "Problem Solving Under Pressure"
+      ]
     }
   ],
 

@@ -509,6 +509,22 @@ function buildExperienceModalContent(entry) {
 /* ---------------------------------------------------------------------- */
 /* Skills                                                                  */
 /* ---------------------------------------------------------------------- */
+// One skill tag, with a small "used in" line of links underneath when the skill
+// lists where it was used. A plain string is just a tag.
+function skillItemHTML(item) {
+  const skill = typeof item === "string" ? { name: item } : item;
+  const uses = (skill.uses || []).map((u) => {
+    const label = escapeHTML(u.label);
+    if (u.project) return `<a href="#projects" data-project="${escapeHTML(u.project)}">${label}</a>`;
+    if (u.experience) return `<a href="#experience" data-experience="${escapeHTML(u.experience)}">${label}</a>`;
+    if (u.education) return `<a href="#education">${label}</a>`;
+    if (u.url) return `<a href="${escapeHTML(u.url)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
+    return label;
+  });
+  const usesHTML = uses.length ? `<span class="skill-uses">${uses.join('<span class="sep"> \u00b7 </span>')}</span>` : "";
+  return `<div class="skill-item"><span class="skill-tag">${escapeHTML(skill.name)}</span>${usesHTML}</div>`;
+}
+
 function renderSkills() {
   const wrap = document.getElementById("skills-groups");
   wrap.innerHTML = "";
@@ -519,11 +535,28 @@ function renderSkills() {
     el.innerHTML = `
       <h3>${escapeHTML(group.category)}</h3>
       <div class="skills-tags">
-        ${group.items.map((item) => `<span class="skill-tag">${escapeHTML(item)}</span>`).join("")}
+        ${group.items.map(skillItemHTML).join("")}
       </div>
     `;
     wrap.appendChild(el);
   });
+
+  // The "used in" links open the project or experience window.
+  if (!wrap.dataset.wired) {
+    wrap.dataset.wired = "1";
+    wrap.addEventListener("click", (ev) => {
+      const link = ev.target.closest("a[data-project], a[data-experience]");
+      if (!link) return;
+      ev.preventDefault();
+      if (link.dataset.project) {
+        const project = SITE_DATA.projects.find((p) => p.id === link.dataset.project);
+        if (project) openWindowModal(buildProjectModalContent(project));
+      } else {
+        const entry = Object.values(SITE_DATA.experience).flat().find((e) => e.id === link.dataset.experience);
+        if (entry) openWindowModal(buildExperienceModalContent(entry));
+      }
+    });
+  }
 
   // The practice link under the groups. No url, nothing shown.
   const practice = SITE_DATA.skillsPractice;
