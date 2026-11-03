@@ -478,8 +478,7 @@ const SITE_DATA = {
       items: [
         { name: "Git", uses: [{ label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
         { name: "GitHub", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
-        { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
-        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] }
+        { name: "Cobra Tools", uses: [{ label: "Jurassic Mods", project: "jwe-mods" }] }
       ]
     },
     {
@@ -499,6 +498,15 @@ const SITE_DATA = {
         { name: "raylib", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
         { name: "Game Modding", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
         { name: "Minecraft Forge", uses: [{ label: "Replicator Mod", project: "replicator-mod" }] }
+      ]
+    },
+    {
+      category: "Asset Creation",
+      items: [
+        { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
+        "Blockbench",
+        { name: "Libresprite", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }] },
+        { name: "Tinkercad", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }] }
       ]
     },
     {
