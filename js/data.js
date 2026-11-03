@@ -331,7 +331,7 @@ const SITE_DATA = {
         role: "Camp Counsellor & Health and Safety Coordinator",
         place: "Brick Works Academy",
         dates: "July 2026 – August 2026",
-        description: "Led daily STEAM-based activities for campers, teaching technical computer skills and foundational programming concepts. Guided campers through simple coding using programmable turtles in Minecraft, building logic and sequencing skills in a hands-on way, and wove in science and engineering concepts through Minecraft-based building and design challenges. Created Minecraft mods from scratch for the camp using Java and Blockbench. Acted as Health and Safety Coordinator alongside counsellor duties, keeping the camp environment safe and organized.",
+        description: "Led daily STEAM-based activities for campers, teaching technical computer skills and foundational programming concepts. Guided campers through simple coding using programmable turtles in Minecraft, building logic and sequencing skills in a hands-on way, and wove in science and engineering concepts through Minecraft-based building and design challenges. Created Minecraft mods from scratch for the camp using Java. Acted as Health and Safety Coordinator alongside counsellor duties, keeping the camp environment safe and organized.",
         downloads: [],
         media: [{ type: "image", src: null, alt: "Brick Works Academy" }],
         reflection: "" // TODO(Ayaan)
