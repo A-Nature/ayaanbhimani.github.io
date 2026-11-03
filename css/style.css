@@ -2109,11 +2109,6 @@ button.skill-tag:focus-visible { outline: 2px solid var(--color-accent); outline
     radial-gradient(ellipse 45% 35% at 92% 70%, rgba(224, 133, 79, 0.07), transparent 70%),
     linear-gradient(180deg, #0a0c1b 0%, #0e0f1e 100%);
 }
-.education {
-  background:
-    radial-gradient(ellipse 50% 40% at 85% 12%, rgba(120, 90, 170, 0.12), transparent 70%),
-    linear-gradient(180deg, #0e0f1e 0%, #14100B 100%);
-}
 .starfield {
   position: absolute;
   inset: 0;
@@ -2126,20 +2121,47 @@ button.skill-tag:focus-visible { outline: 2px solid var(--color-accent); outline
 .skill-tag { background: rgba(28, 22, 18, 0.82); }
 .education-entry { background: rgba(32, 24, 16, 0.86); }
 
-/* A faint Colosseum behind the Education section (CC0, Public Domain Vectors). */
-.education { position: relative; overflow: hidden; }
+/* Education: a sunset behind a skyline of old buildings (a Parthenon, a
+   Pantheon and a Colosseum, drawn as silhouettes). The night sky of Skills
+   fades into dusk at the top, and the ground at the bottom is the page colour,
+   so the buildings stand on the Contact section below. */
+.education {
+  --sky-h: min(18.4vw, 240px);
+  position: relative;
+  overflow: hidden;
+  padding-bottom: calc(var(--sky-h) + 36px);
+  border-bottom: none;
+  background:
+    radial-gradient(ellipse 34% 30% at 72% 100%, rgba(255, 226, 160, 0.85), rgba(255, 170, 90, 0.35) 45%, transparent 75%),
+    linear-gradient(180deg, #0e0f1e 0%, #1f1b38 16%, #43304a 38%, #81454a 58%, #c4644a 76%, #ee9455 91%, #f6b768 100%);
+}
 .education::before {
   content: "";
   position: absolute;
-  right: -30px;
-  bottom: -130px;
-  width: min(780px, 75%);
-  aspect-ratio: 1000 / 619;
-  background: url(../images/education-colosseum.webp) center / contain no-repeat;
-  opacity: 0.09;
+  left: 50%;
+  bottom: -1px;
+  width: 100%;
+  aspect-ratio: 2400 / 440;
+  max-width: 1600px;
+  transform: translateX(-50%);
+  background: url(../images/education-skyline.png) center bottom / 100% 100% no-repeat;
   pointer-events: none;
 }
 .education > .container { position: relative; z-index: 1; }
+.contact { border-top: none; }
 @media (max-width: 760px) {
-  .education::before { width: 120%; right: -10%; opacity: 0.07; }
+  .education { --sky-h: 190px; }
+  .education::before { width: 1040px; max-width: none; }
+}
+
+.skills-hint {
+  margin: -22px 0 34px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+.skills-hint .hint-star { color: var(--color-accent-2); font-size: 0.8em; }
+.skills-hint .hint-tap { display: none; }
+@media (hover: none) {
+  .skills-hint .hint-hover { display: none; }
+  .skills-hint .hint-tap { display: inline; }
 }
