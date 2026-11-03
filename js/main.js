@@ -657,7 +657,9 @@ function renderEducation() {
 // A strip of years with one bar per school, sized by how long it lasts. The
 // part of a bar that has already happened is solid and the rest is hatched,
 // with a marker for today. Needs `start` and `end` on each entry; without
-// them the strip is left out.
+// them the strip is left out. When it scrolls into view the fill sweeps from
+// the left in one smooth run, straight through one bar into the next, and
+// stops at today.
 function renderEducationStrip(entries) {
   const strip = document.getElementById("education-strip");
   if (!strip) return;
@@ -673,16 +675,6 @@ function renderEducationStrip(entries) {
   const clamp = (v) => Math.min(100, Math.max(0, v));
   const now = Date.now();
 
-  // The bars fill one after another, in order, each starting when the last is done.
-  const timing = {};
-  let clock = 0.2;
-  dated.forEach((e) => {
-    const doneNow = clamp(((now - t(e.start)) / (t(e.end) - t(e.start))) * 100);
-    const dur = doneNow >= 100 ? 1.4 : 0.9;
-    timing[e.id] = { delay: clock, dur };
-    clock += dur + 0.15;
-  });
-
   const eras = dated.map((e) => {
     const left = pct(t(e.start));
     const width = pct(t(e.end)) - left;
@@ -695,15 +687,14 @@ function renderEducationStrip(entries) {
     const pctLabel = state === "current"
       ? `<span class="edu-era-pct">${Math.max(1, Math.round(done))}% through</span>`
       : "";
-    return `<div class="edu-era is-${state}" style="--l:${left.toFixed(2)}%;--w:${width.toFixed(2)}%;--done:${done.toFixed(1)}%;--delay:${timing[e.id].delay.toFixed(2)}s;--dur:${timing[e.id].dur.toFixed(2)}s">
+    return `<div class="edu-era is-${state}" data-left="${left.toFixed(3)}" data-width="${width.toFixed(3)}" data-done="${done.toFixed(2)}" style="--l:${left.toFixed(2)}%;--w:${width.toFixed(2)}%;--done:${done.toFixed(1)}%">
         <span class="edu-era-name">${escapeHTML(e.short || e.institution)}</span>${pctLabel}
       </div>${flag}`;
   }).join("");
 
-  // The marker slides in from the start of the school you are in.
-  const curEra = dated.find((e) => now >= t(e.start) && now < t(e.end));
+  const nowAt = pct(now);
   const nowMarker = (now >= from && now <= to)
-    ? `<div class="edu-now" style="--l:${pct(now).toFixed(2)}%;--from:${(curEra ? pct(t(curEra.start)) : pct(now)).toFixed(2)}%${curEra ? `;--delay:${timing[curEra.id].delay.toFixed(2)}s;--dur:${timing[curEra.id].dur.toFixed(2)}s` : ""}"><span>Now</span></div>`
+    ? `<div class="edu-now" style="--l:${nowAt.toFixed(2)}%"><span>Now</span></div>`
     : "";
 
   let ticks = "";
@@ -717,19 +708,39 @@ function renderEducationStrip(entries) {
     </div>
     <div class="edu-ticks" aria-hidden="true">${ticks}</div>`;
 
-  // The bars fill in the first time the strip scrolls into view.
+  // The sweep. One eased run from the start of the first bar to today, so the
+  // fill flows from one bar into the next without stopping.
   const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  strip.classList.remove("anim", "is-in");
-  if (reduce || !("IntersectionObserver" in window)) {
-    strip.classList.add("is-in");
-    return;
-  }
-  strip.classList.add("anim");
-  const io = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) {
-      strip.classList.add("is-in");
-      io.disconnect();
-    }
+  if (reduce || !("IntersectionObserver" in window)) return;
+  const bars = Array.from(strip.querySelectorAll(".edu-era")).map((el) => ({
+    el,
+    left: parseFloat(el.dataset.left),
+    width: parseFloat(el.dataset.width),
+    done: parseFloat(el.dataset.done)
+  }));
+  const marker = strip.querySelector(".edu-now");
+  const startX = bars[0].left;
+  const endX = marker ? nowAt : Math.max(...bars.map((b) => b.left + (b.width * b.done) / 100));
+  const setSweep = (x) => {
+    bars.forEach((b) => {
+      const fill = Math.min(b.done, Math.max(0, ((x - b.left) / b.width) * 100));
+      b.el.style.setProperty("--done", fill.toFixed(2) + "%");
+    });
+    if (marker) marker.style.setProperty("--l", x.toFixed(3) + "%");
+  };
+  setSweep(startX);
+  const ease = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);   // slow, steady middle
+  const DURATION = 2200;
+  const io = new IntersectionObserver((entriesSeen) => {
+    if (!entriesSeen.some((en) => en.isIntersecting)) return;
+    io.disconnect();
+    const t0 = performance.now() + 250;
+    const step = (now2) => {
+      const p = Math.min(1, Math.max(0, (now2 - t0) / DURATION));
+      setSweep(startX + (endX - startX) * ease(p));
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   }, { threshold: 0.4 });
   io.observe(strip);
 }

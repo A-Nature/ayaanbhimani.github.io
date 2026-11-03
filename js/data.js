@@ -503,7 +503,6 @@ const SITE_DATA = {
       category: "Asset Creation",
       items: [
         { name: "Blender", uses: [{ label: "ERM", project: "erm" }, { label: "Jurassic Mods", project: "jwe-mods" }] },
-        "Blockbench",
         { name: "Libresprite", uses: [{ label: "Planet Pioneers", project: "planet-pioneers" }] }
       ]
     },
