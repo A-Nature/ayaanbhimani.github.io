@@ -1887,7 +1887,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   border-radius: inherit;
   background: linear-gradient(180deg, #d98857, #a85a33);
   box-shadow: 8px 0 18px rgba(224, 133, 79, 0.55);
-  transition: width 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s;
+  transition: width var(--dur, 1.4s) cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0.2s);
 }
 .edu-era.is-past { border-color: #6a4630; }
 .edu-era.is-past::before {
@@ -1926,7 +1926,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   background: linear-gradient(180deg, var(--color-accent-2), rgba(216, 166, 87, 0.35));
   box-shadow: 0 0 10px rgba(216, 166, 87, 0.6);
   z-index: 2;
-  transition: left 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s;
+  transition: left var(--dur, 0.9s) cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay, 0.2s);
 }
 .edu-now::after {
   content: "";

@@ -673,6 +673,16 @@ function renderEducationStrip(entries) {
   const clamp = (v) => Math.min(100, Math.max(0, v));
   const now = Date.now();
 
+  // The bars fill one after another, in order, each starting when the last is done.
+  const timing = {};
+  let clock = 0.2;
+  dated.forEach((e) => {
+    const doneNow = clamp(((now - t(e.start)) / (t(e.end) - t(e.start))) * 100);
+    const dur = doneNow >= 100 ? 1.4 : 0.9;
+    timing[e.id] = { delay: clock, dur };
+    clock += dur + 0.15;
+  });
+
   const eras = dated.map((e) => {
     const left = pct(t(e.start));
     const width = pct(t(e.end)) - left;
@@ -685,7 +695,7 @@ function renderEducationStrip(entries) {
     const pctLabel = state === "current"
       ? `<span class="edu-era-pct">${Math.max(1, Math.round(done))}% through</span>`
       : "";
-    return `<div class="edu-era is-${state}" style="--l:${left.toFixed(2)}%;--w:${width.toFixed(2)}%;--done:${done.toFixed(1)}%">
+    return `<div class="edu-era is-${state}" style="--l:${left.toFixed(2)}%;--w:${width.toFixed(2)}%;--done:${done.toFixed(1)}%;--delay:${timing[e.id].delay.toFixed(2)}s;--dur:${timing[e.id].dur.toFixed(2)}s">
         <span class="edu-era-name">${escapeHTML(e.short || e.institution)}</span>${pctLabel}
       </div>${flag}`;
   }).join("");
@@ -693,7 +703,7 @@ function renderEducationStrip(entries) {
   // The marker slides in from the start of the school you are in.
   const curEra = dated.find((e) => now >= t(e.start) && now < t(e.end));
   const nowMarker = (now >= from && now <= to)
-    ? `<div class="edu-now" style="--l:${pct(now).toFixed(2)}%;--from:${(curEra ? pct(t(curEra.start)) : pct(now)).toFixed(2)}%"><span>Now</span></div>`
+    ? `<div class="edu-now" style="--l:${pct(now).toFixed(2)}%;--from:${(curEra ? pct(t(curEra.start)) : pct(now)).toFixed(2)}%${curEra ? `;--delay:${timing[curEra.id].delay.toFixed(2)}s;--dur:${timing[curEra.id].dur.toFixed(2)}s` : ""}"><span>Now</span></div>`
     : "";
 
   let ticks = "";
