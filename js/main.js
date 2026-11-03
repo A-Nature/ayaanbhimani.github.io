@@ -533,7 +533,11 @@ function renderEducation() {
   if (!wrap) return;
   wrap.innerHTML = "";
 
-  SITE_DATA.education.forEach((entry) => {
+  // Oldest first, to match the strip above.
+  const entries = SITE_DATA.education.slice().sort((a, b) => new Date(a.start || 0) - new Date(b.start || 0));
+  renderEducationStrip(entries);
+
+  entries.forEach((entry) => {
     const el = document.createElement("div");
     el.className = "education-entry";
     const awardsHTML = (entry.awards && entry.awards.length)
@@ -549,6 +553,54 @@ function renderEducation() {
     `;
     wrap.appendChild(el);
   });
+}
+
+// A strip of years with one bar per school, sized by how long it lasts. The
+// part of a bar that has already happened is solid and the rest is hatched,
+// with a marker for today. Needs `start` and `end` on each entry; without
+// them the strip is left out.
+function renderEducationStrip(entries) {
+  const strip = document.getElementById("education-strip");
+  if (!strip) return;
+  const dated = entries.filter((e) => e.start && e.end);
+  if (!dated.length) { strip.hidden = true; return; }
+
+  const t = (s) => new Date(s).getTime();
+  const firstYear = new Date(Math.min(...dated.map((e) => t(e.start)))).getFullYear();
+  const lastYear = new Date(Math.max(...dated.map((e) => t(e.end)))).getFullYear();
+  const from = new Date(firstYear, 0, 1).getTime();
+  const to = new Date(lastYear + 1, 0, 1).getTime();
+  const pct = (ms) => ((ms - from) / (to - from)) * 100;
+  const clamp = (v) => Math.min(100, Math.max(0, v));
+  const now = Date.now();
+
+  const eras = dated.map((e) => {
+    const left = pct(t(e.start));
+    const width = pct(t(e.end)) - left;
+    const done = clamp(((now - t(e.start)) / (t(e.end) - t(e.start))) * 100);
+    const state = done >= 100 ? "past" : done <= 0 ? "future" : "current";
+    const flag = e.expected
+      ? `<span class="edu-flag" style="--l:${(left + width).toFixed(2)}%"><span>Expected graduation</span></span>`
+      : "";
+    return `<div class="edu-era is-${state}" style="--l:${left.toFixed(2)}%;--w:${width.toFixed(2)}%;--done:${done.toFixed(1)}%">
+        <span class="edu-era-name">${escapeHTML(e.short || e.institution)}</span>
+      </div>${flag}`;
+  }).join("");
+
+  const nowMarker = (now >= from && now <= to)
+    ? `<div class="edu-now" style="--l:${pct(now).toFixed(2)}%"><span>Now</span></div>`
+    : "";
+
+  let ticks = "";
+  for (let y = firstYear; y <= lastYear; y++) {
+    ticks += `<span style="--l:${pct(new Date(y, 0, 1).getTime()).toFixed(2)}%">${y}</span>`;
+  }
+
+  strip.innerHTML = `
+    <div class="edu-track" role="img" aria-label="Education timeline, ${dated.map((e) => escapeHTML(e.short || e.institution) + " " + escapeHTML(e.dates)).join(", ")}">
+      ${eras}${nowMarker}
+    </div>
+    <div class="edu-ticks" aria-hidden="true">${ticks}</div>`;
 }
 
 /* ---------------------------------------------------------------------- */

@@ -132,7 +132,7 @@ const SITE_DATA = {
       dates: "January 2025",
       year: 2025,
       description: "A cookie-clicker style incremental game made as my Grade 11 computer science culminating project, in C++ with raylib. You click in space to earn Stardust, the in-game currency, and spend it on buying planets and upgrades. There are four planets to unlock in order (the Moon, Mars, Doughdor and Danieland), and each planet has two structures you can buy. One raises Stardust per second and the other raises Stardust per click. Structures stay locked until you own their planet, each purchase raises the next price by 20%, and every structure has a maximum amount you can own. Planets change from dark to full colour as you can afford and then own them, and upgrade icons appear on a planet as you buy its structures. Hovering over a planet shows its description, cost and unlock requirements. Each click spawns 24 particles with random velocities and colours that fade out over two seconds, and plays a sound. There is also background music. The game is built with structs and reusable functions in C++, runs at 1920x1080, and scales to fit any screen size, with fullscreen on F. All planet and upgrade sprites were designed by me in Libresprite.",
-      credits: "Made by me: the game, and every planet and upgrade sprite. Not made by me: raylib, and the Raylib C++ Starter Template for VS Code by Nick Koumaris (MIT licence, included in the download) that the project started from: https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE",
+      credits: "I made the game and every planet and upgrade sprite. I did not make raylib, or the Raylib C++ Starter Template for VS Code by Nick Koumaris (MIT licence, included in the download) that the project started from, which is at https://github.com/educ8s/Raylib-CPP-Starter-Template-for-VSCODE",
       tags: ["C++", "raylib", "Libresprite", "Game Design"],
       links: [],
       downloads: [
@@ -141,7 +141,7 @@ const SITE_DATA = {
       // Only used for the card on the Projects grid.
       thumbnail: { src: "images/projects/planet-pioneers-thumb.webp", alt: "Three planets covered in pixel-art buildings and upgrades against a dark nebula" },
       media: [
-        { type: "video", src: "images/projects/planet-pioneers-demo.mp4", alt: "A run of Planet Pioneers: clicking in space to earn Stardust, then hovering over the planets", caption: "The game in action: clicking in space to earn Stardust, then checking the planets" },
+        { type: "video", src: "images/projects/planet-pioneers-demo.mp4", alt: "A run of Planet Pioneers, clicking in space to earn Stardust, then hovering over the planets", caption: "The game in action, clicking in space to earn Stardust and then checking the planets" },
         { type: "video", src: "images/projects/planet-pioneers-tour.mp4", alt: "Hovering over each planet in Planet Pioneers to read its description", caption: "A tour of the planets. Hovering over one shows its description, cost and unlock requirements." },
         { type: "video", src: "images/projects/planet-pioneers-purchasing.mp4", alt: "Buying planets with Stardust in Planet Pioneers", caption: "Buying planets with Stardust. When bought, they go from dark to full colour." },
         { type: "video", src: "images/projects/planet-pioneers-max-out.mp4", alt: "Buying structures until they reach their maximum in Planet Pioneers", caption: "Buying structures until each one hits its maximum, when it greys out in the upgrades list" },
@@ -156,7 +156,7 @@ const SITE_DATA = {
       dates: "January 2024",
       year: 2024,
       description: "A two-player platformer demo, made as my grade 10 computer science culminating project in Python with Pygame. The idea was a split-screen game in the spirit of Fireboy and Watergirl, but with the two halves completely separate. One player in a jungle and the other in a cave, who would eventually be able to reach into each other's worlds and interact. Since the project requirement was a demo with little time to make a final product, there is a single level, with difficulty options, movement, death and moving enemies. Only the jungle side is playable (a frog, with crocodile enemies), and the cave side is visual only, built to be used later.",
-      credits: "Made by me: the character art (the frog, the crocodile and the other creatures) and the menu art. Not made by me: the background art and the static objects (platforms, ladders, trees, signs), the font (Grand9K Pixel) and the music.",
+      credits: "I made the character art (the frog, the crocodile and the other creatures) and the menu art. I did not make the background art, the static objects (platforms, ladders, trees, signs), the font (Grand9K Pixel) or the music.",
       tags: ["Python", "Pygame", "Game Design"],
       links: [],
       downloads: [
@@ -165,12 +165,12 @@ const SITE_DATA = {
       // Only used for the card on the Projects grid (cropped to the frog and the crocodile).
       thumbnail: { src: "images/projects/platformer-thumb.png", alt: "The pixel-art frog player facing a dark crocodile enemy" },
       media: [
-        { type: "image", src: "images/projects/platformer-level.webp", alt: "The jungle level of the platformer demo: mossy platforms, ladders and signposts, with the frog player at the far left and crocodile enemies on the platforms", caption: "The demo's one jungle level: the frog starts on the left and crocodile enemies patrol the platforms", pixel: true },
+        { type: "image", src: "images/projects/platformer-level.webp", alt: "The jungle level of the platformer demo, with mossy platforms, ladders and signposts, the frog player at the far left and crocodile enemies on the platforms", caption: "The demo's one jungle level. The frog starts on the left and crocodile enemies patrol the platforms", pixel: true },
         { type: "video", src: "images/projects/platformer-full-demo.mp4", alt: "Full demo video of the platformer", caption: "Full demo video of the platformer" },
         { type: "video", src: "images/projects/platformer-deaths-demo.mp4", alt: "Demo of deaths and other mechanics in the platformer", caption: "A demo of the deaths and other mechanics" },
         { type: "image", src: "images/projects/platformer-frog.png", alt: "Close-up of the pixel-art frog player character", caption: "The frog, the player character I drew", pixel: true },
-        { type: "video", src: "images/projects/platformer-player-animations.mp4", alt: "Showcase of the frog player's animations", caption: "The frog's animations: idle, walk and jump" },
-        { type: "video", src: "images/projects/platformer-enemy-animations.mp4", alt: "Showcase of the crocodile enemy's animations", caption: "The crocodile enemy's animations: idle and walk" }
+        { type: "video", src: "images/projects/platformer-player-animations.mp4", alt: "Showcase of the frog player's animations", caption: "The frog's animations for idle, walk and jump" },
+        { type: "video", src: "images/projects/platformer-enemy-animations.mp4", alt: "Showcase of the crocodile enemy's animations", caption: "The crocodile enemy's animations for idle and walk" }
       ],
       reflection: "This was a game I mostly had fun with in class. Grade 10 computer science was a fairly introductory Python course, so it’s not my most polished project. I think I could have finished the game with enough time, but because the class had limited time and the project was only to make a working demo, I never touched it again. This project is still my first, fully made by me, project that could be publishable as a title if finished. I had a ton of fun making it and it holds a special place in my heart as my first game development experience."
     },
@@ -181,7 +181,7 @@ const SITE_DATA = {
       dates: "2021",
       year: 2021,
       description: "Custom mods for Jurassic World Evolution. The main ones are two new species, Lapparentosaurus and Spinops, whose models I made by editing an existing in-game model. Each new species has its own genome, profile and range of skin variants, set up as if it was an official addition. Before those I made smaller mods: reskins and remodels of existing dinosaurs, starting with Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and new colours. The mods are scripted in Lua in Notepad++ on top of ACSE (the Awesome Cobra Script Extender), with models and textures made in Blender and Substance Painter.",
-      credits: "Not made by me: the Awesome Cobra Script Extender (ACSE) by harlequinzeg0 and ilodev, which the mods are scripted on top of, and Cobra Tools by OpenNaja, used to open and edit the game's files. The original models I started from belong to Jurassic World Evolution by Frontier Developments. Made by me: the edited models, the skins, and the new species' setup in the game.",
+      credits: "I did not make the Awesome Cobra Script Extender (ACSE) by harlequinzeg0 and ilodev, which the mods are scripted on top of, or Cobra Tools by OpenNaja, used to open and edit the game's files. The original models I started from belong to Jurassic World Evolution by Frontier Developments. I made the edited models, the skins, and the new species' setup in the game.",
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
       links: [
         { label: "Lapparentosaurus", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1194" },
@@ -209,8 +209,8 @@ const SITE_DATA = {
       name: "Boid Simulation",
       dates: "July 2026",
       year: 2026,
-      description: "2D boid/fish schooling simulation built in C++ with raylib, implementing the three classic boid rules (separation, alignment, and cohesion) from scratch, with runtime weight controls for live tuning of flocking behavior. Currently being extended with a neuroevolution/genetic algorithm layer.",
-      tags: ["C++", "raylib", "Simulation", "Genetic Algorithms"],
+      description: "2D boid/fish schooling simulation built in C++ with raylib, implementing the three classic boid rules (separation, alignment, and cohesion) from scratch, with runtime weight controls for live tuning of flocking behavior.",
+      tags: ["C++", "raylib", "Simulation"],
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/boidsim" }
       ],
@@ -278,16 +278,28 @@ const SITE_DATA = {
       dates: "July – September 2026",
       year: 2026,
       description: "A wearable Helldivers 2 helmet, 3D printed and custom painted fully by me. The 3D file was purchased from Galactic Armory (link in credits). It was printed in pieces on my Bambu A1 mini using various colours of PLA. The printing process involved optimizing settings, maintaining the printer, and troubleshooting when prints failed (“spaghettification”). Pieces were then glued together using Gorilla Glue and hot glue. The helmet was primed using filler primer and large gaps were filled with Bondo Spot Putty, and then was sanded down for a smooth surface. Once it was primed, masking tape and saran wrap were used to paint in black, grey and gold coats with spray paint, followed by gold details using a stencil. Finally, touches of ‘terminid blood’, aka enemy blood, were added using acrylic paint and splatter techniques. The visor was created using a vacuum-formed acrylic sheet using an oven and a mold and the tint was achieved using window tint sheets. A physical build and fabrication project that took a lot of patience across a long multi-step process.",
-      credits: "The 3D print files are the Helldivers 2 Helmet, Hero of the Federation, from Galactic Armory, which I bought. Helldivers 2 and its designs belong to Arrowhead Game Studios. The printing, assembly, painting and visor are my own work. Store page: https://galacticarmory.net/products/helldivers-2-helmet-hero-of-the-federation-3d-print-files",
+      credits: "The 3D print files are the Helldivers 2 Helmet, Hero of the Federation, from Galactic Armory, which I bought. Helldivers 2 and its designs belong to Arrowhead Game Studios. The printing, assembly, painting and visor are my own work. The store page is at https://galacticarmory.net/products/helldivers-2-helmet-hero-of-the-federation-3d-print-files",
       tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting", "Vacuum Forming"],
       links: [],
       downloads: [],
-      media: [{
-        type: "image",
-        src: null, // e.g. "images/projects/helldivers-helmet-01.jpg". Leave null to hide the media slot entirely.
-        alt: "Helldivers helmet build"
-        // Capture ideas: the printed sections before assembly, mid-paint, and the finished helmet.
-      }],
+      // Only used for the card on the Projects grid.
+      thumbnail: { src: "images/projects/helmet-thumb.webp", alt: "A person wearing the finished helmet next to a Helldiver cosplayer" },
+      media: [
+        { type: "image", src: "images/projects/helmet-9337.webp", alt: "The finished Helldivers helmet, worn beside a Helldiver cosplayer", caption: "The finished helmet, worn beside a Helldiver cosplayer" },
+        { type: "image", src: "images/projects/helmet-8525.webp", alt: "The first few helmet pieces glued and taped together, painted blue and red", caption: "The first few pieces glued and taped together" },
+        { type: "image", src: "images/projects/helmet-8542.webp", alt: "More helmet pieces glued together, held up in front of a mirror", caption: "More pieces glued on" },
+        { type: "image", src: "images/projects/helmet-8556.webp", alt: "The full helmet shape with some primer and spot putty applied", caption: "The full shape, with some primer and spot putty" },
+        { type: "image", src: "images/projects/helmet-8562.webp", alt: "The helmet with its first full coat of primer, sitting on a rock in the grass", caption: "The first full primer coat" },
+        { type: "image", src: "images/projects/helmet-8570.webp", alt: "The helmet with a Bondo coat applied and partly sanded", caption: "The Bondo coat and sanding" },
+        { type: "image", src: "images/projects/helmet-8584.webp", alt: "The helmet with a full coat of grey primer on a bed", caption: "A full primer coat" },
+        { type: "image", src: "images/projects/helmet-8595.webp", alt: "Small helmet detail pieces, primed white on a sheet of paper", caption: "The small details, primed" },
+        { type: "image", src: "images/projects/helmet-8609.webp", alt: "The primed helmet sitting in the grass", caption: "Primer coat on the outside" },
+        { type: "image", src: "images/projects/helmet-8610.webp", alt: "The helmet with its full black coat", caption: "The full black coat" },
+        { type: "image", src: "images/projects/helmet-8613.webp", alt: "The helmet with the grey coat added", caption: "The grey coat added" },
+        { type: "image", src: "images/projects/helmet-8615.webp", alt: "The helmet with the gold coat added", caption: "The gold coat added" },
+        { type: "image", src: "images/projects/helmet-8629.webp", alt: "The painted helmet with small details glued on, a stencilled emblem and painted weathering chips", caption: "Small details painted and glued on, stencil added and weathering chips painted" },
+        { type: "video", src: "images/projects/helmet-blood-coat.mp4", alt: "The helmet turned in hand after the final paint coat, with splatters of terminid blood", caption: "The final paint coat and the first layer of ‘terminid blood’" }
+      ],
       reflection: "I’ve always sucked at art. Painting, drawing, making crafts, and paying attention to small details has never been my strong suit. But when my friend told me to join him and make a custom helmet, I thought I’d try it. I had a lot of concerns and worries with the project. Could my printer even handle anything of this size? How does the painting work? Will my helmet break? The good thing is my friend had done tons of research beforehand, and assured me it would turn out okay. So we found 3D files online of our chosen helmets (mine being ‘The Hero of the Federation’ from Helldivers 2) and the journey began. There were some scary parts, like failed 3D prints at 2 am, running out of paint, terrifyingly large (less than a centimeter) gaps between parts, and a freshly-painted helmet falling onto grass. But it turned out amazing, and the final product is absolutely the physical project I am most proud of. It has no connection to software (other than optimizing my 3D printer), but the most valuable part of this project was showing myself that I am capable of more than I think I am if I just push myself and try it."
     }
   ],
@@ -468,6 +480,10 @@ const SITE_DATA = {
       id: "edu-uwaterloo",
       institution: "University of Waterloo",
       program: "Honours Software Engineering",
+      short: "Waterloo",
+      start: "2026-09-01",
+      end: "2031-06-30",
+      expected: true, // the end date is the expected graduation
       dates: "September 2026 – Expected June 2031",
       awards: [
         "W.J. Beynon Memorial Entrance Scholarship, awarded to one incoming Engineering student each year",
@@ -478,6 +494,9 @@ const SITE_DATA = {
       id: "edu-oakridge",
       institution: "Oakridge Secondary School",
       program: "Ontario Secondary School Diploma",
+      short: "Oakridge",
+      start: "2022-09-01",
+      end: "2026-06-30",
       dates: "September 2022 – June 2026",
       awards: [
         "Academic Excellence, Grades 9-12 (80%+ average)",
