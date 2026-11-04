@@ -46,7 +46,7 @@ const SITE_DATA = {
         text: "Once I'd outgrown Scratch, I moved on to text-based languages and got hooked on how much more control they gave me. I started modding games I loved, which taught me how to read other people's code and bend it to my own ideas. By high school I was building complete games, in class and on my own time. Somewhere along the way I decided I wanted to study Software Engineering."
       },
       {
-        era: "Modern",
+        era: "Now",
         text: "These days I take on larger projects across games, systems and hardware, and I teach myself whatever each one needs, whether that's networking, a new engine or a microcontroller. Every project teaches me something I didn't expect, and I like sticking with a problem until I understand why it works. I love figuring out how things work and building them from the ground up."
       },
       {
