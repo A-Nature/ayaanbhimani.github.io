@@ -242,7 +242,7 @@ const SITE_DATA = {
       description: "A simple tower defense game inspired by Helldivers 2, made in C++ with raylib for a school project. It is a demo, with two finished enemies and one turret, all fully animated.",
       technical: "Written in C++ with raylib. The game runs in waves. Enemies move along a path and you place turrets to stop them. Each turret picks the nearest enemy and locks onto it until it goes out of range, which was the most interesting part to code. There are only two finished enemy sprites and one turret, but all of them are fully animated, so it is very much a demo. I made the art, and the project taught me a lot about asset design and how a game's systems fit together.",
       tags: ["C++", "raylib", "Game Design"],
-      thumbnail: { src: "images/projects/out-of-control-thumb.webp", alt: "A line of red enemy ships marching along a path past a turret in a dark, rocky battlefield" },
+      thumbnail: { src: "images/projects/out-of-control-thumb.webp", alt: "A turret firing at a line of red enemy ships marching along a path in a dark, rocky battlefield", pixel: true, soft: true },
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/outofcontrol" }
       ],
