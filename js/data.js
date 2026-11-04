@@ -38,26 +38,23 @@ const SITE_DATA = {
     // on each card; `text` is Ayaan's own wording.
     records: [
       {
-        era: "Grade 5",
-        text: "Ever since I was young, I've loved coding. It started in grade 5, when I was introduced to Scratch coding at school. I instantly fell in love with it and excelled at it. I quickly accelerated through Scratch coding, and before long, I was making my own maze and choose-your-own-adventure games. My teacher saw this passion, so she gave me the option to try harder prompts for our projects and she even let me answer my classmates\u2019 questions to help her out. After some time, I explored beyond the bubble of scratch. It started with Python, which I learned alongside my friend whose dad taught us the Python basics."
+        era: "Intro",
+        text: "I've been coding since grade 5, when I discovered Scratch and started making little games just to see if I could. It turned out I loved it, and I haven't really stopped since."
       },
       {
-        era: "Grade 8",
-        text: "When I was in Grade 8, my Python knowledge had extended quite a bit, and I was also dipping my toes in other coding languages. At the time, I loved the game \u2018Jurassic World Evolution\u2019, especially when it was played with community-made mods. And so, I went ahead and made my own mods, learning with lua and how to publish my creations. At this point, I knew I wanted to pursue a life in coding. My final goal and dream at this point, was to attend the University of Waterloo for Software Engineering."
+        era: "Growing",
+        text: "Once I'd outgrown Scratch, I moved on to text-based languages and got hooked on how much more control they gave me. I started modding games I loved, which taught me how to read other people's code and bend it to my own ideas. By high school I was building complete games, in class and on my own time. Somewhere along the way I decided I wanted to study Software Engineering."
       },
       {
-        era: "High school",
-        text: "When high school hit, my computer science classes elevated my knowledge in Python and C++, allowing me to create various terminal based programs, but more interestingly, 3 unique games. A platformer in Python/Pygame, a clicker game in C++/Raylib, and a tower defense game in C++/Raylib. This is where my game development journey started to pick up."
+        era: "Modern",
+        text: "These days I take on larger projects across games, systems and hardware, and I teach myself whatever each one needs, whether that's networking, a new engine or a microcontroller. Every project teaches me something I didn't expect, and I like sticking with a problem until I understand why it works. I love figuring out how things work and building them from the ground up."
       },
       {
-        era: "Grade 11 onward",
-        text: "In early grade 11, I started to build my own game in Unreal Engine 5, a project that is still ongoing today. Over the past few years I've taught myself C++, Unreal Engine, Python, and Java through hands-on projects. From a real multiplayer game to Minecraft mods, I'm drawn to cool projects that force me to learn but also let me express my creativity. I love understanding why something works but also building it from the ground up."
-      },
-      {
-        era: "Today",
-        text: "And that brings us here, I\u2019m living 14 year-old me\u2019s dream of attending the University of Waterloo for Software Engineering, with a passion for game development, systems programming, and building things from scratch."
+        era: "Future",
+        text: "I'm now at my dream school, the University of Waterloo, for Software Engineering, and I'm looking for co-op roles, currently for summer 2027. Here I'm learning how real software gets built, working on projects with other people, and building things of my own on the side. I want to keep growing as an engineer, take on bigger problems, and learn from the people I work with."
       }
     ],
+
     // Photos of Ayaan, laid on the desk beside the records and aged by CSS.
     //   record   which record (0 = first) the photo sits beside
     //   side     "left" or "right" of the desk (the record takes the other side)
@@ -66,7 +63,7 @@ const SITE_DATA = {
     // Leave the list empty and nothing renders.
     photos: [
       { src: "images/about/me-1.jpg", alt: "Ayaan smiling in a grey hooded top and cap, with a young elephant walking behind", caption: "2019", record: 0, side: "right" },
-      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "2026", record: 4, side: "left", ratio: "1 / 1", pos: "44% 50%" }
+      { src: "images/about/me-2.webp", alt: "Ayaan giving two thumbs up on the Toronto Islands shore, with the Toronto skyline and CN Tower behind", caption: "2026", record: 2, side: "left", ratio: "1 / 1", pos: "44% 50%" }
     ]
   },
 

@@ -549,6 +549,19 @@ function renderSkills() {
     wrap.appendChild(el);
   });
 
+  // One soft pulse on the stars the first time the section scrolls into view,
+  // so it is clear the tags open.
+  const skillsSection = document.getElementById("skills");
+  if (skillsSection && "IntersectionObserver" in window && !skillsSection.dataset.pulsed) {
+    skillsSection.dataset.pulsed = "1";
+    const pulseIO = new IntersectionObserver((seen) => {
+      if (!seen.some((en) => en.isIntersecting)) return;
+      pulseIO.disconnect();
+      skillsSection.classList.add("stars-hint");
+    }, { threshold: 0.35 });
+    pulseIO.observe(skillsSection);
+  }
+
   // Hover (or tap) a tag with a star to see where it was used; the links in
   // the card open the project or experience window.
   if (!wrap.dataset.wired) {
