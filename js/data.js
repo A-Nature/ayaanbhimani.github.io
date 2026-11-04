@@ -242,19 +242,23 @@ const SITE_DATA = {
       description: "A simple tower defense game inspired by Helldivers 2, made in C++ with raylib for a school project. It is a demo, with two finished enemies and one turret, all fully animated.",
       technical: "Written in C++ with raylib. The game runs in waves. Enemies move along a path and you place turrets to stop them. Each turret picks the nearest enemy and locks onto it until it goes out of range, which was the most interesting part to code. There are only two finished enemy sprites and one turret, but all of them are fully animated, so it is very much a demo. I made the art, and the project taught me a lot about asset design and how a game's systems fit together.",
       tags: ["C++", "raylib", "Game Design"],
+      thumbnail: { src: "images/projects/out-of-control-thumb.webp", alt: "A line of red enemy ships marching along a path past a turret in a dark, rocky battlefield" },
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/outofcontrol" }
       ],
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/out-of-control-source.zip" }
       ],
-      media: [{
-        type: "image",
-        src: null, // e.g. "images/projects/tower-defense-01.jpg". Leave null to hide the media slot entirely.
-        alt: "Out of Control gameplay screenshot"
-        // Capture ideas: mid-wave screenshot with towers, enemies, and UI visible, a clip of an enemy's
-        // death animation, or the upgrade/economy UI.
-      }],
+      media: [
+        { type: "video", src: "images/projects/out-of-control-gameplay.mp4", alt: "A full run of Out of Control, with enemies walking the path past turrets and a short break between levels", caption: "A full run through the levels. Enemies walk the path to the base and there is a short break between levels." },
+        { type: "video", src: "images/projects/out-of-control-pathfinding.mp4", alt: "Enemies in Out of Control following the path across the map", caption: "The enemies finding their way along the path" },
+        { type: "video", src: "images/projects/out-of-control-sentry.mp4", alt: "The Sentry turret in Out of Control, animated, with yellow marks around it", caption: "The Sentry turret and its animation" },
+        { type: "video", src: "images/projects/out-of-control-trooper.mp4", alt: "The Trooper enemy in Out of Control, animated", caption: "The Trooper, one of the two finished enemies" },
+        { type: "video", src: "images/projects/out-of-control-hulk.mp4", alt: "The Hulk enemy in Out of Control with its health bar above it", caption: "The Hulk, the other finished enemy, with its health bar" },
+        { type: "video", src: "images/projects/out-of-control-lose.mp4", alt: "The lose screen in Out of Control reading Democracy has fallen, game over", caption: "The lose screen. If the base runs out of health, democracy has fallen." },
+        { type: "image", src: "images/projects/out-of-control-wave.png", alt: "A Sentry turret firing at a wave of enemy ships in Out of Control", caption: "A Sentry firing at a wave of enemies" },
+        { type: "image", src: "images/projects/out-of-control-path.png", alt: "A line of enemies marching along the path in Out of Control, beside a yellow turret slot and a placed Sentry", caption: "A wave marching down the path, with an empty turret slot and a placed Sentry above it" }
+      ],
       reflection: "" // TODO(Ayaan)
     },
     {
