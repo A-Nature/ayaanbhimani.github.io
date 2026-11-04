@@ -393,7 +393,7 @@ function renderProjects() {
 
       const tags = (project.tags || []).slice(0, 3).join(" · ");
       card.innerHTML = `
-        <span class="fossil-relief${cover ? " has-cover" : ""}${cover && cover.soft ? " soft" : ""}">${art}</span>
+        <span class="fossil-relief${cover ? " has-cover" : ""}">${art}</span>
         <span class="fossil-info">
           <span class="fossil-catalog">Specimen Nº ${String(specimenNo).padStart(3, "0")}</span>
           <span class="project-name">${escapeHTML(project.name)}</span>

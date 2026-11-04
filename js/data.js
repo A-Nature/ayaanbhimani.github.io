@@ -242,7 +242,7 @@ const SITE_DATA = {
       description: "A simple tower defense game inspired by Helldivers 2, made in C++ with raylib for a school project. It is a demo, with two finished enemies and one turret, all fully animated.",
       technical: "Written in C++ with raylib. The game runs in waves. Enemies move along a path and you place turrets to stop them. Each turret picks the nearest enemy and locks onto it until it goes out of range, which was the most interesting part to code. There are only two finished enemy sprites and one turret, but all of them are fully animated, so it is very much a demo. I made the art, and the project taught me a lot about asset design and how a game's systems fit together.",
       tags: ["C++", "raylib", "Game Design"],
-      thumbnail: { src: "images/projects/out-of-control-thumb.webp", alt: "A turret firing at a line of red enemy ships marching along a path in a dark, rocky battlefield", pixel: true, soft: true },
+      thumbnail: { src: "images/projects/out-of-control-thumb.webp", alt: "A turret firing at a line of red enemy ships marching along a path in a dark, rocky battlefield", pixel: true },
       links: [
         { label: "GitHub", url: "https://github.com/A-Nature/outofcontrol" }
       ],
@@ -250,14 +250,13 @@ const SITE_DATA = {
         // e.g. { label: "Source Code (.zip)", path: "files/projects/out-of-control-source.zip" }
       ],
       media: [
-        { type: "video", src: "images/projects/out-of-control-gameplay.mp4", alt: "A full run of Out of Control, with enemies walking the path past turrets and a short break between levels", caption: "A full run through the levels. Enemies walk the path to the base and there is a short break between levels." },
-        { type: "video", src: "images/projects/out-of-control-pathfinding.mp4", alt: "Enemies in Out of Control following the path across the map", caption: "The enemies finding their way along the path" },
-        { type: "video", src: "images/projects/out-of-control-sentry.mp4", alt: "The Sentry turret in Out of Control, animated, with yellow marks around it", caption: "The Sentry turret and its animation" },
-        { type: "video", src: "images/projects/out-of-control-trooper.mp4", alt: "The Trooper enemy in Out of Control, animated", caption: "The Trooper, one of the two finished enemies" },
-        { type: "video", src: "images/projects/out-of-control-hulk.mp4", alt: "The Hulk enemy in Out of Control with its health bar above it", caption: "The Hulk, the other finished enemy, with its health bar" },
+        { type: "video", src: "images/projects/out-of-control-gameplay.mp4", alt: "A full run of Out of Control, with waves of enemies walking the path, turrets targeting them and a short break between levels", caption: "A full game demo showing levels with increasing enemy spawns, enemy pathfinding, turret target-finding, and general gameplay. Shows the reward/purchase system alongside breaks between levels." },
+        { type: "video", src: "images/projects/out-of-control-pathfinding.mp4", alt: "Enemies in Out of Control following the path across the map", caption: "Enemy pathfinding showcased. Enemies begin damaging the base once they reach it." },
+        { type: "video", src: "images/projects/out-of-control-sentry.mp4", alt: "The Gatling Sentry in Out of Control locking on to enemies, with yellow marks around it", caption: "The Gatling Sentry, showing its lock-on system. Based on the Gatling Sentry stratagem from Helldivers 2." },
+        { type: "video", src: "images/projects/out-of-control-trooper.mp4", alt: "The Trooper enemy in Out of Control walking, attacking and dying", caption: "The Trooper and its animations, including walking, attacking, and death. The more basic of the two enemies created. Based on the Automaton Trooper from Helldivers 2." },
+        { type: "video", src: "images/projects/out-of-control-hulk.mp4", alt: "The Hulk enemy in Out of Control walking, attacking and dying", caption: "The Hulk and its animations, including walking, attacking, and death. The heavier but slower of the two enemies created. Based on the Automaton Hulk from Helldivers 2." },
         { type: "video", src: "images/projects/out-of-control-lose.mp4", alt: "The lose screen in Out of Control reading Democracy has fallen, game over", caption: "The lose screen. If the base runs out of health, democracy has fallen." },
-        { type: "image", src: "images/projects/out-of-control-wave.png", alt: "A Sentry turret firing at a wave of enemy ships in Out of Control", caption: "A Sentry firing at a wave of enemies" },
-        { type: "image", src: "images/projects/out-of-control-path.png", alt: "A line of enemies marching along the path in Out of Control, beside a yellow turret slot and a placed Sentry", caption: "A wave marching down the path, with an empty turret slot and a placed Sentry above it" }
+        { type: "image", src: "images/projects/out-of-control-path.png", alt: "A line of enemies marching along the path in Out of Control, beside a yellow turret slot and a placed Gatling Sentry", caption: "A wave marching down the path, with an empty turret slot and a placed Gatling Sentry above it" }
       ],
       reflection: "" // TODO(Ayaan)
     },

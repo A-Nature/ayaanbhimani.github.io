@@ -709,7 +709,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   color: rgba(246, 222, 178, 1);
 }
 .fossil-relief.has-cover { padding: 0; }
-/* Thumbnails look like old fossil plates: drained to a brown stone tone,
+/* Thumbnails look like old fossil plates: toned to a brown stone tint,
    gritty and vignetted. The full-colour version is in the project window. */
 .fossil-cover {
   display: block;
@@ -717,7 +717,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   height: 100%;
   min-height: 150px;
   object-fit: cover;
-  filter: grayscale(1) sepia(0.8) contrast(1.12) brightness(0.8);
+  filter: grayscale(0.35) sepia(0.4) contrast(1.08) brightness(0.95);
 }
 .fossil-relief.has-cover::after {
   content: "";
@@ -725,6 +725,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   inset: 0;
   pointer-events: none;
   mix-blend-mode: multiply;
+  opacity: 0.5;
   background:
     radial-gradient(ellipse at 40% 35%, rgba(214, 184, 130, 0.35), rgba(40, 28, 18, 0.7) 100%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -1807,9 +1808,6 @@ body.no-canvas .site-bg-fallback { display: block; }
 /* Pixel art stays crisp when it is scaled up. */
 .slide img.pixel,
 .fossil-cover.pixel { image-rendering: pixelated; }
-/* A thumbnail marked soft keeps more of its own colour under the fossil plate. */
-.fossil-relief.soft .fossil-cover { filter: grayscale(0.35) sepia(0.4) contrast(1.08) brightness(0.95); }
-.fossil-relief.soft::after { opacity: 0.5; }
 .window-credits { color: var(--color-text-muted); font-size: 0.9rem; }
 
 .slide-embed {
