@@ -100,7 +100,7 @@ const SITE_DATA = {
         // e.g. { label: "Source Code (.zip)", path: "files/projects/erm-source.zip" }
       ],
       // Only used for the card on the Projects grid.
-      thumbnail: { src: "images/projects/erm-character-thumb.webp", alt: "The ERM character, a white square face with a smile drawn on it and a dark stick body, in front of a starry sky with a blue planet and a ringed planet" },
+      thumbnail: { src: "images/projects/erm-character-eyes-thumb.webp", alt: "The ERM character, a white square face with big oval eyes and a smile drawn on it and a dark stick body, in front of a starry sky with a blue planet and a ringed planet" },
       media: [{
         type: "image", // "image" | "video"
         src: null, // e.g. "images/projects/erm-01.jpg". Leave null to hide the media slot entirely.
