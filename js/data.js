@@ -30,7 +30,9 @@ const SITE_DATA = {
   hero: {
     name: "Ayaan Bhimani",
     subtitle: "Software Engineering Student, University of Waterloo",
-    location: "Waterloo, Ontario, Canada"
+    location: "Waterloo, Ontario, Canada",
+    // The pill under the location. Leave empty to hide it.
+    status: "Looking for Summer 2027 co-op roles"
   },
 
   about: {
@@ -105,6 +107,38 @@ const SITE_DATA = {
         // a short clip of a round with 2+ players, or a diagram of how the three roles interact.
       }],
       reflection: "" // TODO(Ayaan): the friend leaving, having to take over Blender work, quitting and coming back, what that taught you
+    },
+    {
+      id: "helldivers-helmet",
+      fossil: "shell", // drawn on the card, see js/fossils.js
+      name: "Helldivers Helmet",
+      dates: "July – September 2026",
+      year: 2026,
+      description: "A wearable Helldivers 2 helmet that I 3D printed in pieces, then primed, painted and weathered myself, with a vacuum-formed, tinted visor.",
+      technical: "The model is a purchased print file, Hero of the Federation, from Galactic Armory. I printed it in about 15 pieces, including the small details, on a Bambu A1 mini in several colours of PLA, which meant tuning settings, maintaining the printer and recovering from failed prints. The pieces were joined with Gorilla Glue and hot glue, then filled with filler primer and Bondo Spot Putty and sanded smooth. Painting went in layers, using masking tape and saran wrap for the black, grey and gold spray coats, a stencil for the gold details, and acrylic splatter for the terminid blood weathering. The visor was vacuum-formed from an acrylic sheet over a mold using an oven, and tinted with window tint film. The build took over 30 hours of work.",
+      credits: "The 3D print files are the Helldivers 2 Helmet, Hero of the Federation, from Galactic Armory, which I bought. Helldivers 2 and its designs belong to Arrowhead Game Studios. The printing, assembly, painting and visor are my own work. The store page is at https://galacticarmory.net/products/helldivers-2-helmet-hero-of-the-federation-3d-print-files",
+      tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting", "Vacuum Forming"],
+      links: [],
+      downloads: [],
+      // Only used for the card on the Projects grid.
+      thumbnail: { src: "images/projects/helmet-thumb.webp", alt: "A person wearing the finished helmet next to a Helldiver cosplayer" },
+      media: [
+        { type: "image", src: "images/projects/helmet-9337.webp", alt: "The finished Helldivers helmet, worn beside a Helldiver cosplayer", caption: "The finished helmet, worn beside a Helldiver cosplayer" },
+        { type: "image", src: "images/projects/helmet-8525.webp", alt: "The first few helmet pieces glued and taped together, painted blue and red", caption: "The first few pieces glued and taped together" },
+        { type: "image", src: "images/projects/helmet-8542.webp", alt: "More helmet pieces glued together, held up in front of a mirror", caption: "More pieces glued on" },
+        { type: "image", src: "images/projects/helmet-8556.webp", alt: "The full helmet shape with some primer and spot putty applied", caption: "The full shape, with some primer and spot putty" },
+        { type: "image", src: "images/projects/helmet-8562.webp", alt: "The helmet with its first full coat of primer, sitting on a rock in the grass", caption: "The first full primer coat" },
+        { type: "image", src: "images/projects/helmet-8570.webp", alt: "The helmet with a Bondo coat applied and partly sanded", caption: "The Bondo coat and sanding" },
+        { type: "image", src: "images/projects/helmet-8584.webp", alt: "The helmet with a full coat of grey primer on a bed", caption: "A full primer coat" },
+        { type: "image", src: "images/projects/helmet-8595.webp", alt: "Small helmet detail pieces, primed white on a sheet of paper", caption: "The small details, primed" },
+        { type: "image", src: "images/projects/helmet-8609.webp", alt: "The primed helmet sitting in the grass", caption: "Primer coat on the outside" },
+        { type: "image", src: "images/projects/helmet-8610.webp", alt: "The helmet with its full black coat", caption: "The full black coat" },
+        { type: "image", src: "images/projects/helmet-8613.webp", alt: "The helmet with the grey coat added", caption: "The grey coat added" },
+        { type: "image", src: "images/projects/helmet-8615.webp", alt: "The helmet with the gold coat added", caption: "The gold coat added" },
+        { type: "image", src: "images/projects/helmet-8629.webp", alt: "The painted helmet with small details glued on, a stencilled emblem and painted weathering chips", caption: "Small details painted and glued on, stencil added and weathering chips painted" },
+        { type: "video", src: "images/projects/helmet-blood-coat.mp4", alt: "The helmet turned in hand after the final paint coat, with splatters of terminid blood", caption: "The final paint coat and the first layer of ‘terminid blood’" }
+      ],
+      reflection: "I’ve always sucked at art. Painting, drawing, making crafts, and paying attention to small details has never been my strong suit. But when my friend told me to join him and make a custom helmet, I thought I’d try it. I had a lot of concerns and worries with the project. Could my printer even handle anything of this size? How does the painting work? Will my helmet break? The good thing is my friend had done tons of research beforehand, and assured me it would turn out okay. So we found 3D files online of our chosen helmets (mine being ‘The Hero of the Federation’ from Helldivers 2) and the journey began. There were some scary parts, like failed 3D prints at 2 am, running out of paint, terrifyingly large (less than a centimeter) gaps between parts, and a freshly-painted helmet falling onto grass. But it turned out amazing, and the final product is absolutely the physical project I am most proud of. It has no connection to software (other than optimizing my 3D printer), but the most valuable part of this project was showing myself that I am capable of more than I think I am if I just push myself and try it."
     },
     {
       id: "replicator-mod",
@@ -189,6 +223,8 @@ const SITE_DATA = {
       technical: "The mods run on ACSE, the Awesome Cobra Script Extender, with the game logic written in Lua in Notepad++. For each new species I started from an existing in-game model, opened and repacked the game files with Cobra Tools, edited the model in Blender and textured it in Substance Painter. The species were added to the game's data so each has its own genome and profile and shows up in the Genome Library next to the base-game dinosaurs, with a range of skin variants, as if it shipped with the game.\n\nLapparentosaurus is the most popular, with around 1.7k downloads, and Spinops follows with around 1.2k. Before those I made smaller mods, starting with Anaturaptor as a first test, then a Fiercer Sinoceratops with larger horns, a bigger crest and a new colour scheme.",
       credits: "I did not make the Awesome Cobra Script Extender (ACSE) by harlequinzeg0 and ilodev, which the mods are scripted on top of, or Cobra Tools by OpenNaja, used to open and edit the game's files. The original models I started from belong to Jurassic World Evolution by Frontier Developments. I made the edited models, the skins, and the new species' setup in the game.",
       tags: ["Lua", "ACSE", "Blender", "Substance Painter", "Notepad++", "Cobra Tools"],
+      // Only used for the card on the Projects grid.
+      thumbnail: { src: "images/projects/jwe-thumb.webp", alt: "A blue-grey spotted Lapparentosaurus stretching its long neck above the trees" },
       links: [
         { label: "Lapparentosaurus", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1194" },
         { label: "Spinops", url: "https://www.nexusmods.com/jurassicworldevolution/mods/1305" },
@@ -240,7 +276,8 @@ const SITE_DATA = {
       dates: "May – June 2026",
       year: 2026,
       description: "A simple tower defense game inspired by Helldivers 2, made in C++ with raylib for a school project. It is a demo, with two finished enemies and one turret, all fully animated.",
-      technical: "Written in C++ with raylib. The game runs in waves. Enemies move along a path and you place turrets to stop them. Each turret picks the nearest enemy and locks onto it until it goes out of range, which was the most interesting part to code. There are only two finished enemy sprites and one turret, but all of them are fully animated, so it is very much a demo. I made the art, and the project taught me a lot about asset design and how a game's systems fit together.",
+      technical: "Written in C++ with raylib. The game runs in levels, with more enemies each time and a break between levels where the reward and purchase system comes in. Enemies follow the path to your base and start damaging it once they reach it, and if its health runs out you lose. Each turret picks the nearest enemy and locks onto it until it goes out of range, which was the most interesting part to code. There are only two finished enemies, the basic Trooper and the heavier, slower Hulk, and one turret, the Gatling Sentry, but all of them are fully animated, so it is very much a demo. I made the art, and the project taught me a lot about asset design and how a game's systems fit together.",
+      credits: "Helldivers 2 belongs to Arrowhead Game Studios. The Gatling Sentry, the Automaton Trooper and the Automaton Hulk are theirs, and the versions in this game are my own art. I did not make raylib.",
       tags: ["C++", "raylib", "Game Design"],
       thumbnail: { src: "images/projects/out-of-control-thumb.webp", alt: "A turret firing at a line of red enemy ships marching along a path in a dark, rocky battlefield", pixel: true },
       links: [
@@ -282,38 +319,6 @@ const SITE_DATA = {
         // swipe being read and the matched stratagem lighting up.
       }],
       reflection: "" // TODO(Ayaan)
-    },
-    {
-      id: "helldivers-helmet",
-      fossil: "shell", // drawn on the card, see js/fossils.js
-      name: "Helldivers Helmet",
-      dates: "July – September 2026",
-      year: 2026,
-      description: "A wearable Helldivers 2 helmet that I 3D printed in pieces, then primed, painted and weathered myself, with a vacuum-formed, tinted visor.",
-      technical: "The model is a purchased print file, Hero of the Federation, from Galactic Armory. I printed it in about 15 pieces, including the small details, on a Bambu A1 mini in several colours of PLA, which meant tuning settings, maintaining the printer and recovering from failed prints. The pieces were joined with Gorilla Glue and hot glue, then filled with filler primer and Bondo Spot Putty and sanded smooth. Painting went in layers, using masking tape and saran wrap for the black, grey and gold spray coats, a stencil for the gold details, and acrylic splatter for the terminid blood weathering. The visor was vacuum-formed from an acrylic sheet over a mold using an oven, and tinted with window tint film. The build took over 30 hours of work.",
-      credits: "The 3D print files are the Helldivers 2 Helmet, Hero of the Federation, from Galactic Armory, which I bought. Helldivers 2 and its designs belong to Arrowhead Game Studios. The printing, assembly, painting and visor are my own work. The store page is at https://galacticarmory.net/products/helldivers-2-helmet-hero-of-the-federation-3d-print-files",
-      tags: ["3D Printing", "Bambu Lab", "Prop Making", "Painting", "Vacuum Forming"],
-      links: [],
-      downloads: [],
-      // Only used for the card on the Projects grid.
-      thumbnail: { src: "images/projects/helmet-thumb.webp", alt: "A person wearing the finished helmet next to a Helldiver cosplayer" },
-      media: [
-        { type: "image", src: "images/projects/helmet-9337.webp", alt: "The finished Helldivers helmet, worn beside a Helldiver cosplayer", caption: "The finished helmet, worn beside a Helldiver cosplayer" },
-        { type: "image", src: "images/projects/helmet-8525.webp", alt: "The first few helmet pieces glued and taped together, painted blue and red", caption: "The first few pieces glued and taped together" },
-        { type: "image", src: "images/projects/helmet-8542.webp", alt: "More helmet pieces glued together, held up in front of a mirror", caption: "More pieces glued on" },
-        { type: "image", src: "images/projects/helmet-8556.webp", alt: "The full helmet shape with some primer and spot putty applied", caption: "The full shape, with some primer and spot putty" },
-        { type: "image", src: "images/projects/helmet-8562.webp", alt: "The helmet with its first full coat of primer, sitting on a rock in the grass", caption: "The first full primer coat" },
-        { type: "image", src: "images/projects/helmet-8570.webp", alt: "The helmet with a Bondo coat applied and partly sanded", caption: "The Bondo coat and sanding" },
-        { type: "image", src: "images/projects/helmet-8584.webp", alt: "The helmet with a full coat of grey primer on a bed", caption: "A full primer coat" },
-        { type: "image", src: "images/projects/helmet-8595.webp", alt: "Small helmet detail pieces, primed white on a sheet of paper", caption: "The small details, primed" },
-        { type: "image", src: "images/projects/helmet-8609.webp", alt: "The primed helmet sitting in the grass", caption: "Primer coat on the outside" },
-        { type: "image", src: "images/projects/helmet-8610.webp", alt: "The helmet with its full black coat", caption: "The full black coat" },
-        { type: "image", src: "images/projects/helmet-8613.webp", alt: "The helmet with the grey coat added", caption: "The grey coat added" },
-        { type: "image", src: "images/projects/helmet-8615.webp", alt: "The helmet with the gold coat added", caption: "The gold coat added" },
-        { type: "image", src: "images/projects/helmet-8629.webp", alt: "The painted helmet with small details glued on, a stencilled emblem and painted weathering chips", caption: "Small details painted and glued on, stencil added and weathering chips painted" },
-        { type: "video", src: "images/projects/helmet-blood-coat.mp4", alt: "The helmet turned in hand after the final paint coat, with splatters of terminid blood", caption: "The final paint coat and the first layer of ‘terminid blood’" }
-      ],
-      reflection: "I’ve always sucked at art. Painting, drawing, making crafts, and paying attention to small details has never been my strong suit. But when my friend told me to join him and make a custom helmet, I thought I’d try it. I had a lot of concerns and worries with the project. Could my printer even handle anything of this size? How does the painting work? Will my helmet break? The good thing is my friend had done tons of research beforehand, and assured me it would turn out okay. So we found 3D files online of our chosen helmets (mine being ‘The Hero of the Federation’ from Helldivers 2) and the journey began. There were some scary parts, like failed 3D prints at 2 am, running out of paint, terrifyingly large (less than a centimeter) gaps between parts, and a freshly-painted helmet falling onto grass. But it turned out amazing, and the final product is absolutely the physical project I am most proud of. It has no connection to software (other than optimizing my 3D printer), but the most valuable part of this project was showing myself that I am capable of more than I think I am if I just push myself and try it."
     }
   ],
 
@@ -406,6 +411,16 @@ const SITE_DATA = {
         reflection: ""
       },
       {
+        id: "ex-oakridge-steam",
+        role: "Logistics Manager",
+        place: "Oakridge STEAM IC Chapter",
+        dates: "September 2025 – June 2026",
+        description: "Created forms and spreadsheets to organize member information for the chapter. Helped plan events for the team and kept members updated on deadlines and upcoming activities.",
+        downloads: [],
+        media: [{ type: "image", src: null, alt: "Oakridge STEAM IC Chapter" }],
+        reflection: ""
+      },
+      {
         id: "ex-camp-noor",
         role: "Summer Camp Organizer",
         place: "Camp Noor, Al Mahdi Islamic Community Centre",
@@ -423,16 +438,6 @@ const SITE_DATA = {
         description: "Collaborated with a group of peers across two years to build a profitable student company, first as Bagnetic and then as Spoonique. Carried out various roles within the company, including marketing and production.",
         downloads: [],
         media: [{ type: "image", src: null, alt: "Junior Achievement: Bagnetic / Spoonique" }],
-        reflection: ""
-      },
-      {
-        id: "ex-oakridge-steam",
-        role: "Logistics Manager",
-        place: "Oakridge STEAM IC Chapter",
-        dates: "September 2025 – June 2026",
-        description: "Created forms and spreadsheets to organize member information for the chapter. Helped plan events for the team and kept members updated on deadlines and upcoming activities.",
-        downloads: [],
-        media: [{ type: "image", src: null, alt: "Oakridge STEAM IC Chapter" }],
         reflection: ""
       },
       {

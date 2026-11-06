@@ -54,6 +54,7 @@ function initLightbox() {
 
   document.addEventListener("keydown", (e) => {
     if (!lightboxOverlay.classList.contains("is-open")) return;
+    if (e.key === "Tab") trapTab(e, lightboxOverlay);
     if (e.key === "Escape") {
       // Stops the window-modal's own Escape listener (main.js) from also
       // firing in this same dispatch — otherwise it re-checks lightbox

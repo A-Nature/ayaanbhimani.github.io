@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initLightbox();
   initWindowModal();
   initNavScroll();
+  syncModalToHash(true);
 });
 
 /* ---------------------------------------------------------------------- */
@@ -56,6 +57,11 @@ function renderHero() {
   document.getElementById("hero-name").textContent = hero.name;
   document.getElementById("hero-subtitle").textContent = hero.subtitle;
   document.getElementById("hero-location").textContent = hero.location;
+  const statusEl = document.getElementById("hero-status");
+  if (statusEl) {
+    if (hero.status) { statusEl.textContent = hero.status; statusEl.hidden = false; }
+    else statusEl.remove();
+  }
 
   const resumeLink = document.getElementById("hero-resume-link");
   if (resumeLink && contact.resume) {
@@ -388,7 +394,7 @@ function renderProjects() {
         ? project.thumbnail
         : (project.media || []).find((m) => m && m.src && m.type === "image");
       const art = cover
-        ? `<img class="fossil-cover${cover.pixel ? " pixel" : ""}" src="${cover.src}" alt="${escapeHTML(cover.alt || "")}">`
+        ? `<img class="fossil-cover${cover.pixel ? " pixel" : ""}" loading="lazy" decoding="async" src="${cover.src}" alt="${escapeHTML(cover.alt || "")}">`
         : `<span class="fossil-dust" aria-hidden="true"></span>${fossilSVG(project.fossil)}`;
 
       const tags = (project.tags || []).slice(0, 3).join(" · ");
@@ -415,6 +421,7 @@ function renderProjects() {
 function buildProjectModalContent(project) {
   return {
     title: project.name,
+    hash: "project/" + project.id,
     skin: "dig",
     specimen: project._specimen,
     subtitle: project.dates,
@@ -434,8 +441,8 @@ function buildProjectModalContent(project) {
 /* Experience                                                              */
 /* ---------------------------------------------------------------------- */
 const EXP_TABS = [
-  { key: "work", label: "Work" },
   { key: "extracurricular", label: "Extracurricular" },
+  { key: "work", label: "Work" },
   { key: "volunteer", label: "Volunteer" }
 ];
 
@@ -451,12 +458,20 @@ function renderExperience() {
     btn.className = "exp-tab" + (i === 0 ? " is-active" : "");
     btn.textContent = tab.label;
     btn.dataset.tab = tab.key;
+    btn.id = `exp-tab-${tab.key}`;
+    btn.setAttribute("role", "tab");
+    btn.setAttribute("aria-controls", `exp-panel-${tab.key}`);
+    btn.setAttribute("aria-selected", String(i === 0));
+    btn.tabIndex = i === 0 ? 0 : -1;
     btn.addEventListener("click", () => setActiveExpTab(tab.key));
     tabBar.appendChild(btn);
 
     const group = document.createElement("div");
     group.className = "timeline-entry" + (i === 0 ? " is-visible" : "");
     group.dataset.tabPanel = tab.key;
+    group.id = `exp-panel-${tab.key}`;
+    group.setAttribute("role", "tabpanel");
+    group.setAttribute("aria-labelledby", `exp-tab-${tab.key}`);
 
     const list = SITE_DATA.experience[tab.key] || [];
     list.forEach((entry) => {
@@ -482,11 +497,29 @@ function renderExperience() {
 
     timelineWrap.appendChild(group);
   });
+
+  // Arrow keys, Home and End move between the tabs.
+  tabBar.addEventListener("keydown", (e) => {
+    const keys = ["ArrowLeft", "ArrowRight", "Home", "End"];
+    if (!keys.includes(e.key)) return;
+    const tabs = Array.from(tabBar.querySelectorAll(".exp-tab"));
+    let i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    if (e.key === "ArrowLeft") i = (i - 1 + tabs.length) % tabs.length;
+    else if (e.key === "ArrowRight") i = (i + 1) % tabs.length;
+    else i = e.key === "Home" ? 0 : tabs.length - 1;
+    e.preventDefault();
+    tabs[i].focus();
+    setActiveExpTab(tabs[i].dataset.tab);
+  });
 }
 
 function setActiveExpTab(key) {
   document.querySelectorAll(".exp-tab").forEach((btn) => {
-    btn.classList.toggle("is-active", btn.dataset.tab === key);
+    const on = btn.dataset.tab === key;
+    btn.classList.toggle("is-active", on);
+    btn.setAttribute("aria-selected", String(on));
+    btn.tabIndex = on ? 0 : -1;
   });
   document.querySelectorAll(".timeline-entry").forEach((panel) => {
     panel.classList.toggle("is-visible", panel.dataset.tabPanel === key);
@@ -496,6 +529,7 @@ function setActiveExpTab(key) {
 function buildExperienceModalContent(entry) {
   return {
     title: `${entry.role} at ${entry.place}`,
+    hash: "experience/" + entry.id,
     subtitle: entry.dates,
     media: entry.media,
     tags: [],
@@ -793,19 +827,39 @@ function renderContact() {
 /* closing one while the other is still open doesn't re-enable scrolling. */
 /* ---------------------------------------------------------------------- */
 let openOverlayCount = 0;
+function setPageInert(on) {
+  document.querySelectorAll(".site-nav, .hero, main, .site-footer").forEach((el) => { el.inert = on; });
+}
 function lockPageScroll() {
   openOverlayCount++;
   document.body.style.overflow = "hidden";
+  setPageInert(true);
 }
 function unlockPageScroll() {
   openOverlayCount = Math.max(0, openOverlayCount - 1);
-  if (openOverlayCount === 0) document.body.style.overflow = "";
+  if (openOverlayCount === 0) {
+    document.body.style.overflow = "";
+    setPageInert(false);
+  }
+}
+
+// Keeps Tab inside an open window instead of letting it wander into the page.
+function trapTab(e, scope) {
+  const sel = "a[href], button:not([disabled]), summary, video[controls], [tabindex]:not([tabindex='-1'])";
+  const items = Array.from(scope.querySelectorAll(sel)).filter((el) => el.getClientRects().length && !el.closest("[hidden], [inert]"));
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1];
+  if (!scope.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+  else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 }
 
 /* ---------------------------------------------------------------------- */
 /* Shared window modal (Projects + Experience)                            */
 /* ---------------------------------------------------------------------- */
 let modalOverlay, modalTitleText, modalBody, lastFocusedEl;
+let modalHash = null; // the #project/... or #experience/... of the window that is open
+let backScrollY = null; // where the page was when a window closed itself with history.back()
 
 function initWindowModal() {
   modalOverlay = document.getElementById("window-overlay");
@@ -820,6 +874,7 @@ function initWindowModal() {
     // Step aside if the lightbox is open on top of this modal — it owns
     // Escape while it's the topmost thing on screen.
     const lightboxIsOpen = lightboxOverlay && lightboxOverlay.classList.contains("is-open");
+    if (e.key === "Tab" && modalOverlay.classList.contains("is-open") && !lightboxIsOpen) trapTab(e, modalOverlay);
     if (e.key === "Escape" && modalOverlay.classList.contains("is-open") && !lightboxIsOpen) {
       closeWindowModal();
     }
@@ -828,10 +883,22 @@ function initWindowModal() {
       stepActiveSlideshow(e.key === "ArrowRight" ? 1 : -1);
     }
   });
+  // The Back button closes an open window, and Forward brings it back.
+  window.addEventListener("popstate", () => {
+    syncModalToHash(false);
+    // Closing steps back through the history, and some browsers restore a stale scroll
+    // position when they do. Put the page back exactly where it was.
+    if (backScrollY !== null) {
+      window.scrollTo({ top: backScrollY, behavior: "instant" });
+      backScrollY = null;
+      history.scrollRestoration = "auto";
+    }
+  });
 }
 
-function openWindowModal(content) {
-  lastFocusedEl = document.activeElement;
+function openWindowModal(content, fromHistory) {
+  const wasOpen = modalOverlay.classList.contains("is-open");
+  if (!wasOpen) lastFocusedEl = document.activeElement;
   modalTitleText.textContent = content.title;
   // Projects are dressed as a dig-site specimen label; experiences keep the gallery look.
   modalOverlay.classList.toggle("skin-dig", content.skin === "dig");
@@ -887,8 +954,18 @@ function openWindowModal(content) {
 
   modalOverlay.classList.add("is-open");
   modalOverlay.setAttribute("aria-hidden", "false");
-  lockPageScroll();
+  if (!wasOpen) lockPageScroll();
   document.getElementById("window-close").focus();
+
+  // Every window has its own address, so it can be linked to and Back closes it.
+  if (content.hash) {
+    if (!fromHistory) {
+      const state = { win: content.hash };
+      if (modalHash) history.replaceState(state, "", "#" + content.hash);
+      else history.pushState(state, "", "#" + content.hash);
+    }
+    modalHash = content.hash;
+  }
 }
 
 // Credits are plain text; any web address in them becomes a link showing just the site name.
@@ -900,14 +977,55 @@ function linkifyCredits(html) {
   });
 }
 
-function closeWindowModal() {
+function closeWindowModal(fromHistory) {
+  const hadHash = modalHash;
+  modalHash = null;
   stepActiveSlideshow = null;
   modalBody.querySelectorAll("video").forEach((v) => v.pause());
-  modalBody.querySelectorAll("iframe").forEach((f) => f.removeAttribute("src"));
   modalOverlay.classList.remove("is-open");
   modalOverlay.setAttribute("aria-hidden", "true");
   unlockPageScroll();
   if (lastFocusedEl) lastFocusedEl.focus();
+  // Take the window's address back out of the history. If it was pushed by a
+  // click, step back; if the page was opened straight onto it, just clean the URL.
+  if (hadHash && fromHistory !== true) {
+    if (history.state && history.state.win) {
+      backScrollY = window.scrollY;
+      history.scrollRestoration = "manual";
+      history.back();
+    }
+    else history.replaceState(null, "", location.pathname + location.search);
+  }
+}
+
+function contentForHash(kind, id) {
+  if (kind === "project") {
+    const p = SITE_DATA.projects.find((x) => x.id === id);
+    return p ? buildProjectModalContent(p) : null;
+  }
+  if (kind === "experience") {
+    const e = Object.values(SITE_DATA.experience).flat().find((x) => x.id === id);
+    return e ? buildExperienceModalContent(e) : null;
+  }
+  return null;
+}
+
+// Makes the open window match the address: opens the one it names, or closes it.
+function syncModalToHash(initial) {
+  const m = /^#(project|experience)\/([\w-]+)$/.exec(location.hash);
+  const content = m ? contentForHash(m[1], m[2]) : null;
+  if (content) {
+    if (modalHash === content.hash) return;
+    if (initial) {
+      // Arriving on a link: put the page behind the window at that section.
+      const section = document.getElementById(m[1] === "project" ? "projects" : "experience");
+      if (section) window.scrollTo({ top: section.offsetTop, behavior: "instant" });
+    }
+    openWindowModal(content, true);
+  } else {
+    if (lightboxOverlay && lightboxOverlay.classList.contains("is-open")) closeLightbox();
+    if (modalOverlay.classList.contains("is-open")) closeWindowModal(true);
+  }
 }
 
 /* ---------------------------------------------------------------------- */
@@ -926,13 +1044,12 @@ function buildMediaHTML(items) {
 
   const multi = items.length > 1;
   const slides = items.map((item, i) => {
-    // Embedded videos (e.g. a Google Drive preview) only load while their
-    // slide is showing, so they don't all start loading with the window.
-    const el = item.type === "embed"
-      ? `<iframe class="slide-embed" data-src="${item.src}" title="${escapeHTML(item.alt || "Video")}" allow="autoplay; fullscreen" allowfullscreen></iframe>`
-      : item.type === "video"
+    // Only the first two slides load with the window. The rest load as you
+    // step toward them (see loadSlideImage in wireSlideshow), so a long gallery
+    // doesn't download every photo up front.
+    const el = item.type === "video"
       ? `<video src="${item.src}" controls playsinline preload="metadata"></video>`
-      : `<img class="media-trigger${item.pixel ? " pixel" : ""}" data-media-index="${i}" src="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
+      : `<img class="media-trigger${item.pixel ? " pixel" : ""}" data-media-index="${i}" ${i < 2 ? "src" : "data-src"}="${item.src}" alt="${escapeHTML(item.alt || "")}">`;
     return `<div class="slide${i === 0 ? " is-active" : ""}">${el}</div>`;
   }).join("");
   const arrows = multi
@@ -960,26 +1077,27 @@ function wireSlideshow(scope, items) {
   const frame = root.querySelector(".slide-frame");
   let index = 0;
 
+  const loadSlideImage = (n) => {
+    const img = slides[(n + slides.length) % slides.length].querySelector("img[data-src]");
+    if (img) { img.src = img.dataset.src; img.removeAttribute("data-src"); }
+  };
+
   function show(next) {
     index = (next + slides.length) % slides.length;
+    loadSlideImage(index);
+    loadSlideImage(index + 1);
+    loadSlideImage(index - 1);
     slides.forEach((slide, i) => {
       slide.classList.toggle("is-active", i === index);
+      slide.inert = i !== index; // slides that aren't showing can't be tabbed to
       const video = slide.querySelector("video");
       if (video && i !== index) video.pause();
-      const frame = slide.querySelector("iframe");
-      if (frame) {
-        if (i === index) { if (!frame.getAttribute("src")) frame.setAttribute("src", frame.dataset.src); }
-        else frame.removeAttribute("src");
-      }
     });
     dots.forEach((dot, i) => dot.classList.toggle("is-active", i === index));
     if (count) count.textContent = `${index + 1} / ${slides.length}`;
     if (caption) {
       const text = items[index].caption;
-      const link = items[index].href
-        ? ` <a class="slide-open" href="${items[index].href}" target="_blank" rel="noopener noreferrer">Open in Google Drive</a>`
-        : "";
-      caption.innerHTML = text ? `<span class="slide-fig">Fig. ${index + 1}</span>${escapeHTML(text)}${link}` : "";
+      caption.innerHTML = text ? `<span class="slide-fig">Fig. ${index + 1}</span>${escapeHTML(text)}` : "";
     }
   }
   show(0);
@@ -1002,9 +1120,7 @@ function wireSlideshow(scope, items) {
 
   root.querySelectorAll(".media-trigger").forEach((el) => {
     el.addEventListener("click", () => {
-      const gallery = items.filter((m) => m.type !== "embed");
-      const picked = items[parseInt(el.dataset.mediaIndex, 10) || 0];
-      openImageGallery(gallery, Math.max(0, gallery.indexOf(picked)), el);
+      openImageGallery(items, parseInt(el.dataset.mediaIndex, 10) || 0, el);
     });
   });
 

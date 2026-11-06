@@ -121,7 +121,7 @@ section {
 .site-nav .container {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   height: 64px;
 }
 .nav-links {
@@ -149,6 +149,46 @@ section {
   justify-content: center;
 }
 .nav-toggle svg { width: 20px; height: 20px; }
+
+/* The "AB" monogram from the favicon, as a link back to the top. */
+.nav-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--color-accent);
+  color: #14100B;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.92rem;
+  letter-spacing: -0.06em;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.nav-brand:hover,
+.nav-brand:focus-visible {
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(224, 133, 79, 0.35);
+}
+.nav-brand:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 3px; }
+
+/* Appears only when a keyboard user tabs to it first. */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -64px;
+  z-index: 100;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #14100B;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 12px; text-decoration: none; }
 
 /* ==========================================================================
    Hero
@@ -191,12 +231,42 @@ section {
   font-family: var(--font-mono);
   color: var(--color-text-muted);
   font-size: 0.9rem;
-  margin-bottom: 36px;
+  margin-bottom: 18px;
+}
+.hero .hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 34px;
+  padding: 7px 16px 7px 14px;
+  border: 1px solid rgba(224, 133, 79, 0.5);
+  border-radius: 999px;
+  background: rgba(20, 16, 11, 0.4);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.hero .hero-status[hidden] { display: none; }
+.hero .hero-status::before {
+  content: "";
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(224, 133, 79, 0.25);
 }
 .hero-actions {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
+}
+/* On a phone: View Projects across the top, the other two side by side. */
+@media (max-width: 520px) {
+  .hero .hero-status { font-size: 0.78rem; padding: 7px 13px 7px 12px; gap: 8px; }
+  .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .hero-actions .btn { justify-content: center; }
+  .hero-actions .btn-primary { grid-column: 1 / -1; }
 }
 .btn {
   display: inline-flex;
@@ -822,6 +892,7 @@ body.no-canvas .site-bg-fallback { display: block; }
   margin-top: 14px;
   background: linear-gradient(90deg, #d8b25e, #8a6a2f);
 }
+.exp-tab:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 2px; }
 .exp-tabs {
   display: flex;
   gap: 8px;
@@ -1810,20 +1881,6 @@ body.no-canvas .site-bg-fallback { display: block; }
 .fossil-cover.pixel { image-rendering: pixelated; }
 .window-credits { color: var(--color-text-muted); font-size: 0.9rem; }
 
-.slide-embed {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-  background: #000;
-}
-.slide-open {
-  margin-left: 10px;
-  font-family: var(--font-mono);
-  font-style: normal;
-  font-size: 0.72rem;
-  white-space: nowrap;
-}
 
 /* Reflection and credits fold under their headings. */
 .window-fold { margin-top: 24px; }
