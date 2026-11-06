@@ -573,6 +573,6 @@ const SITE_DATA = {
     github: "https://github.com/A-Nature",
     linkedin: "https://www.linkedin.com/in/ayaan-bhimani/",
     instagram: "https://www.instagram.com/ayaanb08",
-    resume: "files/ayaan-bhimani-resume.pdf"
+    resume: "files/Ayaan_Bhimani_Resume.pdf"
   }
 };
