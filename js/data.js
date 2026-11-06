@@ -153,13 +153,15 @@ const SITE_DATA = {
       downloads: [
         { label: "Ayaan's Replicator Mod (.jar)", path: "files/projects/replicator-mod-1.0.0.jar" }
       ],
-      media: [{
-        type: "image",
-        src: null, // e.g. "images/projects/replicator-mod-01.jpg". Leave null to hide the media slot entirely.
-        alt: "Replicator Mod screenshot"
-        // Capture ideas: before/after of a structure being copy-pasted, a short clip of it in action,
-        // or two players using it at once to show the per-player clipboards.
-      }],
+      // Only used for the card on the Projects grid.
+      thumbnail: { src: "images/projects/replicator-mod-thumb.webp", alt: "The Replicator Mod icon, two layered squares turned into an eight-pointed star in purple, teal and green" },
+      media: [
+        { type: "video", src: "images/projects/replicator-demo.mp4", alt: "A detailed house being copied and pasted in Minecraft, with its chests, furnaces and a sign carried over", caption: "A detailed house build copied and pasted exactly, including directional blocks and blocks with NBT data like chests, furnaces and a sign." },
+        { type: "video", src: "images/projects/replicator-multiple-pastes.mp4", alt: "Several different builds pasted together in the same spot", caption: "Pasting multiple different builds together is quick and easy." },
+        { type: "video", src: "images/projects/replicator-rotations.mp4", alt: "A build being rotated before it is pasted", caption: "Rotating a build before pasting it. Blocks with a direction keep their direction data, so everything still faces the right way." },
+        { type: "video", src: "images/projects/replicator-creative-vs-survival.mp4", alt: "Pasting freely in creative mode, then pasting in survival mode where the paste needs the right resources", caption: "Creative against survival pasting. In creative you don't need the item constraints and can paste freely. In survival you can't paste without the necessary resources, and they are used up as you paste. There is a known issue where the used up items still show in your inventory until you click on them, and then they update. Nothing is actually duplicated, it is entirely visual." },
+        { type: "video", src: "images/projects/replicator-undo.mp4", alt: "Pasting a bunch of different things and then undoing them", caption: "Pasting a bunch of different things and then undoing them, which works until you leave the game. Undo restores any blocks that were there before, along with their NBT data. There are two known issues. When a paste destroys something with items inside, like a chest, the items fall out, and when the chest is restored the items go back in. Also, undoing in survival does not give the resources back." }
+      ],
       reflection: "This is the kind of project that I started from a tiny spark of motivation and finished within a few weeks. It started when I noticed the kids at the summer camp I was working at often had a hard time making large builds in survival mode in Minecraft. Parts of the builds were often repetitive, but with a version of the popular “WorldEdit” addon available for the older education-edition license that the camp owned (specifically, 1.7.10), I took it upon myself to build the tool myself. It allowed me to learn an entirely new language, Java, and have some fun with it at the same time."
     },
     {
@@ -260,13 +262,11 @@ const SITE_DATA = {
       downloads: [
         // e.g. { label: "Source Code (.zip)", path: "files/projects/boid-sim-source.zip" }
       ],
-      media: [{
-        type: "video",
-        src: null, // e.g. "images/projects/boid-sim.mp4". Leave null to hide the media slot entirely.
-        alt: "Boid simulation demo"
-        // Capture ideas: a screen recording of the flock in motion (a still image undersells it),
-        // the runtime weight-control UI in use, or a fitness-over-generations chart once neuroevolution lands.
-      }],
+      // Only used for the card on the Projects grid.
+      thumbnail: { src: "images/projects/boid-sim-thumb.webp", alt: "A flock of black arrow-shaped fish moving together on a blue background" },
+      media: [
+        { type: "video", src: "images/projects/boid-sim-demo.mp4", alt: "A flock of black arrow-shaped fish moving together across a blue background, with the three weights shown at the top right", caption: "The flock in motion. The three weights, SEP, ALIGN and COH, are shown at the top right." }
+      ],
       reflection: "" // TODO(Ayaan)
     },
     {
