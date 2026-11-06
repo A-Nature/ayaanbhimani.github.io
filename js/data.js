@@ -87,8 +87,8 @@ const SITE_DATA = {
       id: "erm",
       fossil: "footprint", // drawn on the card, see js/fossils.js
       name: "ERM",
-      dates: "November 2024 – Present",
-      year: 2024, // used to sort into strata layers in the Projects section
+      dates: "November 2025 – Present",
+      year: 2025, // used to sort into strata layers in the Projects section
       status: "in-progress", // ongoing, so it sits in the "Still Excavating" layer
       description: "A multiplayer social deduction game built in Unreal Engine 5, set on an abandoned Earth. There are three roles, and each one plays differently.",
       technical: "Built in Unreal Engine 5 with C++ and Blueprints, on a dedicated server where the server is the authority. Role assignment, round progression and win conditions are decided on the server and replicated to every player. The Rogues want to eliminate everyone else so the rogue virus can spread. The Frontliners reinforce the firewall structures, which they can activate, and do specific tasks to hold them. The Trackers use a range of abilities to find out who has been hit with the virus.\n\nI wrote the gameplay systems, the replication and the round flow, and made the 3D models, animations, sound design, music and UI as well. Replication of player interactions was the hardest part. Players moving on each other's screens came together fairly early, but getting animations to play when they interacted took far longer. The simplest interaction I built is a punch that only works in the lobby, just for fun, and getting it to hit the right player took a long time.",
