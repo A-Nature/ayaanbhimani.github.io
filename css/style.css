@@ -150,8 +150,18 @@ section {
 }
 .nav-toggle svg { width: 20px; height: 20px; }
 
-/* The "AB" monogram from the favicon, as a link back to the top. */
+/* The "AB" monogram from the favicon with my name beside it, as a link back to the top. */
 .nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+.nav-mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -160,7 +170,6 @@ section {
   border-radius: 8px;
   background: var(--color-accent);
   color: #14100B;
-  font-family: var(--font-mono);
   font-weight: 800;
   font-size: 0.92rem;
   letter-spacing: -0.06em;
@@ -169,10 +178,14 @@ section {
 .nav-brand:hover,
 .nav-brand:focus-visible {
   text-decoration: none;
+  color: var(--color-text);
+}
+.nav-brand:hover .nav-mark,
+.nav-brand:focus-visible .nav-mark {
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(224, 133, 79, 0.35);
 }
-.nav-brand:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 3px; }
+.nav-brand:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 4px; border-radius: 8px; }
 
 /* Appears only when a keyboard user tabs to it first. */
 .skip-link {
