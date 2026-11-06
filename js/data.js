@@ -466,8 +466,8 @@ const SITE_DATA = {
     {
       category: "Languages",
       items: [
-        { name: "Python", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Platformer Demo", project: "platformer-demo" }] },
-        { name: "C++", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }, { label: "ERM", project: "erm" }] },
+        { name: "Python", uses: [{ label: "Daily LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Platformer Demo", project: "platformer-demo" }] },
+        { name: "C++", uses: [{ label: "Daily LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "Planet Pioneers", project: "planet-pioneers" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }, { label: "ERM", project: "erm" }] },
         { name: "C", uses: [{ label: "Stratagem Pad", project: "stratagem-pad" }, { label: "University of Waterloo", education: true }] },
         { name: "Java", uses: [{ label: "Replicator Mod", project: "replicator-mod" }, { label: "Oakbotics", experience: "ex-oakbotics" }] },
         { name: "Lua", uses: [{ label: "Jurassic Mods", project: "jwe-mods" }] }
@@ -477,7 +477,7 @@ const SITE_DATA = {
       category: "Tools",
       items: [
         { name: "Git", uses: [{ label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
-        { name: "GitHub", uses: [{ label: "LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
+        { name: "GitHub", uses: [{ label: "Daily LeetCode", url: "https://github.com/A-Nature/leetcode_collection" }, { label: "ERM", project: "erm" }, { label: "Boid Simulation", project: "boid-sim" }, { label: "Out of Control", project: "tower-defense" }] },
         { name: "Cobra Tools", uses: [{ label: "Jurassic Mods", project: "jwe-mods" }] }
       ]
     },
@@ -532,7 +532,7 @@ const SITE_DATA = {
 
   // A line under the skills that points to practice work. Leave `url` empty and nothing renders.
   skillsPractice: {
-    text: "I also practise problem solving on LeetCode.",
+    text: "I also practise problem solving on LeetCode, with new solutions added every day.",
     label: "LeetCode solutions on GitHub",
     url: "https://github.com/A-Nature/leetcode_collection"
   },
